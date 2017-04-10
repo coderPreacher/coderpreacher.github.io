@@ -87,12 +87,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="谢晖的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Jwt是什么?   Jwt的全称是JSON Web Token（JWT）是一种开放标准（RFC 7519），它定义了一种紧凑且独立的方式，用于将各方之间的信息安全地传输为JSON对象。 该信息可以通过数字签名进行验证和信任。 使用加密（使用HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。  Jwt特点：  紧凑: 因为它们的尺寸较小，所以JWTs可以通过URL，POST参数，或HTT">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jwt 介绍">
+<meta property="og:url" content="http://yoursite.com/2017/04/10/Jwt-介绍/index.html">
 <meta property="og:site_name" content="谢晖的博客">
+<meta property="og:description" content="Jwt是什么?   Jwt的全称是JSON Web Token（JWT）是一种开放标准（RFC 7519），它定义了一种紧凑且独立的方式，用于将各方之间的信息安全地传输为JSON对象。 该信息可以通过数字签名进行验证和信任。 使用加密（使用HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。  Jwt特点：  紧凑: 因为它们的尺寸较小，所以JWTs可以通过URL，POST参数，或HTT">
+<meta property="og:image" content="https://cdn.auth0.com/content/jwt/encoded-jwt3.png">
+<meta property="og:image" content="https://cdn.auth0.com/content/jwt/jwt-diagram.png">
+<meta property="og:updated_time" content="2017-04-10T16:16:55.320Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谢晖的博客">
+<meta name="twitter:title" content="Jwt 介绍">
+<meta name="twitter:description" content="Jwt是什么?   Jwt的全称是JSON Web Token（JWT）是一种开放标准（RFC 7519），它定义了一种紧凑且独立的方式，用于将各方之间的信息安全地传输为JSON对象。 该信息可以通过数字签名进行验证和信任。 使用加密（使用HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。  Jwt特点：  紧凑: 因为它们的尺寸较小，所以JWTs可以通过URL，POST参数，或HTT">
+<meta name="twitter:image" content="https://cdn.auth0.com/content/jwt/encoded-jwt3.png">
 
 
 
@@ -120,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/10/Jwt-介绍/"/>
 
 
 
 
 
-  <title> 谢晖的博客 </title>
+  <title> Jwt 介绍 | 谢晖的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -151,9 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -236,9 +242,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -268,10 +274,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/04/10/Jwt-介绍/" itemprop="url">
-                  Jwt 介绍
-                </a>
+                Jwt 介绍
               
             
           </h1>
@@ -322,9 +325,7 @@
       
 
       
-        
-          
-            <h1 id="Jwt是什么"><a href="#Jwt是什么" class="headerlink" title="Jwt是什么?"></a>Jwt是什么?</h1><p>   Jwt的全称是JSON Web Token（<a href="http://www.jwt.io" target="_blank" rel="external">JWT</a>）是一种开放标准（RFC 7519），它定义了一种紧凑且独立的方式，用于将各方之间的信息安全地传输为JSON对象。 该信息可以通过数字签名进行验证和信任。 使用加密（使用HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。</p>
+        <h1 id="Jwt是什么"><a href="#Jwt是什么" class="headerlink" title="Jwt是什么?"></a>Jwt是什么?</h1><p>   Jwt的全称是JSON Web Token（<a href="http://www.jwt.io" target="_blank" rel="external">JWT</a>）是一种开放标准（RFC 7519），它定义了一种紧凑且独立的方式，用于将各方之间的信息安全地传输为JSON对象。 该信息可以通过数字签名进行验证和信任。 使用加密（使用HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。</p>
 <p> Jwt特点：</p>
 <ul>
 <li><strong>紧凑</strong>: 因为它们的尺寸较小，所以JWTs可以通过URL，POST参数，或HTTP报头内发送。此外，较小的尺寸意味着传输速度快。</li>
@@ -382,20 +383,27 @@
 <p>因为JSON可以直接映射为对象，在大多数编程语言中都提供了JSON解析器，而XML则没有这么自然的文档-对象映射关系，这就使得使用JWT比SAML更方便。</p>
 <p>原文： <a href="[https://jwt.io/introduction/">Introduction to JSON Web Tokens</a>。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
@@ -403,21 +411,22 @@
       
 
       
-
+        
       
 
       
+
       
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -425,6 +434,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -444,8 +457,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -489,6 +511,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jwt是什么"><span class="nav-number">1.</span> <span class="nav-text">Jwt是什么?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候使用Jwt"><span class="nav-number">2.</span> <span class="nav-text">什么时候使用Jwt?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jwt数据结构"><span class="nav-number">3.</span> <span class="nav-text">Jwt数据结构?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何使用JWT？"><span class="nav-number">4.</span> <span class="nav-text">如何使用JWT？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要使用JWT？"><span class="nav-number">5.</span> <span class="nav-text">为什么要使用JWT？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -598,6 +636,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
