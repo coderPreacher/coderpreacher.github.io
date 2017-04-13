@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Big Data,Message System," />
 
 
 
@@ -88,7 +88,7 @@
 
 
 <meta name="description" content="介绍Kafka简介Kafka是一种分布式的，基于发布/订阅的消息系统。主要设计目标如下：  以时间复杂度为O(1)的方式提供消息持久化能力，即使对TB级以上数据也能保证常数时间复杂度的访问性能。  高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条以上消息的传输。  支持Kafka Server间的消息分区，及分布式消费，同时保证每个Partition内的消息顺序传输。  同时支持">
-<meta name="keywords">
+<meta name="keywords" content="Big Data,Message System">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kafka 介绍">
 <meta property="og:url" content="http://yoursite.com/2017/04/11/kafka-介绍/index.html">
@@ -100,7 +100,7 @@
 <meta property="og:image" content="http://kafka.apache.org/0102/images/log_anatomy.png">
 <meta property="og:image" content="http://kafka.apache.org/0102/images/log_consumer.png">
 <meta property="og:image" content="http://kafka.apache.org/0102/images/consumer-groups.png">
-<meta property="og:updated_time" content="2017-04-11T16:03:37.530Z">
+<meta property="og:updated_time" content="2017-04-13T01:06:36.299Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kafka 介绍">
 <meta name="twitter:description" content="介绍Kafka简介Kafka是一种分布式的，基于发布/订阅的消息系统。主要设计目标如下：  以时间复杂度为O(1)的方式提供消息持久化能力，即使对TB级以上数据也能保证常数时间复杂度的访问性能。  高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条以上消息的传输。  支持Kafka Server间的消息分区，及分布式消费，同时保证每个Partition内的消息顺序传输。  同时支持">
@@ -209,6 +209,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
@@ -225,6 +235,16 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
           </a>
         </li>
       
@@ -351,6 +371,39 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kafka/" itemprop="url" rel="index">
+                    <span itemprop="name">Kafka</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kafka/Big-Data/" itemprop="url" rel="index">
+                    <span itemprop="name">Big Data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -572,6 +625,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Big-Data/" rel="tag"># Big Data</a>
+          
+            <a href="/tags/Message-System/" rel="tag"># Message System</a>
+          
+        </div>
+      
 
       
         
@@ -682,10 +743,10 @@
             
             
             <div class="site-state-item site-state-categories">
-              
-                <span class="site-state-item-count">1</span>
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
-              
+              </a>
             </div>
           
 
@@ -693,10 +754,10 @@
             
             
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">1</span>
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 
