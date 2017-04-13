@@ -318,6 +318,218 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/13/WebSockets-介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢晖">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谢晖的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/13/WebSockets-介绍/" itemprop="url">
+                  WebSockets 介绍
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T22:11:37+08:00">
+                2017-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/13/WebSockets-介绍/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/13/WebSockets-介绍/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="WebSockets介绍"><a href="#WebSockets介绍" class="headerlink" title="WebSockets介绍"></a>WebSockets介绍</h1><p>WebSocket是允许客户端和服务器/端点之间使用单个TCP连接进行通信的协议。听起来有点像http不是吗？ WebSocket通过HTTP的优势是协议是全双工的（允许同时进行双向通信），它的头部比HTTP头部要小得多，因此即使在小数据包上也能实现更高效的通信。</p>
+<p>WebSocket的生命周期也很容易理解：</p>
+<ol>
+<li><p>客户端以HTTP升级标头的形式向服务器发送握手请求，并提供有关其尝试连接到的WebSocket的数据。</p>
+</li>
+<li><p>服务器使用另一个HTTP头响应请求，这是WebSocket连接中最后一次使用HTTP头。如果握手成功，则服务器发送HTTP头，告知客户端切换到WebSocket协议。</p>
+</li>
+<li><p>现在打开一个常量连接，客户端和服务器可以在连接关闭之前发送任何数量的消息。这些消息只有大约2字节的开销。</p>
+</li>
+</ol>
+<p>我们知道，传统的HTTP协议是无状态的，每次请求（request）都要由客户端（如 浏览器）主动发起，服务端进行处理后返回response结果，而服务端很难主动向客户端发送数据；这种客户端是主动方，服务端是被动方的传统Web模式 对于信息变化不频繁的Web应用来说造成的麻烦较小，而对于涉及实时信息的Web应用却带来了很大的不便，如带有即时通信、实时数据、订阅推送等功能的应 用。在WebSocket规范提出之前，开发人员若要实现这些实时性较强的功能，经常会使用折衷的解决方法：轮询（polling）和Comet技术。其实后者本质上也是一种轮询，只不过有所改进。</p>
+<p>　　轮询是最原始的实现实时Web应用的解决方案。轮询技术要求客户端以设定的时间间隔周期性地向服务端发送请求，频繁地查询是否有新的数据改动。明显地，这种方法会导致过多不必要的请求，浪费流量和服务器资源。</p>
+<p>　　Comet技术又可以分为长轮询和流技术。长轮询改进了上述的轮询技术，减小了无用的请求。它会为某些数据设定过期时间，当数据过期后才会向服务端发送请求；这种机制适合数据的改动不是特别频繁的情况。流技术通常是指客户端使用一个隐藏的窗口与服务端建立一个HTTP长连接，服务端会不断更新连接状态以保持HTTP长连接存活；这样的话，服务端就可以通过这条长连接主动将数据发送给客户端；流技术在大并发环境下，可能会考验到服务端的性能。</p>
+<p>　　这两种技术都是基于请求-应答模式，都不算是真正意义上的实时技术；它们的每一次请求、应答，都浪费了一定流量在相同的头部信息上，并且开发复杂度也较大。</p>
+<p>　　伴随着HTML5推出的WebSocket，真正实现了Web的实时通信，使B/S模式具备了C/S模式的实时通信能力。WebSocket的工作流程是这 样的：浏览器通过JavaScript向服务端发出建立WebSocket连接的请求，在WebSocket连接建立成功后，客户端和服务端就可以通过 TCP连接传输数据。因为WebSocket连接本质上是TCP连接，不需要每次传输都带上重复的头部数据，所以它的数据传输量比轮询和Comet技术小 了很多。</p>
+<h1 id="WebSockets是如何工作的？"><a href="#WebSockets是如何工作的？" class="headerlink" title="WebSockets是如何工作的？"></a>WebSockets是如何工作的？</h1><p>WebSockets提供客户端和服务器之间的持久连接，双方可以随时使用该连接开始发送数据。</p>
+<p>客户端通过称为WebSocket握手的进程建立WebSocket连接。 此过程从客户端向服务器发送常规HTTP请求开始。 此请求中包含升级标头，通知服务器客户端希望建立WebSocket连接。</p>
+<p>以下是初始请求标头的简化示例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">GET ws://websocket.example.com/ HTTP/1.1</div><div class="line">Origin: http://example.com</div><div class="line">Connection: Upgrade</div><div class="line">Host: websocket.example.com</div><div class="line">Upgrade: websocket</div></pre></td></tr></table></figure>
+<p><strong>注意</strong>：WebSocket URL使用ws方案。 对于安全的WebSocket连接，也是相当于HTTPS的wss。</p>
+<p>如果服务器支持WebSocket协议，则它同意升级，并通过响应中的升级标头进行通信。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 101 WebSocket Protocol Handshake</div><div class="line">Date: Wed, 16 Oct 2013 10:07:34 GMT</div><div class="line">Connection: Upgrade</div><div class="line">Upgrade: WebSocket</div></pre></td></tr></table></figure>
+<p>现在握手已经完成，初始的HTTP连接被使用相同底层TCP / IP连接的WebSocket连接取代。 此时任何一方都可以开始发送数据。</p>
+<p>使用WebSockets，您可以传输尽可能多的数据，而不会产生与传统HTTP请求相关的开销。 数据通过WebSocket作为消息传输，每个消息由包含要发送的数据（有效载荷）的一个或多个帧组成。 为了确保在到达客户端时能够正确地重构消息，每个帧都以4-12字节的有效载荷数据为前缀。 使用这种基于帧的消息系统有助于减少传输的非有效负载数据的数量，从而显着降低延迟。</p>
+<p><strong>注意</strong>：值得注意的是，一旦接收到所有的帧并重建了原始的消息有效载荷，客户端才会被通知一个新的消息。</p>
+<h1 id="WebSockets协议"><a href="#WebSockets协议" class="headerlink" title="WebSockets协议"></a>WebSockets协议</h1><p>WebSockets有线协议（RFC 6455）包括两个高级组件：用于协商连接参数的开放HTTP握手和二进制消息构框机制，以允许低开销，基于消息的传送 的文本和二进制数据。</p>
+<p>WebSockets协议尝试在现有HTTP基础架构的上下文中解决现有双向HTTP技术的目标; 因此，它被设计为通过HTTP端口80和443进行工作。但是，该设计不会将WebSocket限制为HTTP，并且将来的实现可以在专用端口上使用更简单的握手，而无需重新整理整个协议。</p>
+<p>WebSockets协议是一种功能齐全的独立协议，可以在浏览器之外使用。 话虽如此，它的主要应用还是基于浏览器的应用程序的双向传输。</p>
+<h2 id="二进制框架层"><a href="#二进制框架层" class="headerlink" title="二进制框架层"></a>二进制框架层</h2><p>客户端和服务器WebSocket应用程序通过面向消息的API进行通信：发送方提供任意的UTF-8或二进制有效负载，并且当整个消息可用时，接收方通知其传送。 为了实现这一点，WebSocket使用自定义的二进制成帧格式（如下图），它将每个应用消息分解成一个或多个帧，将它们传输到目的地，重新组合它们，并且一旦接收到整个消息，最后通知接收器 。</p>
+<p><img src="https://hpbn.co/assets/diagrams/efb151be6600eb5555127c8652488f1f.svg" alt="WebSockets协议"></p>
+<p><em>帧</em></p>
+<p>通信的最小单位，每个包含可变长度的帧头和可以携带全部或部分应用消息的有效载荷。</p>
+<p><em>消息</em></p>
+<p>映射到逻辑应用程序消息的完整的帧序列。</p>
+<p>将应用消息分解成多个帧的决定是由客户端和服务器帧代码的底层实现来实现的。 因此，应用程序仍然幸福地不知道单个WebSocket框架或框架的执行方式。 话虽如此，了解每个WebSocket框架如何在电线上表现的重点仍然是有用的：</p>
+<ul>
+<li><p>每帧的第一位（FIN）指示该帧是否是消息的最终片段。 消息可能只包含一个帧。</p>
+</li>
+<li><p>操作码（4位）表示传送帧的类型：用于传送应用数据的文本（1）或二进制（2）或连接关闭（8），ping（9）和乒乓（10）等控制帧，用于连接活动 检查。</p>
+</li>
+<li><p>掩码位指示有效负载是否被屏蔽（对于从客户端发送到服务器的消息）。</p>
+</li>
+<li><p>有效负载长度表示为可变长度字段：</p>
+<ul>
+<li><p>如果0-125，那就是有效载荷长度。</p>
+</li>
+<li><p>如果为126，那么以下2个字节表示一个16位无符号整数，表示帧长度。</p>
+</li>
+<li><p>如果127，那么以下8个字节表示一个64位无符号整数，表示帧长度。</p>
+</li>
+</ul>
+</li>
+<li><p>屏蔽键包含用于屏蔽有效载荷的32位值。</p>
+</li>
+<li><p>如果客户端和服务器在建立连接时协商扩展，Payload包含应用程序数据和自定义扩展数据。</p>
+<p><strong>注意</strong>：所有客户端发起的帧的有效负载都使用帧头中指定的值进行屏蔽：这样可以防止在客户端上执行的恶意脚本对可能无法理解WebSocket协议的中间人执行缓存中毒攻击。</p>
+</li>
+</ul>
+<p>因此，每个服务器发送的WebSocket框架产生2-10个字节的帧开销。 客户端还必须发送一个掩码密钥，该密钥向头添加额外的4个字节，从而导致6-14个字节的开销。 没有其他元数据，例如头域或有关有效载荷的其他信息可用：所有WebSocket通信都是通过交换将处理有效载荷作为不透明的应用程序数据的帧来执行的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/13/一个基于-NET轻量级的Web框架-Nancy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1207,7 +1419,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1218,7 +1430,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1229,7 +1441,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
