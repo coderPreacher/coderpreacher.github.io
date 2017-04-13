@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="谢晖的博客">
 <meta property="og:description" content="WebSockets介绍WebSocket是允许客户端和服务器/端点之间使用单个TCP连接进行通信的协议。听起来有点像http不是吗？ WebSocket通过HTTP的优势是协议是全双工的（允许同时进行双向通信），它的头部比HTTP头部要小得多，因此即使在小数据包上也能实现更高效的通信。 WebSocket的生命周期也很容易理解：  客户端以HTTP升级标头的形式向服务器发送握手请求，并提供有关其">
 <meta property="og:image" content="https://hpbn.co/assets/diagrams/efb151be6600eb5555127c8652488f1f.svg">
-<meta property="og:updated_time" content="2017-04-13T14:57:19.574Z">
+<meta property="og:updated_time" content="2017-04-13T14:59:25.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WebSockets 介绍">
 <meta name="twitter:description" content="WebSockets介绍WebSocket是允许客户端和服务器/端点之间使用单个TCP连接进行通信的协议。听起来有点像http不是吗？ WebSocket通过HTTP的优势是协议是全双工的（允许同时进行双向通信），它的头部比HTTP头部要小得多，因此即使在小数据包上也能实现更高效的通信。 WebSocket的生命周期也很容易理解：  客户端以HTTP升级标头的形式向服务器发送握手请求，并提供有关其">
@@ -163,7 +163,14 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="/images/me.jpg"
+               alt="谢晖的博客"/>
+        </a>
+      </div>
     
 
     <div class="custom-logo-site-title">
@@ -325,7 +332,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谢晖">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/me.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -468,7 +475,7 @@
 <ul>
 <li><p>每帧的第一位（FIN）指示该帧是否是消息的最终片段。 消息可能只包含一个帧。</p>
 </li>
-<li><p>操作码（4位）表示传送帧的类型：用于传送应用数据的文本（1）或二进制（2）或连接关闭（8），ping（9）和乒乓（10）等控制帧，用于连接活动 检查。</p>
+<li><p>操作码（4位）表示传送帧的类型：用于传送应用数据的文本（1）或二进制（2）或连接关闭（8），ping（9）和pong （10）等控制帧，用于连接活动 检查。</p>
 </li>
 <li><p>掩码位指示有效负载是否被屏蔽（对于从客户端发送到服务器的消息）。</p>
 </li>
@@ -633,7 +640,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="/images/me.jpg"
                alt="谢晖" />
           <p class="site-author-name" itemprop="name">谢晖</p>
            
