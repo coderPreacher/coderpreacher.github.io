@@ -325,6 +325,314 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/分布式一致性协议/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢晖">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谢晖的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/17/分布式一致性协议/" itemprop="url">
+                  分布式一致性协议
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-17T22:11:02+08:00">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/分布式/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/17/分布式一致性协议/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/17/分布式一致性协议/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="一致性协议"><a href="#一致性协议" class="headerlink" title="一致性协议"></a>一致性协议</h1><p>为了解决分布式一致性问题，在长期的探索研究的过程中，涌现出了一大批经典的一致性协议和算法，其中最著名的就是二阶段、三阶段提交协议和Paxos算法。</p>
+<h2 id="2PC与3PC"><a href="#2PC与3PC" class="headerlink" title="2PC与3PC"></a>2PC与3PC</h2><p>在分布式系统中，每一个机器节点虽然都能明确的知道自己执行的事务是成功还是失败，但是却无法知道其他分布式节点的事务执行情况。因此，当一个事务要跨越多个分布式节点的时候（比如，淘宝下单流程，下单系统和库存系统可能就是分别部署在不同的分布式节点中），为了保证该事务可以满足ACID，就要引入一个协调者（Cooradinator）。其他的节点被称为参与者（Participant）。协调者负责调度参与者的行为，并最终决定这些参与者是否要把事务进行提交。</p>
+<h2 id="2PC（Two-Phase-Commitment-Protocol）"><a href="#2PC（Two-Phase-Commitment-Protocol）" class="headerlink" title="2PC（Two Phase Commitment Protocol）"></a>2PC（Two Phase Commitment Protocol）</h2><p>2PC，是 Two-phase commit的缩写，即二阶段提交，是计算机网络尤其是在数据库领域内，为了使基于分布式系统架构下的所有节点在进行事物处理过程中能够保持原子性和一致性而设计的一种算法。通常，二阶段提交协议也被认为是一种一致性协议，用来保证分布式系统数据的一致性。目前，绝大部分关系型数据库都是采用二阶段提交协议来完成分布式事务处理的，利用该协议能够非常方便的完成所有分布式参与者的协调，统一决定事物的提交或回滚，从而能够有效的保证分布式数据一致性，因此二阶段提交协议被广泛的应用在许多分布式系统中。</p>
+<h3 id="协议说明"><a href="#协议说明" class="headerlink" title="协议说明"></a>协议说明</h3><ol>
+<li><p><strong>(第一阶段)提交请求阶段:</strong></p>
+<ul>
+<li><p>协调者节点向所有参与者节点询问是否可以执行提交操作(vote)，并开始等待各参与者节点的响应。</p>
+</li>
+<li><p>参与者节点执行询问发起为止的所有事务操作，并将Undo信息和Redo信息写入日志。（注意：若成功这里其实每个参与者已经执行了事务操作）</p>
+</li>
+<li><p>各参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个”同意”消息；如果参与者节点的事务操作实际执行失败，则它返回一个”中止”消息。</p>
+</li>
+</ul>
+</li>
+<li><strong>(第二阶段)提交执行阶段:</strong></li>
+</ol>
+<p>　　当协调者节点从所有参与者节点获得的相应消息都为”同意”时：
+　　</p>
+<ul>
+<li><p>协调者节点向所有参与者节点发出”正式提交(commit)”的请求。</p>
+</li>
+<li><p>参与者节点正式完成操作，并释放在整个事务期间内占用的资源。</p>
+</li>
+<li><p>参与者节点向协调者节点发送”完成”消息。</p>
+</li>
+<li><p>协调者节点受到所有参与者节点反馈的”完成”消息后，完成事务。</p>
+</li>
+</ul>
+<p>　　<em>如果任一参与者节点在第一阶段返回的响应消息为”中止”，或者 协调者节点在第一阶段的询问超时之前无法获取所有参与者节点的响应消息时：</em></p>
+<ul>
+<li><p>协调者节点向所有参与者节点发出”回滚操作(rollback)”的请求。</p>
+</li>
+<li><p>参与者节点利用之前写入的Undo信息执行回滚，并释放在整个事务期间内占用的资源。</p>
+</li>
+<li><p>参与者节点向协调者节点发送”回滚完成”消息。</p>
+</li>
+<li><p>协调者节点受到所有参与者节点反馈的”回滚完成”消息后，取消事务。</p>
+</li>
+</ul>
+<p>　　不管最后结果如何，第二阶段都会结束当前事务。</p>
+<p><img src="https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/5/html/Transactions_Development_Guide/images/fig-two-phase-commit-overview.png" alt="2pc"></p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>　　1、执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</p>
+<p>　　2、参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。（没有多少容错机制）</p>
+<p>　　3、协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。</p>
+<p>　　4、二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</p>
+<h2 id="3PC（Three-phase-commit-protocol）"><a href="#3PC（Three-phase-commit-protocol）" class="headerlink" title="3PC（Three-phase commit protocol）"></a>3PC（Three-phase commit protocol）</h2><p>3PC，是 Three-phase commit的缩写，即三阶段提交，是2PC的改进版，其将二阶段的”提交请求阶段”一分为二，形成了由CanCommit,PreCommit和do Commit三个阶段组成的一致性协议。引入超时机制。同时在协调者和参与者中都引入超时机制(如下图)。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/en/3/39/Three-phase_commit_diagram.png" alt="3pc"></p>
+<h3 id="协议说明-1"><a href="#协议说明-1" class="headerlink" title="协议说明"></a>协议说明</h3><h4 id="阶段一：CanCommit"><a href="#阶段一：CanCommit" class="headerlink" title="阶段一：CanCommit"></a>阶段一：CanCommit</h4><p>   1．事务询问。</p>
+<p>  协调者向所有的参与者发送一个包含事务内容的canCommit请求，询问是否可以执行事务提交操作，并开始等待各参与者的响应。</p>
+<p>   2．各参与者向协调者反馈事务询问的响应。</p>
+<p>  参与者在接收到来自协调者的canCommit请求后，正常情况下，如果其自身认为可以顺利执行事务，那么会反馈Yes响应，并进入预备状态，否则反馈No响应。</p>
+<h4 id="阶段二：PreCommit"><a href="#阶段二：PreCommit" class="headerlink" title="阶段二：PreCommit"></a>阶段二：PreCommit</h4><pre><code>在阶段二中，协调者会根据各参与者的反馈情况来决定是否可以进行事务的PreCommit操作，正常情况下，包含两种可能。
+</code></pre><p>执行事务预提交</p>
+<p>假如协调者从所有的参与者获得的反馈都是Yes响应，那么就会执行事务预提交。</p>
+<p>1．发送预提交请求。</p>
+<p>协调者向所有参与者节点发出preCommit的请求，并进入Prepared阶段。</p>
+<p>2．事务预提交。</p>
+<p>参与者接收到preCommit请求后，会执行事务操作，并将Undo和Redo信息记录到事务日志中。</p>
+<p>3．各参与者向协调者反馈事务执行的响应。</p>
+<p>如果参与者成功执行了事务操作，那么就会反馈给协调者Ack响应，同时等待最终的指令：提交（commit）或中止（abort）。</p>
+<p>中断事务</p>
+<p>假如任何一个参与者向协调者反馈了No响应，或者在等待超时之后，协调者尚无法接收到所有参与者的反馈响应，那么就会中断事务。</p>
+<p>1．发送中断请求。</p>
+<p>协调者向所有参与者节点发出abort请求。</p>
+<p>2．中断事务。</p>
+<p>无论是收到来自协调者的abort请求，或者是在等待协调者请求过程中出现超时，参与者都会中断事务。</p>
+<h4 id="阶段三：doCommit"><a href="#阶段三：doCommit" class="headerlink" title="阶段三：doCommit"></a>阶段三：doCommit</h4><p>该阶段将进行真正的事务提交，会存在以下两种可能的情况。</p>
+<p><strong>执行提交</strong></p>
+<p>1．发送提交请求。</p>
+<p>进入这一阶段，假设协调者处于正常工作状态，并且它接收到了来自所有参与者的Ack响应，那么它将从“预提交”状态转换到“提交”状态，并向所有的参与者发送doCommit请求。</p>
+<p>2．事务提交。</p>
+<p>参与者接收到doCommit请求后，会正式执行事务提交操作，并在完成提交之后释放在整个事务执行期间占用的事务资源。</p>
+<p>3．反馈事务提交结果。</p>
+<p>参与者在完成事务提交之后，向协调者发送Ack消息。</p>
+<p>4．完成事务。</p>
+<p>协调者接收到所有参与者反馈的Ack消息后，完成事务。</p>
+<p><strong>中断事务</strong></p>
+<p>进入这一阶段，假设协调者处于正常工作状态，并且有任意一个参与者向协调者反馈了No响应，或者在等待超时之后，协调者尚无法接收到所有参与者的反馈响应，那么就会中断事务。</p>
+<p>1．发送中断请求。</p>
+<p>协调者向所有的参与者节点发送abort请求。</p>
+<p>2．事务回滚。</p>
+<p>参与者接收到abort请求后，会利用其在阶段二中记录的Undo信息来执行事务回滚操作，并在完成回滚之后释放在整个事务执行期间占用的资源。</p>
+<p>3．反馈事务回滚结果。</p>
+<p>参与者在完成事务回滚之后，向协调者发送Ack消息。</p>
+<p>4．中断事务。</p>
+<p>协调者接收到所有参与者反馈的Ack消息后，中断事务。</p>
+<p><em>需要注意的是，一旦进入阶段三，可能会存在以下两种故障。</em></p>
+<ul>
+<li><p>协调者出现问题。</p>
+</li>
+<li><p>协调者和参与者之间的网络出现故障。</p>
+</li>
+</ul>
+<p>无论出现哪种情况，最终都会导致参与者无法及时接收到来自协调者的doCommit或是abort请求，针对这样的异常情况，参与者都会在等待超时之后，继续进行事务提交。</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>三阶段提交协议的优点：相较于二阶段提交协议，三阶段提交协议最大的优点就是降低了参与者的阻塞范围，并且能够在出现单点故障后继续达成一致。</p>
+<p>三阶段提交协议的缺点：三阶段提交协议在去除阻塞的同时也引入了新的问题，那就是在参与者接收到preCommit消息后，如果网络出现分区，此时协调者所在的节点和参与者无法进行正常的网络通信，在这种情况下，该参与者依然会进行事务的提交，这必然出现数据的不一致性。</p>
+<h2 id="Paxos算法"><a href="#Paxos算法" class="headerlink" title="Paxos算法"></a>Paxos算法</h2><p> Paxos算法是莱斯利·兰伯特(Leslie Lamport)1990年提出的一种基于消息传递的一致性算法。Paxos算法解决的问题是一个分布式系统如何就某个值（决议）达成一致。在工程实践意义上来说，就是可以通过Paxos实现多副本一致性，分布式锁，名字管理，序列号分配等。比如，在一个分布式数据库系统中，如果各节点的初始状态一致，每个节点执行相同的操作序列，那么他们最后能得到一个一致的状态。为保证每个节点执行相同的命令序列，需要在每一条指令上执行一个“一致性算法”以保证每个节点看到的指令一致。本文首先会讲原始的Paxos算法(Basic Paxos)，主要描述二阶段提交过程，然后会着重讲Paxos算法的变种(Multi Paxos)，它是对Basic Paxos的优化，而且更适合工程实践，最后我会通过Q&amp;A的方式，给出我在学习Paxos算法中的疑问，以及我对这些疑问的理解。</p>
+<h3 id="概念与术语"><a href="#概念与术语" class="headerlink" title="概念与术语"></a>概念与术语</h3><p>Proposer：提议发起者，处理客户端请求，将客户端的请求发送到集群中，以便决定这个值是否可以被批准。</p>
+<p>Acceptor：提议批准者，负责处理接收到的提议，他们的回复就是一次投票，会存储一些状态来决定是否接收一个值。</p>
+<p>Replica：节点或者副本，分布式系统中的一个server，一般是一台单独的物理机或者虚拟机，同时承担paxos中的提议者和接收者角色。</p>
+<p>ProposalId：每个提议都有一个编号，编号高的提议优先级高。</p>
+<p>Paxos Instance：Paxos中用来在多个节点之间对同一个值达成一致的过程，比如同一个日志序列号：logIndex，不同的logIndex属于不同的Paxos Instance。</p>
+<p>acceptedProposal：在一个Paxos Instance内，已经接收过的提议。</p>
+<p>acceptedValue：在一个Paxos Instance内，已经接收过的提议对应的值。</p>
+<p>minProposal：在一个Paxos Instance内，当前接收的最小提议值，会不断更新。</p>
+<h3 id="Basic-Paxos算法"><a href="#Basic-Paxos算法" class="headerlink" title="Basic-Paxos算法"></a>Basic-Paxos算法</h3><p>基于Paxos协议构建的系统，只需要系统中超过半数的节点在线且相互通信正常即可正常对外提供服务。它的核心实现Paxos Instance主要包括两个阶段:准备阶段(prepare phase)和提议阶段(accept phase)。如下图所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155541328-1939247065.png" alt="Basic-Paxos"></p>
+<ol>
+<li>获取一个ProposalId,为了保证ProposalId递增，可以采用时间戳+serverId方式生成；</li>
+<li>提议者向所有节点广播prepare(n)请求；</li>
+<li>接收者比较n和minProposal，如果n&gt;minProposal,表示有更新的提议，minProposal=n；否则将(acceptedProposal,acceptedValue)返回；</li>
+<li>提议者接收到过半数请求后，如果发现有acceptedValue返回，表示有更新的提议，保存acceptedValue到本地，然后跳转1，生成一个更高的提议；</li>
+<li>到这里表示在当前paxos instance内，没有优先级更高的提议，可以进入第二阶段，广播accept(n,value)到所有节点；</li>
+<li>接收者比较n和minProposal，如果n&gt;=minProposal,则acceptedProposal=minProposal=n，acceptedValue=value，本地持久化后，返回；<br>否则，返回minProposal</li>
+<li>提议者接收到过半数请求后，如果发现有返回值&gt;n，表示有更新的提议，跳转1；否则value达成一致。<br>从上述流程可知，并发情况下，可能会出现第4步或者第7步频繁重试的情况，导致性能低下，更严重者可能导致永远都无法达成一致的情况，就是所谓的“活锁”，如下图所示：</li>
+</ol>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155452844-827453906.png" alt="Basic-Paxos"></p>
+<ol>
+<li>S1作为提议者，发起prepare(3.1),并在S1,S2和S3达成多数派；</li>
+<li>随后S5作为提议者 ，发起了prepare(3.5)，并在S3,S4和S5达成多数派；</li>
+<li>S1发起accept(3.1,value1)，由于S3上提议 3.5&gt;3.1,导致accept请求无法达成多数派，S1尝试重新生成提议</li>
+<li>S1发起prepare(4.1),并在S1，S2和S3达成多数派</li>
+<li>S5发起accpet(3.5,value5)，由于S3上提议4.1&gt;3.5，导致accept请求无法达成多数派，S5尝试重新生成提议</li>
+<li>S5发起prepare(5.5),并在S3,S4和S5达成多数派，导致后续的S1发起的accept(4.1,value1)失败<br>……</li>
+</ol>
+<h3 id="prepare阶段的作用"><a href="#prepare阶段的作用" class="headerlink" title="prepare阶段的作用"></a>prepare阶段的作用</h3><p>从Basic-Paxos的描述可知，需要通过两阶段来最终确定一个值，由于轮回多，导致性能低下，至少两次网络RTT。那么prepare阶段能否省去？如下图所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155558641-1089133612.png" alt="Basic-Paxos"></p>
+<ol>
+<li>S1首先发起accept(1,red)，并在S1,S2和S3达成多数派，red在S1，S2，S3上持久化</li>
+<li>随后S5发起accept(5,blue)，对于S3而言，由于接收到更新的提议，会将acceptedValue值改为blue</li>
+<li>那么S3，S4和S5达成多数派，blue在S3，S4和S5持久化</li>
+<li>最后的结果是，S1和S2的值是red，而S3，S4和S5的值是blue，没有达成一致。</li>
+</ol>
+<p>所以两阶段必不可少，Prepare阶段的作用是阻塞旧的提议，并且返回已经接收到的acceptedProposal。同时也可以看到的是，假设只有S1提议，则不会出现问题，这就是我们下面要讲的Multi-Paxos。</p>
+<h3 id="Multi-paxos算法"><a href="#Multi-paxos算法" class="headerlink" title="Multi-paxos算法"></a>Multi-paxos算法</h3><p> Paxos是对一个值达成一致，Multi-Paxos是连续多个paxos instance来对多个值达成一致，这里最核心的原因是multi-paxos协议中有一个Leader。Leader是系统中唯一的Proposal，在lease租约周期内所有提案都有相同的ProposalId，可以跳过prepare阶段，议案只有accept过程，一个ProposalId可以对应多个Value，所以称为Multi-Paxos。</p>
+<h4 id="选举"><a href="#选举" class="headerlink" title="选举"></a>选举</h4><p>首先我们需要有一个leader，其实选主的实质也是一次Paxos算法的过程，只不过这次Paxos确定的“谁是leader”这个值。由于任何一个节点都可以发起提议，在并发情况下，可能会出现多主的情况，比如A，B先后当选为leader。为了避免频繁选主，当选leader的节点要马上树立自己的leader权威(让其它节点知道它是leader)，写一条特殊日志(start-working日志)确认其身份。根据多数派原则，只有一个leader的startworking日志可以达成多数派。leader确认身份后，可以通过了lease机制(租约)维持自己的leader身份，使得其它proposal不再发起提案，这样就进入了leader任期，由于没有并发冲突，因此可以跳过prepare阶段，直接进入accept阶段。通过分析可知，选出leader后，leader任期内的所有日志都只需要一个网络RTT(Round Trip Time)即可达成一致。</p>
+<h4 id="新主恢复流程"><a href="#新主恢复流程" class="headerlink" title="新主恢复流程"></a>新主恢复流程</h4><p>由于Paxos中并没有限制，任何节点都可以参与选主并最终成为leader，这就无法保证新选出的leader包含了所有日志，可能存在空洞，因此在真正提供服务前，还存在一个获取所有已提交日志的恢复过程。新主向所有成员查询最大logId的请求，收到多数派响应后，选择最大的logId作为日志恢复结束点，这里多数派的意义在于恢复结束点包含了所有达成一致的日志，当然也可能包含了没有达成多数派的日志。拿到logId后，从头开始对每个logId逐条进行paxos协议，因为在新主获得所有日志之前，系统是无法提供服务的。为了优化，引入了confirm机制，就是将已经达成一致的logId告诉其它acceptor，acceptor写一条confirm日志到日志文件中。那么新主在重启后，扫描本地日志，对于已经拥有confirm日志的log，就不会重新发起paxos了。同样的，在响应客户端请求时，对于没有confirm日志的log，需要重新发起一轮paxos。由于没有严格要求confirm日志的位置，可以批量发送。为了确保重启时，不需要对太多已提价的log进行paxos，需要将confirm日志与最新提交的logId保持一定的距离。</p>
+<h4 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h4><p>Basic-Paxos一次日志确认，需要至少2次磁盘写操作(prepare,promise)和2次网络RTT(prepare,promise)。Multi-Paxos利用一阶段提交(省去Prepare阶段)，将一次日志确认缩短为一个RTT和一次磁盘写；通过confirm机制，可以缩短新主的恢复时间。为了提高性能，我们还可以实现一批日志作为一个组提交，要么成功一批，要么都不成功，这点类似于group-commit，通过RT换取吞吐量。</p>
+<h4 id="安全性-异常处理"><a href="#安全性-异常处理" class="headerlink" title="安全性(异常处理)"></a>安全性(异常处理)</h4><ol>
+<li><p>Leader异常<br>Leader在任期内，需要定期给各个节点发送心跳，已告知它还活着(正常工作)，如果一个节点在超时时间内仍然没有收到心跳，它会尝试发起选主流程。Leader异常了，则所有的节点先后都会出现超时，进入选主流程，选出新的主，然后新主进入恢复流程，最后再对外提供服务。我们通常所说的异常包括以下三类：</p>
+<ul>
+<li><p>进程crash(OS crash)</p>
+<p> Leader进程crash和Os crash类似，只要重启时间大于心跳超时时间都会导致节点认为leader挂了，触发重新选主流程。</p>
+</li>
+<li><p>节点网络异常(节点所在网络分区)</p>
+<p> Leader网络异常同样会导致其它节点收不到心跳，但有可能leader是活着的，只不过发生了网络抖动，因此心跳超时不能设置的太短，否则容易因为网络抖动造成频繁选主。另外一种情况是，节点所在的IDC发生了分区，则同一个IDC的节点相互还可以通信，如果IDC中节点能构成多数派，则正常对外服务，如果不能，比如总共4个节点，两个IDC，发生分区后会发现任何一个IDC都无法达成多数派，导致无法选出主的问题。因此一般Paxos节点数都是奇数个，而且在部署节点时，IDC节点的分布也要考虑。</p>
+</li>
+<li><p>磁盘故障</p>
+<p>前面两种异常，磁盘都是OK的，即已接收到的日志以及对应confirm日志都在。如果磁盘故障了，节点再加入就类似于一个新节点，上面没有任何日志和Proposal信息。这种情况会导致一个问题就是，这个节点可能会promise一个比已经promise过的最大proposalID更小的proposal，这就违背了Paxos原则。因此重启后，节点不能参与Paxos Instance，它需要先追上Leader，当观察到一次完整的paxos instance时该节点结束不能promise/ack状态。</p>
+</li>
+</ul>
+</li>
+<li><p>Follower异常(宕机，磁盘损坏等)<br>对于Follower异常，则处理要简单的多，因为follower本身不对外提供服务(日志可能不全)，对于leader而言，只要能达成多数派，就可以对外提供服务。follower重启后，没有promise能力，直到追上leader为止。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/14/docker-介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1650,7 +1958,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1661,7 +1969,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1672,7 +1980,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
