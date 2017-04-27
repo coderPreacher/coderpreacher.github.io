@@ -1,0 +1,1359 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="title: 单元测试的艺术date: 2017-04-27 15:42:57categories:   Unit Testtags: 测试 单元测试 Unit Test Test    – 什么是单元测试?  单元测试是开发人员对其所实现功能的代码进行的另外编写的测试，用于检测其代码功能的完整性、正确性和其运行效率，从而提高代码质量，并且在写单元测试时发现功能代码间的依赖等设计问题，从而提高产">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谢晖的博客">
+<meta property="og:url" content="http://yoursite.com/2017/04/27/单元测试的艺术/index.html">
+<meta property="og:site_name" content="谢晖的博客">
+<meta property="og:description" content="title: 单元测试的艺术date: 2017-04-27 15:42:57categories:   Unit Testtags: 测试 单元测试 Unit Test Test    – 什么是单元测试?  单元测试是开发人员对其所实现功能的代码进行的另外编写的测试，用于检测其代码功能的完整性、正确性和其运行效率，从而提高代码质量，并且在写单元测试时发现功能代码间的依赖等设计问题，从而提高产">
+<meta property="og:updated_time" content="2017-04-27T10:42:50.185Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谢晖的博客">
+<meta name="twitter:description" content="title: 单元测试的艺术date: 2017-04-27 15:42:57categories:   Unit Testtags: 测试 单元测试 Unit Test Test    – 什么是单元测试?  单元测试是开发人员对其所实现功能的代码进行的另外编写的测试，用于检测其代码功能的完整性、正确性和其运行效率，从而提高代码质量，并且在写单元测试时发现功能代码间的依赖等设计问题，从而提高产">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/27/单元测试的艺术/"/>
+
+
+
+
+
+  <title>  | 谢晖的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="/images/me.jpg"
+               alt="谢晖的博客"/>
+        </a>
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谢晖的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">爱生活、爱技术、积极、乐观、超越自我</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/27/单元测试的艺术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢晖">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谢晖的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-27T15:42:57+08:00">
+                2017-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/27/单元测试的艺术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/27/单元测试的艺术/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: 单元测试的艺术<br>date: 2017-04-27 15:42:57<br>categories: </p>
+<ul>
+<li>Unit Test<br>tags:<ul>
+<li>测试</li>
+<li>单元测试</li>
+<li>Unit Test</li>
+<li>Test</li>
+</ul>
+</li>
+</ul>
+<p>–</p>
+<h1 id="什么是单元测试"><a href="#什么是单元测试" class="headerlink" title="什么是单元测试?"></a>什么是单元测试?</h1><p>  单元测试是开发人员对其所实现功能的代码进行的另外编写的测试，用于检测其代码功能的完整性、正确性和其运行效率，从而提高代码质量，并且在写单元测试时发现功能代码间的依赖等设计问题，从而提高产品的可扩展性。</p>
+<h1 id="为什么需要单元测试？"><a href="#为什么需要单元测试？" class="headerlink" title="为什么需要单元测试？"></a>为什么需要单元测试？</h1><p>当编写项目的时刻，如果我们假设底层的代码是正确无误的，那么先是高层代码中使用了底层代码；然后这些高层代码又被更高层的代码所使用，如此往复。当基本的底层代码不再可靠时，那么必需的改动就无法只局限在底层。虽然你可以修正底层的问题，但是这些对底层代码的修改必然会影响到高层代码。于是，一个对底层代码的修正，可能会导致对几乎所有代码的一连串改动，从而使修改越来越多，也越来越复杂。从而使整个项目也以失败告终。</p>
+<p><strong><em>而单元测试的核心内涵：这个简单有效的技术就是为了令代码变得更加完美。</em></strong></p>
+<h1 id="编写优秀的单元测试的好处"><a href="#编写优秀的单元测试的好处" class="headerlink" title="编写优秀的单元测试的好处"></a>编写优秀的单元测试的好处</h1><ol>
+<li><p>单元测试集中注意力于程序的基本组成部分，首先保证每个单元测试通过，才能使下一步把单元组装成部件并测试其正确性具有基础。单元是整个软件的构成基础，像硬件系统中的零部件一样，只有保证零部件的质量，这个设备的质量才有基础，单元的质量也是整个软件质量的基础。因此，单元测试的效果会直接影响软件的后期测试，最终在很大程度上影响到产品的质量。</p>
+</li>
+<li><p>单元测试可以平行开展，这样可以使多人同时测试多个单元，提高了测试的效率。</p>
+</li>
+<li><p>单元规模较小，复杂性较低，因而发现错误后容易隔离和定位，有利于调试工作。</p>
+</li>
+<li><p>单元的规模和复杂性特点，使单元测试中可以使用包括白盒测试的覆盖分析在内的许多测试技术，能够进行比较充分细致的测试，是整个程序测试满足语句覆盖和分支覆盖要求的基础。</p>
+</li>
+<li><p>单元测试的测试效果是最显而易见的。做好单元测试，不仅后期的系统集成联调或集成测试和系统测试会很顺利，节约很多时间；而且在单元测试过程中能发现一些很深层次的问题，同时还会发现一些很容易发现而在集成测试和系统测试很难发现的问题；更重要的是单元测试不仅仅是证明这些代码做了什么，是如何做的，而且证明是否做了它该做的事情而没有做不该做的事情。</p>
+</li>
+<li><p>单元测试的好与坏不仅直接关系到测试成本（因为如果单元测试中易发现的问题拖到后期测试发现，那么其成本将成倍数上升），而且也会直接影响到产品质量，因为可能就是由于代码中的某一个小错误就导致了整个产品的质量降低一个指标，或者导致更严重的后果。</p>
+</li>
+<li><p>单元测试帮助设计<br>单元测试迫使我们从关注实现转向关注接口，编写单元测试的过程就是设计接口的过程，使单元测试通过的过程是我们编写实现的过程。我一直觉得这是单元测试最重要的好处，让我们关注的重点放在接口上而非实现的细节。 </p>
+</li>
+<li><p>单元测试帮助编码<br>应用单元测试会使我们主动消除和减少不必要的耦合，虽然出发点可能是为了更方便的完成单元测试，但结果通常是类型的职责更加内聚，类型间的耦合显著降低。这是已知的提升编码质量的有效手段，也是提升开发人员编码水平的有效手段。</p>
+</li>
+<li><p>单元测试帮助重构<br>对于现有项目的重构，从编写单元测试开始是更好的选择。先从局部代码进行重构，提取接口进行单元测试，然后再进行类型和层次级别的重构。</p>
+</li>
+</ol>
+<p>事实上，单元测试是一种验证行为—— 测试和验证程序中每一项功能的正确性，为以后的开发提供支持；单元测试是一种设计行为—— 编写单元测试将使我们从调用者观察、思考，特别是要先考虑测试，这样就可把程序设计成易于调用和可测试的，并努力降低软件中的耦合，还可以使编码人员在编码时产生预测试，将程序的缺陷降低到最小；单元测试是一种编写文档的行为—— 是展示函数或类如何使用的最佳文档；单元测试具有回归性—— 自动化的单元测试有助于进行回归测试。</p>
+<p>单元测试在设计、编码和调试上的作用足以使其成为软件开发相关人员的必备技能。 </p>
+<h1 id="断言（Assert）"><a href="#断言（Assert）" class="headerlink" title="断言（Assert）"></a>断言（Assert）</h1><p>断言表示为一些布尔表达式，程序员相信在程序中的某个特定点该表达式值为真，可以在任何时候启用和禁用断言验证，因此可以在测试时启用断言而在部署时禁用断言。同样，程序投入运行后，最终用户在遇到问题时可以重新启用断言。</p>
+<p>使用断言可以创建更稳定、品质更好且 不易于出错的代码。当需要在一个值为FALSE时中断当前操作的话，可以使用断言。单元测试必须使用断言（Xunit/Nunit）。</p>
+<h1 id="使用伪对象"><a href="#使用伪对象" class="headerlink" title="使用伪对象"></a>使用伪对象</h1><p>伪对象可以解决要测试的代码中使用了无法测试的外部依赖问题，更重要的是通过接口抽象实现了低耦合。例如通过抽象IConfigurationManager接口来使用ConfigurationManager对象，看起来似乎只是为了单元测试而增加更多的代码，实际上我们通常不关心后去的配置是否是通过ConfigurationManager静态类读取的config文件，我们只关心配置的取值，此时使用IConfigurationManager既可以不依赖具体的ConfigurationManager类型，又可以在系统需要扩展时使用其他实现了IConfigurationManager接口的实现类。</p>
+<p>使用伪对象解决外部依赖的主要步骤：</p>
+<ol>
+<li><p>使用接口依赖取代原始类型依赖。</p>
+</li>
+<li><p>通过对原始类型的适配实现上述接口。</p>
+</li>
+<li><p>手动创建用于单元测试的接口实现类或在单元测试时使用Mock框架生成接口的实例。</p>
+</li>
+</ol>
+<p>手动创建的实现类完整的实现了接口，这样的实现类可以在多个测试中使用。可以选择使用Mock框架生成对应接口的实例，只需要对当前测试需要调用的方法进行模拟，通常需要根据参数进行逻辑判断，返回不同的结果。无论是手动实现的模拟类对象还是Mock生成的伪对象都称为桩对象，即Stub对象。Stub对象的本质是被测试类依赖接口的伪对象，它保证了被测试类可以被测试代码正常调用。</p>
+<p>解决了被测试类的依赖问题，还需要解决无法直接在被测试方法上使用Assert断言的情况。此时我们需要在另一类伪对象上使用Assert，通常我们把Assert使用的模拟对象称为模拟对象，即Mock对象。Mock对象的本质是用来提供给Assert进行验证的，它保证了在无法直接使用断言时可以正常验证被测试类。</p>
+<p>Stub和Mock对象都是伪对象，即Fake对象。</p>
+<p>Stub或Mock对象的区分明白了就很简单，从被测试类的角度讲Stub对象，从Assert的角度讲Mock对象。然而，即使不了解相关的含义和区别也不会在使用时产生问题。比如测试邮件发送，我们通常不能直接在被测试代码上应用Assert，我们会在模拟的STMP服务器对象上应用Assert判断是否成功接收到邮件，这个SMTPServer模拟对象就是Mock对象而不是Stub对象。比如写日志，我们通常可以直接在ILogger接口的相关方法上应用Assert判断是否成功，此时的Logger对象即是Stub对象也是Mock对象。</p>
+<h1 id="NET单元测试常用框架和组件"><a href="#NET单元测试常用框架和组件" class="headerlink" title=".NET单元测试常用框架和组件"></a>.NET单元测试常用框架和组件</h1><h2 id="XUnit"><a href="#XUnit" class="headerlink" title="XUnit"></a>XUnit</h2><p>XUnit是目前最为流行的.NET单元测试框架。NUnit出现的较早被广泛使用，如nopCommerce、Orchard等项目从开始就一直使用的是NUnit。XUnit目前是比NUnit更好的选择,从github上可以看到asp.net mvc等一系列的微软项目使用的就是XUnit框架。</p>
+<p>xUnit是各种代码驱动测试框架的统称，可以测试软件的不同单元。xUnit的特点是：提供了一个自动化测试3的解决方案，无须多次编写重复的测试代码，也无须记住该测试的预期结果。</p>
+<p>四要素：</p>
+<ul>
+<li>测试Fixtures</li>
+</ul>
+<p>　　Fixture指被测试的目标。而测试Fixture是一组单元测试成功的预定条件或预期结果的设定。</p>
+<ul>
+<li>测试集</li>
+</ul>
+<p>　　测试集是一组测试用例。但同一组内的测试用例必须有相同的测试Fixture。</p>
+<ul>
+<li>测试执行</li>
+</ul>
+<p>　　单个的单元测试的执行需要按照一定的方式进行。</p>
+<ul>
+<li>断言</li>
+</ul>
+<p>　　断言是验证被测试的程序在测试中的行为或状态的一个宏4或函数。若断言失败，则代表引发异常，终止测试的继续执行。</p>
+<h2 id="NUnit"><a href="#NUnit" class="headerlink" title="NUnit"></a>NUnit</h2><p>　　NUnit作为xUnit家族中的.Net成员，是.NET的单元测试框架，xUnit是一套适合于多种语言的单元测试工具。它具有如下特征：</p>
+<ul>
+<li>提供了API，使得我们可以创建一个带有“通过/失败”结果的重复单元。</li>
+<li>包括了运行测试和表示结果所需的工具。</li>
+<li>允许多个测试作为一个组在一个批处理中运行。</li>
+<li>非常灵巧，操作简单，我们花费很少的时间即可学会并且不会给测试的程序添加额外的负担。</li>
+<li><p>功能可以扩展，如果希望更多的功能，可以很容易的扩展它。</p>
+<p>官方主页：<a href="http://www.NUnit.org" target="_blank" rel="external">http://www.NUnit.org</a></p>
+</li>
+</ul>
+<h2 id="MSTest"><a href="#MSTest" class="headerlink" title="MSTest"></a>MSTest</h2><p>MS Test框架是Visual Studio自带的测试框架，可以通过新建一个Unit Test Project工程，也可以建一个Class Libary，然后添加对Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll的引用。然后就是创建测试用例，进行测试即可。其主要特点是与Visual Studio完美集成。</p>
+<h2 id="MSTest、NUnit、xUnit-net-属性对照表"><a href="#MSTest、NUnit、xUnit-net-属性对照表" class="headerlink" title="MSTest、NUnit、xUnit.net 属性对照表"></a>MSTest、NUnit、xUnit.net 属性对照表</h2><table>
+<thead>
+<tr>
+<th>MSTest</th>
+<th style="text-align:center">NUnit</th>
+<th style="text-align:right">xUnit.net</th>
+<th style="text-align:right">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[TestMethod]</td>
+<td style="text-align:center">[Test]</td>
+<td style="text-align:right">[Fact]</td>
+<td style="text-align:right">Marks a test method.</td>
+</tr>
+<tr>
+<td>[TestClass]</td>
+<td style="text-align:center">[TestFixture]</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right">xUnit.net does not require an attribute for a test class; it looks for all test methods in all public (exported) classes in the assembly.</td>
+</tr>
+<tr>
+<td>[ExpectedException]</td>
+<td style="text-align:center">[ExpectedException]</td>
+<td style="text-align:right">Assert.Throws Record.Exception</td>
+<td style="text-align:right">xUnit.net has done away with the ExpectedException attribute in favor of Assert.Throws.</td>
+</tr>
+<tr>
+<td>[TestInitialize]</td>
+<td style="text-align:center">[SetUp]</td>
+<td style="text-align:right">Constructor</td>
+<td style="text-align:right">We believe that use of [SetUp]is generally bad. However, you can implement a parameterless constructor as a direct replacement.</td>
+</tr>
+<tr>
+<td>[TestCleanup]</td>
+<td style="text-align:center">[TearDown]</td>
+<td style="text-align:right">IDisposable.Dispose</td>
+<td style="text-align:right">We believe that use of[TearDown] is generally bad. However, you can implementIDisposable.Dispose as a direct replacement.</td>
+</tr>
+<tr>
+<td>[ClassInitialize]</td>
+<td style="text-align:center">[TestFixtureSetUp]</td>
+<td style="text-align:right">IUseFixture&lt;T&gt;</td>
+<td style="text-align:right">To get per-fixture setup, implement IUseFixture&lt;T&gt; on your test class.</td>
+</tr>
+<tr>
+<td>[ClassCleanup]</td>
+<td style="text-align:center">[TestFixtureTearDown]</td>
+<td style="text-align:right">IUseFixture&lt;T&gt;</td>
+<td style="text-align:right">To get per-fixture teardown, implement IUseFixture&lt;T&gt; on your test class.</td>
+</tr>
+<tr>
+<td>[Ignore]</td>
+<td style="text-align:center">[Ignore]</td>
+<td style="text-align:right">[Fact(Skip=”reason”)]</td>
+<td style="text-align:right">Set the Skip parameter on the[Fact] attribute to temporarily skip a test.</td>
+</tr>
+<tr>
+<td>[Timeout]</td>
+<td style="text-align:center">[Timeout]</td>
+<td style="text-align:right">[Fact(Timeout=n)]</td>
+<td style="text-align:right">Set the Timeout parameter on the [Fact] attribute to cause a test to fail if it takes too long to run. Note that the timeout value for xUnit.net is in milliseconds.</td>
+</tr>
+<tr>
+<td>[TestCategory]</td>
+<td style="text-align:center">[Category]</td>
+<td style="text-align:right">[Trait]</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>[TestProperty]</td>
+<td style="text-align:center">[Property]</td>
+<td style="text-align:right">[Trait]</td>
+<td style="text-align:right">Set arbitrary metadata on a test</td>
+</tr>
+<tr>
+<td>[DataSource]</td>
+<td style="text-align:center">n/a</td>
+<td style="text-align:right">[Theory], [XxxData]</td>
+<td style="text-align:right">Theory (data-driven test).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="MSTest、NUnit、xUnit-net-断言对照表"><a href="#MSTest、NUnit、xUnit-net-断言对照表" class="headerlink" title="MSTest、NUnit、xUnit.net 断言对照表"></a>MSTest、NUnit、xUnit.net 断言对照表</h2><table>
+<thead>
+<tr>
+<th>MSTest</th>
+<th style="text-align:center">NUnit</th>
+<th style="text-align:right">xUnit.net</th>
+<th style="text-align:right">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AreEqual</td>
+<td style="text-align:center">AreEqual</td>
+<td style="text-align:right">Equal</td>
+<td style="text-align:right">MSTest and xUnit.net support generic versions of this method.</td>
+</tr>
+<tr>
+<td>AreNotEqual</td>
+<td style="text-align:center">AreNotEqual</td>
+<td style="text-align:right">NotEqual</td>
+<td style="text-align:right">MSTest and xUnit.net support generic versions of this method.</td>
+</tr>
+<tr>
+<td>AreNotSame</td>
+<td style="text-align:center">AreNotSame</td>
+<td style="text-align:right">NotSame</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>AreSame</td>
+<td style="text-align:center">AreSame</td>
+<td style="text-align:right">Same</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>Contains (on CollectionAssert)</td>
+<td style="text-align:center">Contains</td>
+<td style="text-align:right">Contains</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">DoAssert</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>DoesNotContain (on CollectionAssert)</td>
+<td style="text-align:center">n/a</td>
+<td style="text-align:right">DoesNotContain</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">n/a</td>
+<td style="text-align:right">DoesNotThrow</td>
+<td style="text-align:right">Ensures that the code does not throw any exceptions</td>
+</tr>
+<tr>
+<td>Fail</td>
+<td style="text-align:center">Fail</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right">xUnit.net alternative: Assert.True(false, “message”)</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">Pass</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">Greater</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right">xUnit.net alternative: Assert.True(x &gt; y)</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">GreaterOrEqual</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>Inconclusive</td>
+<td style="text-align:center">Ignore</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">n/a</td>
+<td style="text-align:right">InRange</td>
+<td style="text-align:right">Ensures that a value is in a given inclusive range (note: NUnit and MSTest have limited support for InRange on their AreEqual methods)</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsAssignableFrom</td>
+<td style="text-align:right">IsAssignableFrom</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsEmpty</td>
+<td style="text-align:right">Empty</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>IsFalse</td>
+<td style="text-align:center">IsFalse</td>
+<td style="text-align:right">False</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>IsInstanceOfType</td>
+<td style="text-align:center">IsInstanceOfType</td>
+<td style="text-align:right">IsType</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsNaN</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right">xUnit.net alternative: Assert.True(double.IsNaN(x))</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsNotAssignableFrom</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right">xUnit.net alternative: Assert.False(obj is Type);</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsNotEmpty</td>
+<td style="text-align:right">NotEmpty</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>IsNotInstanceOfType</td>
+<td style="text-align:center">IsNotInstanceOfType</td>
+<td style="text-align:right">IsNotType</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>IsNotNull</td>
+<td style="text-align:center">IsNotNull</td>
+<td style="text-align:right">NotNull</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>IsNull</td>
+<td style="text-align:center">IsNull</td>
+<td style="text-align:right">Null</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>IsTrue</td>
+<td style="text-align:center">IsTrue</td>
+<td style="text-align:right">True</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">Less</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right">xUnit.net alternative: Assert.True(x &lt; y)</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">LessOrEqual</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">n/a</td>
+<td style="text-align:right">NotInRange</td>
+<td style="text-align:right">Ensures that a value is not in a given inclusive range</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">Throws</td>
+<td style="text-align:right">Throws</td>
+<td style="text-align:right">Ensures that the code throws an exact exception</td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsAssignableFrom</td>
+<td style="text-align:right">n/a</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>n/a</td>
+<td style="text-align:center">IsNotAssignableFrom</td>
+<td style="text-align:right">n/a</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.JPG" alt="谢晖 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.JPG" alt="谢晖 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/26/为什么你应该从Svn切换到Git/" rel="prev" title="为什么你应该从Svn切换到Git">
+                为什么你应该从Svn切换到Git <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/me.jpg"
+               alt="谢晖" />
+          <p class="site-author-name" itemprop="name">谢晖</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是单元测试"><span class="nav-number">1.</span> <span class="nav-text">什么是单元测试?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么需要单元测试？"><span class="nav-number">2.</span> <span class="nav-text">为什么需要单元测试？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写优秀的单元测试的好处"><span class="nav-number">3.</span> <span class="nav-text">编写优秀的单元测试的好处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#断言（Assert）"><span class="nav-number">4.</span> <span class="nav-text">断言（Assert）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用伪对象"><span class="nav-number">5.</span> <span class="nav-text">使用伪对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NET单元测试常用框架和组件"><span class="nav-number">6.</span> <span class="nav-text">.NET单元测试常用框架和组件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XUnit"><span class="nav-number">6.1.</span> <span class="nav-text">XUnit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NUnit"><span class="nav-number">6.2.</span> <span class="nav-text">NUnit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSTest"><span class="nav-number">6.3.</span> <span class="nav-text">MSTest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSTest、NUnit、xUnit-net-属性对照表"><span class="nav-number">6.4.</span> <span class="nav-text">MSTest、NUnit、xUnit.net 属性对照表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSTest、NUnit、xUnit-net-断言对照表"><span class="nav-number">6.5.</span> <span class="nav-text">MSTest、NUnit、xUnit.net 断言对照表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢晖</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://coderpreacher.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/04/27/单元测试的艺术/';
+          this.page.identifier = '2017/04/27/单元测试的艺术/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://coderpreacher.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.0"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/exturl.js?v=5.1.0"></script>
+
+
+</body>
+</html>
