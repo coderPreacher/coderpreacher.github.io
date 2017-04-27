@@ -1,0 +1,1228 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SSH,SSH协议," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="SSH协议介绍安全Shell（SSH）协议是一种用于安全网络通信的协议，旨在实现相对简单和便宜。 初始版本，SSH1，专注于提供安全的远程登录功能，以取代Telnet和其他远程登录方案，而不提供安全性[4]。 SSH还提供了更一般的客户端 - 服务器功能，可用于保护文件传输和电子邮件等网络功能。 新版本的SSH2提供了SSH的标准化定义，并以许多方式改进了SSH1。 SSH2被记录为RFC 425">
+<meta name="keywords" content="SSH,SSH协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH协议介绍">
+<meta property="og:url" content="http://yoursite.com/2017/04/27/SSH协议介绍/index.html">
+<meta property="og:site_name" content="谢晖的博客">
+<meta property="og:description" content="SSH协议介绍安全Shell（SSH）协议是一种用于安全网络通信的协议，旨在实现相对简单和便宜。 初始版本，SSH1，专注于提供安全的远程登录功能，以取代Telnet和其他远程登录方案，而不提供安全性[4]。 SSH还提供了更一般的客户端 - 服务器功能，可用于保护文件传输和电子邮件等网络功能。 新版本的SSH2提供了SSH的标准化定义，并以许多方式改进了SSH1。 SSH2被记录为RFC 425">
+<meta property="og:image" content="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg">
+<meta property="og:image" content="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig02_sm.jpg">
+<meta property="og:image" content="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig03_sm.jpg">
+<meta property="og:image" content="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig04_sm.jpg">
+<meta property="og:image" content="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig05_sm.jpg">
+<meta property="og:updated_time" content="2017-04-27T15:52:19.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSH协议介绍">
+<meta name="twitter:description" content="SSH协议介绍安全Shell（SSH）协议是一种用于安全网络通信的协议，旨在实现相对简单和便宜。 初始版本，SSH1，专注于提供安全的远程登录功能，以取代Telnet和其他远程登录方案，而不提供安全性[4]。 SSH还提供了更一般的客户端 - 服务器功能，可用于保护文件传输和电子邮件等网络功能。 新版本的SSH2提供了SSH的标准化定义，并以许多方式改进了SSH1。 SSH2被记录为RFC 425">
+<meta name="twitter:image" content="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/27/SSH协议介绍/"/>
+
+
+
+
+
+  <title> SSH协议介绍 | 谢晖的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+      <div class="site-meta-headline">
+        <a>
+          <img class="custom-logo-image" src="/images/me.jpg"
+               alt="谢晖的博客"/>
+        </a>
+      </div>
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谢晖的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">爱生活、爱技术、积极、乐观、超越自我</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/27/SSH协议介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢晖">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谢晖的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                SSH协议介绍
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-27T22:53:41+08:00">
+                2017-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SSH/" itemprop="url" rel="index">
+                    <span itemprop="name">SSH</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/27/SSH协议介绍/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/27/SSH协议介绍/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="SSH协议介绍"><a href="#SSH协议介绍" class="headerlink" title="SSH协议介绍"></a>SSH协议介绍</h1><p>安全Shell（SSH）协议是一种用于安全网络通信的协议，旨在实现相对简单和便宜。 初始版本，SSH1，专注于提供安全的远程登录功能，以取代Telnet和其他远程登录方案，而不提供安全性[4]。 SSH还提供了更一般的客户端 - 服务器功能，可用于保护文件传输和电子邮件等网络功能。 新版本的SSH2提供了SSH的标准化定义，并以许多方式改进了SSH1。 SSH2被记录为RFC 4250至4256中的建议标准。</p>
+<p>SSH客户端和服务器应用程序广泛适用于大多数操作系统。 它已成为远程登录和X隧道技术的首选方法，并且正在迅速成为嵌入式系统以外的最普遍的加密技术应用之一。 SSH被组织为通常在TCP之上运行的三种协议（图1）：</p>
+<ul>
+<li>传输层协议：提供服务器身份验证，数据保密性和数据完整性，具有前瞻性的保密性（即，如果密钥在一个会话中受到威胁，则知识不会影响早期会话的安全性）; 传输层可以可选地提供压缩。</li>
+<li>用户认证协议：将用户验证到服务器。</li>
+<li>连接协议：通过单个底层SSH连接复用多个逻辑通信通道。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg" alt="ssh1"><br>图1 SSH 协议分层</li>
+</ul>
+<h2 id="传输层协议"><a href="#传输层协议" class="headerlink" title="传输层协议"></a>传输层协议</h2><p>服务器认证发生在传输层，基于具有公私属密钥对的服务器。 服务器可以具有使用多个不同的非对称加密算法的多个主机密钥。 多个主机可以共享相同的主机密钥。 无论如何，在密钥交换期间使用服务器主机密钥来验证主机的身份。 为了使认证成为可能，客户端必须具有服务器公共主机密钥的推定知识。 RFC 4251规定了可以使用的两种可选的信任模型：</p>
+<ol>
+<li>客户端具有将每个主机名（由用户键入）与相应的公共主机密钥相关联的本地数据库。 该方法不需要集中管理的基础设施，也不需要第三方协调。 缺点是名称到密钥关联的数据库可能会变得难以维护。</li>
+<li>主机名称到密钥关联由受信任的证书颁发机构（CA）进行认证。 客户端只知道CA根密钥，并且可以验证由接受的CA认证的所有主机密钥的有效性。 这种选择可以减轻维护问题，因为理想情况下只需要安全地将一个CA密钥存储在客户机上。 另一方面，每个主机密钥必须经过中央机构的认证才可以进行认证。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig02_sm.jpg" alt="ssh2"><br>图2：SSH传输层协议数据包交换</li>
+</ol>
+<p>图2说明了SSH传输层协议中事件的顺序。 首先，客户端使用TCP协议与服务器建立TCP连接，而不是传输层协议的一部分。 当建立连接时，客户端和服务器在TCP段的数据字段中交换称为数据包的数据。 每个数据包采用以下格式（图3）：</p>
+<ul>
+<li>数据包长度：数据包长度是数据包的字节长度，不包括数据包长度和消息认证码（MAC）的字段。</li>
+<li>填充长度：填充长度是随机填充字段的长度。</li>
+<li>有效载荷：有效载荷构成数据包的有用内容。 在算法协商之前，此字段未压缩。 如果协商压缩，则在随后的数据包中，此字段被压缩。</li>
+<li>随机填充：协商加密算法后，添加该字段。 它包含填充的随机字节，使得分组的总长度（不包括MAC字段）是密码块大小的倍数，或者是流密码的8字节。</li>
+<li>消息认证码（MAC）：如果已经协商消息认证，则该字段包含MAC值。 MAC数据在整个数据包上加上序列号，不包括MAC字段。 序列号是一个隐含的32位数据包序列，它为第一个数据包初始化为零，并为每个数据包递增。 序列号不包括在通过TCP连接发送的数据包中。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig03_sm.jpg" alt="ssh2"><br>图3 SSH传输层协议数据包形成</li>
+</ul>
+<p>在协商加密算法之后，在计算MAC值之后，将整个数据包（不包括MAC字段）加密。</p>
+<p>SSH传输层分组交换包括一系列步骤（图2）。第一步，识别字符串交换，以客户端发送带有以下形式的标识字符串的数据包开始：</p>
+<pre><code>SSH-protoversion-softwareversion SP comments CR LF
+</code></pre><p>其中SP，CR和LF分别为空格，回车和换行。一个有效字符串的例子是SSH-2.0-billsSSH_3.6.3q3 <cr> <lf>。服务器使用自己的标识符进行响应。这些字符串用于Diffie-Hellman密钥交换。</lf></cr></p>
+<p>接下来是算法协商。每个端口发送一个包含受支持算法列表的SSH_MSG_KEXINIT，以发送者的优先顺序。每种类型的加密算法都有一个列表。算法包括密钥交换，加密，MAC算法和压缩算法。表1显示了加密，MAC和压缩的允许选项。对于每个类别，所选择的算法是服务器也支持的客户端¢â,¬“列表上的第一个算法。</p>
+<p>表1：SSH传输层加密算法 </p>
+<table>
+<thead>
+<tr>
+<th>Cipher</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3des-cbc*</td>
+<td style="text-align:center">Three-key Triple Digital Encryption Standard (3DES) in Cipher-Block-Chaining (CBC) mode</td>
+</tr>
+<tr>
+<td>blowfish-cbc</td>
+<td style="text-align:center">Blowfish in CBC mode</td>
+</tr>
+<tr>
+<td>twofish256-cbc</td>
+<td style="text-align:center">Twofish in CBC mode with a 256-bit key</td>
+</tr>
+<tr>
+<td>twofish256-cbc</td>
+<td style="text-align:center">Twofish in CBC mode with a 256-bit key</td>
+</tr>
+<tr>
+<td>twofish192-cbc</td>
+<td style="text-align:center">Twofish with a 192-bit key</td>
+</tr>
+<tr>
+<td>twofish128-cbc</td>
+<td style="text-align:center">Twofish with a 128-bit key</td>
+</tr>
+<tr>
+<td>aes256-cbc</td>
+<td style="text-align:center">Advanced Encryption Standard (AES) in CBC mode with a 256-bit key</td>
+</tr>
+<tr>
+<td>aes192-cbc</td>
+<td style="text-align:center">AES with a 192-bit key</td>
+</tr>
+<tr>
+<td>aes128-cbc**</td>
+<td style="text-align:center">AES with a 128-bit key</td>
+</tr>
+<tr>
+<td>Serpent256-cbc</td>
+<td style="text-align:center">Serpent in CBC mode with a 256-bit key</td>
+</tr>
+<tr>
+<td>Serpent192-cbc</td>
+<td style="text-align:center">Serpent with a 192-bit key</td>
+</tr>
+<tr>
+<td>Serpent128-cbc</td>
+<td style="text-align:center">Serpent with a 128-bit key</td>
+</tr>
+<tr>
+<td>arcfour</td>
+<td style="text-align:center">RC4 with a 128-bit key</td>
+</tr>
+<tr>
+<td>cast128-cbc</td>
+<td style="text-align:center">CAST-128 in CBC mode</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Cipher</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hmac-sha1*</td>
+<td style="text-align:center">HMAC-SHA1; Digest length = Key length = 20</td>
+</tr>
+<tr>
+<td>hmac-sha1-96**</td>
+<td style="text-align:center">First 96 bits of HMAC-SHA1; Digest length = 12; Key length = 20</td>
+</tr>
+<tr>
+<td>hmac-md5</td>
+<td style="text-align:center">HMAC-SHA1; Digest length = Key length = 16</td>
+</tr>
+<tr>
+<td>hmac-md5-96</td>
+<td style="text-align:center">First 96 bits of HMAC-SHA1; Digest length = 12; Key length = 16</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Cipher</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>none*</td>
+<td style="text-align:center">No compression</td>
+</tr>
+<tr>
+<td>zlib</td>
+<td style="text-align:center">Defined in RFCs 1950 and 1951</td>
+</tr>
+</tbody>
+</table>
+<p> <em>Note :</em></p>
+<ol>
+<li>“*”   代表必须</li>
+<li>“**” 代表推荐</li>
+</ol>
+<p>下一步是密钥交换。该规范允许用于密钥交换的替代方法，但目前只指定了两个版本的Diffie-Hellman密钥交换。两种版本都在RFC 2409中定义，每个方向只需要一个数据包。交换涉及以下步骤。在这里，C是客户; S是服务器; p是一个很大的安全素; g是GF（p）子群的发生器; q是子组的顺序; V_S是S识别字符串; V_C是C标识串; K_S是S公共主机密钥; I_C是C SSH_MSG_KEXINIT消息;而I_S是在此部分开始之前交换的S SSH_MSG_KEXINIT消息。作为算法选择协商的结果，客户端和服务器都知道p，g和q的值。散列函数hash（）也是在算法协商过程中决定的。</p>
+<p>C生成随机数x（1 &lt;x &lt;q）并计算e = gx mod p。 C发送e到S.<br>S生成随机数y（0 &lt;y &lt;q）并计算f = gy mod p。 S收到e。它使用其专用主机密钥计算H = H mod H，H = hash（V_C || V_S || I_C || I_S || K_S || e || f || K）和H上的签名。 S向C发送（K_S || f || s）。签名操作可以涉及第二散列操作。<br>C验证K_S确实是S的主机密钥（例如，使用证书或本地数据库）。 C也被允许接受密钥，无需验证;然而，这样做将使协议不能抵抗主动攻击（但是在许多环境中短期内可能需要实际的原因）。 C然后计算K = fx mod p，H =哈希（V_C || V_S || I_C || I_S || K_S || e || f || K），并验证H上的签名s<br>作为这些步骤的结果，双方现在共享主密钥K.此外，服务器已经被认证给客户端，因为服务器已经使用其私有密钥来签署Diffie-Hellman交换机的一半。最后，散列值H用作该连接的会话标识符。当计算时，会话标识符不改变，即使再次执行密钥交换以获得新密钥。</p>
+<p>密钥交换的结束通过交换SSH_MSG_NEWKEYS数据包来表示。在这一点上，双方可以开始使用从K生成的密钥，如下所述。</p>
+<p>最后一步是服务请求。客户端发送SSH_MSG_SERVICE_REQUEST数据包以请求用户认证或连接协议。在此请求之后，所有数据都作为SSH传输层数据包的有效负载进行交换，受加密和MAC保护。</p>
+<p>用于加密和MAC（以及任何需要的IV）的密钥是从共享秘密密钥K生成的，密钥交换H的哈希值和会话标识符等于H，除非已经进行了随后的密钥交换初始密钥交换。值计算如下：</p>
+<p>初始IV客户端到服务器：HASH（K || H ||“A”|| session_id）<br>初始IV服务器到客户端：HASH（K || H ||“B”|| session_id）<br>加密密钥客户端到服务器：HASH（K || H ||“C”|| session_id）<br>加密密钥服务器到客户端：HASH（K || H ||“D”|| session_id）<br>服务器的完整性密钥客户端：HASH（K || H ||“E”|| session_id）<br>客户端的完整密钥服务器：HASH（K || H ||“F”|| session_id）<br>其中HASH（）是在算法协商期间确定的散列函数。</p>
+<h2 id="用户认证协议"><a href="#用户认证协议" class="headerlink" title="用户认证协议"></a>用户认证协议</h2><p>用户认证协议提供了客户端对服务器进行身份验证的方式。</p>
+<p>用户认证协议中总是使用三种类型的消息。来自客户端的身份验证请求的格式如下：</p>
+<p>byte    SSH_MSG_USERAUTH_REQUEST (50)<br>string    username<br>string    service name<br>string    method name<br>….    method-specific fields</p>
+<p>其中username是客户端声明的授权身份，服务名称是客户端请求访问的功能（通常为SSH连接协议），方法名称是此请求中使用的身份验证方法。第一个字节具有十进制值50，这被解释为SSH_MSG_USERAUTH_REQUEST。</p>
+<p>如果服务器拒绝身份验证请求或接受请求，但需要一个或多个其他身份验证方法，则服务器将发送以下格式的消息：</p>
+<p>字节SSH_MSG_USERAUTH_FAILURE（52）<br>名称列表认证可以继续<br>布尔部分成功</p>
+<p>名称列表是可以有效地继续对话的方法的列表。如果服务器接受认证，它会发送一个单字节消息SSH_MSG_USERAUTH_SUCCESS（52）。</p>
+<p>消息交换涉及以下步骤：</p>
+<ol>
+<li>客户端发送一个请求方法为none的SSH_MSG_USERAUTH_REQUEST。</li>
+<li>服务器检查以确定用户名是否有效。如果没有，则服务器返回部分成功值为false的SSH_MSG_USERAUTH_FAILURE。如果用户名有效，则服务器进入步骤3。</li>
+<li>服务器返回SSH_MSG_USERAUTH_FAILURE，其中包含要使用的一种或多种身份验证方法的列表。</li>
+<li>客户端选择可接受的认证方法之一，并发送一个SSH_MSG_USERAUTH_REQUEST，该方法名称和所需的方法特定字段。在这一点上，可能有一系列交换来执行该方法。</li>
+<li>如果认证成功并需要更多认证方法，则服务器使用部分成功值为true进行到步骤3。如果认证失败，则服务器使用部分成功值为false进行到步骤3。</li>
+<li>当所有需要的认证方法成功时，服务器发送一个SSH_MSG_USERAUTH_SUCCESS消息，认证协议结束。</li>
+</ol>
+<p>服务器可能需要以下一种或多种认证方法：</p>
+<p>publickey：该方法的细节取决于所选择的公钥算法。实质上，客户端向包含客户端公钥的服务器发送消息，消息由客户端的私钥签名。当服务器收到此消息时，它将检查提供的密钥是否可以接受认证，如果是，则检查该签名是否正确。<br>密码：客户端发送包含明文密码的消息，该明文密码受传输层协议的加密保护。<br>hostbased：认证是在客户端的主机而不是客户端本身执行的。因此，支持多个客户端的主机将为其所有客户端提供身份验证。该方法通过使客户端发送使用客户端主机的私钥创建的签名来工作。因此，SSH服务器不是直接验证用户的身份，而是验证客户端主机的身份，然后在客户端表示用户已经认证的时候相信主机。</p>
+<h2 id="连接协议"><a href="#连接协议" class="headerlink" title="连接协议"></a>连接协议</h2><p>SSH连接协议运行在SSH传输层协议之上，并假设安全认证连接正在使用中。称为隧道的安全认证连接由连接协议用于复用多个逻辑信道。</p>
+<p>RFC 4254“安全Shell（SSH）连接协议”指出，连接协议运行在传输层协议和用户身份验证协议之上。 RFC 4251“SSH协议架构”指出，连接协议运行在用户身份验证协议上。实际上，连接协议在传输层协议上运行，但假设用户认证协议先前已被调用。</p>
+<p>使用单独的通道支持使用SSH的所有类型的通信，如终端会话。任何一方都可以打开一个频道。对于每个通道，每一方都关联唯一的通道号，两端不需要相同。通道使用窗口机构进行流量控制。在接收到消息以指示该窗口空间可用之前，不能向通道发送数据。频道的生命通过三个阶段进行：开通频道，数据传输和关闭频道。</p>
+<p>当任一方希望打开一个新的频道时，它会为频道分配一个本地号码，然后发送一个以下格式的消息：</p>
+<p>byte    SSH_MSG_CHANNEL_OPEN<br>string    channel type<br>uint32    sender channel<br>uint32    initial window size<br>uint32    maximum packet size<br>….    channel type specific data follow</p>
+<p>其中uint32表示无符号32位整数。通道类型标识该通道的应用程序，如下所述。发送方信道是本地信道号。初始窗口大小指定在不调整窗口的情况下可以向该消息的发送者发送多少字节的信道数据。最大数据包大小指定可以发送给发送方的单个数据包的最大大小。例如，可能需要使用较小的数据包进行交互式连接，以便在慢速链接上获得更好的交互式响应。</p>
+<p>如果远程端能够打开通道，它将返回一个SSH_MSG_CHANNEL_OPEN_CONFIRMATION消息，其中包含发送方通道号，收件人通道号以及入站流量的窗口和数据包大小值。否则，远程端返回一条SSH_MSG_CHANNEL_OPEN_FAILURE消息，其中包含原因代码，指示失败原因。</p>
+<p>在通道打开后，使用SSH_MSG_CHANNEL_DATA消息执行数据传输，该消息包括接收方频道号码和数据块。只要通道打开，这两个方向的这些消息可以继续。</p>
+<p>当任一方希望关闭频道时，会发送一个SSH_MSG_CHANNEL_CLOSE消息，其中包含收件人频道号码。图4提供了一个连接协议交换的例子。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig04_sm.jpg" alt="ssh4"><br>图4：SSH连接协议示例消息交换</p>
+<p>SSH连接协议规范中识别了四种通道类型：</p>
+<ol>
+<li>会话：会话是指程序的远程执行。该程序可能是一个shell，一个应用程序，如文件传输或电子邮件，一个系统命令或一些内置的子系统。当会话通道打开时，后续请求用于启动远程程序。</li>
+<li>x11：该通道类型是指X Window系统，一种为联网计算机提供GUI的计算机软件系统和网络协议。 X允许应用程序在网络服务器上运行，但显示在台式机上。</li>
+<li>forwarding-tcpip：该通道类型是远程端口转发，如下所述。</li>
+<li>direct-tcpip：该通道类型是本地端口转发，如下所述。</li>
+</ol>
+<p>SSH最有用的功能之一就是端口转发。端口转发功能可以将任何不安全的TCP连接转换为安全的SSH连接。它也被称为SSH隧道。我们需要知道一个端口在这个上下文中。端口是TCP用户的标识符。因此，任何在TCP上运行的应用程序都有一个端口号。基于端口号将传入的TCP流量传送到适当的应用程序。应用程序可以使用多个端口号。例如，对于简单邮件传输协议（SMTP），服务器端通常在端口25上侦听，以便传入的SMTP请求使用TCP并将数据解析到目标端口25. TCP识别该地址是SMTP服务器地址，将数据路由到SMTP服务器应用程序。</p>
+<p><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig05_sm.jpg" alt="ssh5"><br>图5：SSH传输层数据包交换</p>
+<p>图5说明了端口转发的基本概念。我们有一个由端口号x标识的客户端应用程序和由端口号y标识的服务器应用程序。在某些时候，客户端应用程序调用本地TCP实体，并请求在端口y上连接到远程服务器。本地TCP实体与远程TCP实体协商TCP连接，使得连接将本地端口x链接到远程端口y。</p>
+<p>要确保此连接，SSH配置为使SSH传输层协议分别在TCP客户端和服务器实体之间建立TCP连接，TCP端口号为a和b。通过此TCP连接建立安全的SSH隧道。从端口x的客户端的流量被重定向到本地SSH实体，并通过远程SSH实体将数据传送到端口y上的服务器应用的隧道。另一方面的交通也被重新定向。</p>
+<p>SSH支持两种端口转发：本地转发和远程转发。本地转发允许客户端设置“劫持者”进程。此过程将拦截选定的应用程序级别的流量，并将其从不安全的TCP连接重定向到安全的SSH隧道。 SSH配置为侦听所选端口。 SSH使用所选端口抓取所有流量，并通过SSH隧道发送。另一方面，SSH服务器将传入流量发送到由客户端应用程序指定的目标端口。</p>
+<p>以下示例应帮助澄清本地转发。假设您的桌面上有一个电子邮件客户端，并使用它从邮件服务器通过邮局协议（POP）获取电子邮件。 POP3的分配的端口号是端口110.我们可以通过以下方式保护此流量：</p>
+<p>SSH客户端建立与远程服务器的连接。<br>选择一个未使用的本地端口号，例如9999，并配置SSH接受从端口110到服务器端口的流量。<br>SSH客户端通知SSH服务器创建到目的地的连接，在这种情况下是邮件服务器端口110。<br>客户端将任何位发送到本地端口9999，并将其发送到加密的SSH会话中的服务器。 SSH服务器解密传入位，并将明文发送到端口110。<br>另一方面，SSH服务器在端口110上接收到任何位，并将它们发送到SSH会话中，并返回到客户端，客户端解密并将其发送到连接到端口9999的进程。<br>通过远程转发，用户的SSH客户端代表服务器。客户端接收到具有给定目标端口号的流量，将流量置于正确的端口，并将其发送到用户选择的目的地。</p>
+<p>远程转发的典型示例如下：您希望从家庭计算机访问工作中的服务器。由于工作服务器位于防火墙后面，因此不会从家庭计算机接收SSH请求。但是，从工作中可以使用远程转发设置SSH隧道。</p>
+<p>此过程涉及以下步骤：</p>
+<ol>
+<li>从工作计算机，设置SSH连接到您的家庭计算机。防火墙将允许这一点，因为它是受保护的传出连接。</li>
+<li>配置SSH服务器侦听本地端口（如22），并通过指向远程端口的SSH连接（如2222）传送数据。</li>
+<li>您现在可以访问家庭计算机并配置SSH以接受2222端口的流量。</li>
+<li>您现在有一个SSH隧道，可以用于远程登录到工作服务器。</li>
+</ol>
+<p><strong>概要</strong><br>  SSH是最常用的密码应用程序之一。它为各种各样的任务提供了极大的灵活性和多功能性，包括远程管理，文件传输，Web开发和渗透测试。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.JPG" alt="谢晖 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.JPG" alt="谢晖 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SSH/" rel="tag"># SSH</a>
+          
+            <a href="/tags/SSH协议/" rel="tag"># SSH协议</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/27/单元测试的艺术/" rel="prev" title="单元测试的艺术">
+                单元测试的艺术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/me.jpg"
+               alt="谢晖" />
+          <p class="site-author-name" itemprop="name">谢晖</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH协议介绍"><span class="nav-number">1.</span> <span class="nav-text">SSH协议介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层协议"><span class="nav-number">1.1.</span> <span class="nav-text">传输层协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户认证协议"><span class="nav-number">1.2.</span> <span class="nav-text">用户认证协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接协议"><span class="nav-number">1.3.</span> <span class="nav-text">连接协议</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢晖</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://coderpreacher.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/04/27/SSH协议介绍/';
+          this.page.identifier = '2017/04/27/SSH协议介绍/';
+          this.page.title = 'SSH协议介绍';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://coderpreacher.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.0"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/exturl.js?v=5.1.0"></script>
+
+
+</body>
+</html>
