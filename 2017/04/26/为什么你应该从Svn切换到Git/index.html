@@ -94,13 +94,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/26/为什么你应该从Svn切换到Git/index.html">
 <meta property="og:site_name" content="谢晖的博客">
 <meta property="og:description" content="Git介绍Git是一款免费、开源的目前世界上最先进的分布式版本控制系统（没有之一），用于敏捷高效地处理任何或小或大的项目， Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。 Git的诞生很多人都知道，Linus在1991年创建了开源的Linux，从此，Linux系统不断发展，已经成为最大的服务器系统软件了。 Linus虽然创建了Lin">
-<meta property="og:image" content="http://www.liaoxuefeng.com/files/attachments/001384860735706fd4c70aa2ce24b45a8ade85109b0222b000/0">
-<meta property="og:image" content="http://www.liaoxuefeng.com/files/attachments/0013848607465969378d7e6d5e6452d8161cf472f835523000/0">
-<meta property="og:updated_time" content="2017-04-27T04:23:46.897Z">
+<meta property="og:image" content="http://yoursite.com/images/vcs1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/vcs2.jpg">
+<meta property="og:updated_time" content="2017-04-27T04:32:07.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为什么你应该从Svn切换到Git">
 <meta name="twitter:description" content="Git介绍Git是一款免费、开源的目前世界上最先进的分布式版本控制系统（没有之一），用于敏捷高效地处理任何或小或大的项目， Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。 Git的诞生很多人都知道，Linus在1991年创建了开源的Linux，从此，Linux系统不断发展，已经成为最大的服务器系统软件了。 Linus虽然创建了Lin">
-<meta name="twitter:image" content="http://www.liaoxuefeng.com/files/attachments/001384860735706fd4c70aa2ce24b45a8ade85109b0222b000/0">
+<meta name="twitter:image" content="http://yoursite.com/images/vcs1.jpg">
 
 
 
@@ -451,12 +451,12 @@
 <p>历史就是这么偶然，如果不是当年BitMover公司威胁Linux社区，可能现在我们就没有免费而超级好用的Git了。</p>
 <h1 id="集中式vs分布式"><a href="#集中式vs分布式" class="headerlink" title="集中式vs分布式"></a>集中式vs分布式</h1><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
 <p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。中央服务器就好比是一个图书馆，你要改一本书，必须先从图书馆借出来，然后回到家自己改，改完了，再放回图书馆。</p>
-<p><img src="http://www.liaoxuefeng.com/files/attachments/001384860735706fd4c70aa2ce24b45a8ade85109b0222b000/0" alt="集中式"></p>
+<p><img src="/images/vcs1.jpg" alt="集中式"></p>
 <p>集中式版本控制系统最大的毛病就是必须联网才能工作，如果在局域网内还好，带宽够大，速度够快，可如果在互联网上，遇到网速慢的话，可能提交一个10M的文件就需要5分钟，这还不得把人给憋死啊。</p>
 <p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
 <p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
 <p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
-<p><img src="http://www.liaoxuefeng.com/files/attachments/0013848607465969378d7e6d5e6452d8161cf472f835523000/0" alt="分布式"></p>
+<p><img src="/images/vcs2.jpg" alt="分布式"></p>
 <p>当然，Git的优势不单是不必联网这么简单，后面我们还会看到Git极其强大的分支管理，把SVN等远远抛在了后面。</p>
 <p>CVS作为最早的开源而且免费的集中式版本控制系统，直到现在还有不少人在用。由于CVS自身设计的问题，会造成提交文件不完整，版本库莫名其妙损坏的情况。同样是开源而且免费的SVN修正了CVS的一些稳定性问题，是目前用得最多的集中式版本库控制系统。</p>
 <p>除了免费的外，还有收费的集中式版本控制系统，比如IBM的ClearCase（以前是Rational公司的，被IBM收购了），特点是安装比Windows还大，运行比蜗牛还慢，能用ClearCase的一般是世界500强，他们有个共同的特点是财大气粗，或者人傻钱多。</p>
