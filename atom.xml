@@ -1252,7 +1252,7 @@
     <link href="http://yoursite.com/2017/04/11/kafka-%E4%BB%8B%E7%BB%8D/"/>
     <id>http://yoursite.com/2017/04/11/kafka-介绍/</id>
     <published>2017-04-11T13:30:25.000Z</published>
-    <updated>2017-04-13T01:49:30.566Z</updated>
+    <updated>2017-05-08T04:54:33.656Z</updated>
     
     <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h3 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h3><p>Kafka是一种分布式的，基于发布/订阅的消息系统。主要设计目标如下：</p>
 <ul>
@@ -1345,9 +1345,9 @@
 </ul>
 <p><img src="http://kafka.apache.org/0102/images/kafka-apis.png" alt="kafka apis"></p>
 <p>在kafka的客户端和服务器之间的通信是一个简单的，高性能的，与语言无关的TCP协议来完成。此协议版本，并保持向后兼容旧版本的兼容性。我们对kafka提供了一个Java客户端，但是客户端有<a href="https://cwiki.apache.org/confluence/display/KAFKA/Clients" target="_blank" rel="external">多种语言</a>可供选择。</p>
-<h3 id="Kafka的架构："><a href="#Kafka的架构：" class="headerlink" title="Kafka的架构："></a>Kafka的架构：</h3><p><img src="http://jbcdn2.b0.upaiyun.com/2014/08/975609a391574a15645c2d2e2494114f.png" alt="kafka apis"></p>
+<h3 id="Kafka的架构："><a href="#Kafka的架构：" class="headerlink" title="Kafka的架构："></a>Kafka的架构：</h3><p><img src="/images/kafka2.png" alt="kafka apis"></p>
 <p>Kafka的整体架构非常简单，是显式分布式架构，producer、broker（kafka）和consumer都可以有多个。Producer，consumer实现Kafka注册的接口，数据从producer发送到broker，broker承担一个中间缓存和分发的作用。<br>broker分发注册到系统中的consumer。broker的作用类似于缓存，即活跃的数据和离线处理系统之间的缓存。客户端和服务器端的通信，是基于简单，高性能，且与编程语言无关的TCP协议。</p>
-<h4 id="消息发送的流程："><a href="#消息发送的流程：" class="headerlink" title="消息发送的流程："></a>消息发送的流程：</h4><p><img src="http://jbcdn2.b0.upaiyun.com/2014/08/cb5892023c894331a55de5ac7f64582d.png" alt="kafka apis"></p>
+<h4 id="消息发送的流程："><a href="#消息发送的流程：" class="headerlink" title="消息发送的流程："></a>消息发送的流程：</h4><p><img src="/images/kafka1.png" alt="kafka apis"></p>
 <ol>
 <li><p>Producer根据指定的partition方法（round-robin、hash等），将消息发布到指定topic的partition里面。</p>
 </li>
