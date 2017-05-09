@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-09T01:05:45.205Z</updated>
+  <updated>2017-05-09T16:27:26.799Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,122 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>领域驱动设计(DDD:Domain-Driven Design)</title>
+    <link href="http://yoursite.com/2017/05/09/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1-DDD-Domain-Driven-Design/"/>
+    <id>http://yoursite.com/2017/05/09/领域驱动设计-DDD-Domain-Driven-Design/</id>
+    <published>2017-05-09T15:14:33.000Z</published>
+    <updated>2017-05-09T16:27:26.799Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>软件系统面向对象的设计思想可谓历史悠久，20世纪70年代的Smalltalk可以说是面向对象语言的经典，直到今天我们依然将这门语言视为面向对象语言的基础。随着编程语言和技术的发展，各种语言特性层出不穷，面向对象是大部分语言的一个基本特性，像C++、Java、C#这样的静态语言，Ruby、Python这样的动态语言都是面向对象的语言。</p>
+<p>但是面向对象语言并不是银弹，如果开发人员认为使用面向对象语言写出来的程度本身就是面向对象的，那就大错特错了，实际开发中，大量的业务逻辑堆积在一个巨型类中的例子屡见不鲜，代码的复用性和扩展性无法得到保证。为了解决这样的问题，领域驱动设计提出了清晰的分层架构和领域对象的概念，让面向对象的分析和设计进入了一个新的阶段，对企业级软件开发起到了巨大的推动作用。</p>
+<p>领域驱动设计（DDD）的中心内容是如何将业务领域概念映射到软件工件中。大部分关于此主题的著作和文章都以Eric Evans的书《领域驱动设计》为基础，主要从概念和设计的角度探讨领域建模和设计情况。这些著作讨论实体、值对象、服务等DDD的主要内容，或者谈论通用语言、界定的上下文（Bounded Context）和防护层（Anti-Corruption Layer）这些的概念。</p>
+<h1 id="什么是领域驱动设计（DDD）"><a href="#什么是领域驱动设计（DDD）" class="headerlink" title="什么是领域驱动设计（DDD）"></a>什么是领域驱动设计（DDD）</h1><p>2004年著名建模专家Eric Evans发表了他最具影响力的书籍:《Domain-Driven Design: Tackling Complexity in the Heart of Software》(中文译名：领域驱动设计：软件核心复杂性应对之道)，书中提出了领域驱动设计(简称 DDD)的概念。</p>
+<p>　　领域驱动设计事实上是针对OOAD的一个扩展和延伸，DDD基于面向对象分析与设计技术，对技术架构进行了分层规划，同时对每个类进行了策略和类型的划分。</p>
+<p>　　领域模型是领域驱动的核心。采用DDD的设计思想，业务逻辑不再集中在几个大型的类上，而是由大量相对小的领域对象(类)组成，这些类具备自己的状态和行为，每个类是相对完整的独立体，并与现实领域的业务对象映射。领域模型就是由这样许多的细粒度的类组成。基于领域驱动的设计，保证了系统的可维护性、扩展性和复用性，在处理复杂业务逻辑方面有着先天的优势。</p>
+<h2 id="领域驱动设计的特点"><a href="#领域驱动设计的特点" class="headerlink" title="领域驱动设计的特点"></a>领域驱动设计的特点</h2><p>　　领域驱动的核心应用场景就是解决复杂业务的设计问题，其特点与这一核心主题息息相关：</p>
+<ol>
+<li>分层架构与职责划分：领域驱动设计很好的遵循了关注点分离的原则，提出了成熟、清晰的分层架构。同时对领域对象进行了明确的策略和职责划分，让领域对象和现实世界中的业务形成良好的映射关系，为领域专家与开发人员搭建了沟通的桥梁。</li>
+<li>复用：在领域驱动设计中，领域对象是核心，每个领域对象都是一个相对完整的内聚的业务对象描述，所以可以形成直接的复用。同时设计过程是基于领域对象而不是基于数据库的Schema，所以整个设计也是可以复用的。</li>
+<li>使用场景：适合具备复杂业务逻辑的软件系统，对软件的可维护性和扩展性要求比较高。不适用简单的增删改查业务。</li>
+</ol>
+<h2 id="如果不使用DDD？"><a href="#如果不使用DDD？" class="headerlink" title="如果不使用DDD？"></a>如果不使用DDD？</h2><p>面对复杂的业务场景和需求，如果没有建立和实现领域模型，会导致应用架构出现胖服务层和贫血的领域模型，在这样的架构中，Service层开始积聚越来越多的业务逻辑，领域对象则成为只有getter和setter方法的数据载体。这种做法还会导致领域特定业务逻辑和规则散布于多个的Service类中，有些情况下还会出现重复的逻辑。我们曾经见过5000多行的Service类，上百个方法，代码基本上是不可读的。</p>
+<p>　　在大多数情况下，贫血的领域模型没有成本效益。它们不会给公司带来超越其它公司的竞争优势，因为在这种架构里要实现业务需求变更，开发并部署到生产环境中去要花费太长的时间。</p>
+<h2 id="领域驱动设计的分层架构和构成要素"><a href="#领域驱动设计的分层架构和构成要素" class="headerlink" title="领域驱动设计的分层架构和构成要素"></a>领域驱动设计的分层架构和构成要素</h2><p>下面我们简单介绍一下领域驱动设计的分层架构和构成要素，这部分内容在Eric Evans的书中有非常详尽的描述，想要详细了解的，最好去读原版书籍。<br>　　下面这张图是该书中著名的分层架构图，如下：<br><img src="http://pic001.cnblogs.com/images/2011/145819/2011081818481474.jpg" alt="ddd"></p>
+<p>　　整个架构分为四层，其核心就是领域层（Domain），所有的业务逻辑应该在领域层实现，具体描述如下：</p>
+<table>
+<thead>
+<tr>
+<th>逻辑分层</th>
+<th style="text-align:center">层逻辑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户界面/展现层</td>
+<td style="text-align:center">负责向用户展现信息以及解释用户命令。</td>
+</tr>
+<tr>
+<td>应用层</td>
+<td style="text-align:center">很薄的一层，用来协调应用的活动。它不包含业务逻辑。它不保留业务对象的状态，但它保有应用任务的进度状态。</td>
+</tr>
+<tr>
+<td>领域层</td>
+<td style="text-align:center">本层包含关于领域的信息。这是业务软件的核心所在。在这里保留业务对象的状态，对业务对象和它们状态的持久化被委托给了基础设施层。</td>
+</tr>
+<tr>
+<td>基础设施层</td>
+<td style="text-align:center">本层作为其他层的支撑库存在。它提供了层间的通信，实现对业务对象的持久化，包含对用户界面层的支撑库等作用。</td>
+</tr>
+</tbody>
+</table>
+<p>　领域驱动设计除了对系统架构进行了分层描述，还对对象（Object）做了明确的职责和策略划分：</p>
+<ol>
+<li>实体（Entities）：具备唯一ID，能够被持久化，具备业务逻辑，对应现实世界业务对象。</li>
+<li>值对象（Value objects）：不具有唯一ID，由对象的属性描述，一般为内存中的临时对象，可以用来传递参数或对实体进行补充描述。</li>
+<li>工厂（Factories）：主要用来创建实体，目前架构实践中一般采用IOC容器来实现工厂的功能。</li>
+<li>仓储（Repositories）：用来管理实体的集合，封装持久化框架。</li>
+<li>服务（Services）：为上层建筑提供可操作的接口，负责对领域对象进行调度和封装，同时可以对外提供各种形式的服务。</li>
+</ol>
+<h2 id="事务脚本和领域模型"><a href="#事务脚本和领域模型" class="headerlink" title="事务脚本和领域模型"></a>事务脚本和领域模型</h2><p>Martin Fowler 2004年所著的企业应用架构模式（Patterns of Enterprise Application Architecture）中的第九章领域逻辑模式（Domain Logic Patterns）专门介绍了事务脚本（Transaction Script）和领域模型（Domain Model），理解这两种模式对设计和构建企业应用软件非常有帮助，所以有必要介绍一下。</p>
+<ul>
+<li>事务脚本：<br>　　事务脚本的核心是过程，通过过程的调用来组织业务逻辑，每个过程处理来自表现层的单个请求。大部分业务应用都可以被看成一系列事务，从某种程度上来说，通过事务脚本处理业务，就像执行一条条SQL语句来实现数据库信息的处理。事务脚本把业务逻辑组织成单个过程，在过程中直接调用数据库，业务逻辑在服务（Service）层处理。<br>　　事务脚本模式可以简单的通过UML图表示成这样：<br><img src="http://pic001.cnblogs.com/images/2011/145819/2011081818484374.jpg" alt="ddd"></li>
+</ul>
+<p>　由Action层处理UI层的动作请求，将Request中的数据组装后传递给BusinessService，BS层做简单的逻辑处理后，调用数据访问对象进行数据持久化，其中VO充当了数据传输对象的作用，一般是贫血的POJO，只具备getter和setter方法，没有状态和行为。<br>　　事务脚本模式的特点是简单容易理解，面向过程设计。对于少量逻辑的业务应用来说，事务脚本模式简单自然，性能良好，容易理解，而且一个事务的处理不会影响其他事务。不过缺点也很明显，对于复杂的业务逻辑处理力不从心，难以保持良好的设计，事务之间的冗余代码不断增多，通过复制粘贴方式进行复用。可维护性和扩展性变差。</p>
+<ul>
+<li>领域模型：<br>　　领域模型的特点也比较明显， 属于面向对象设计，领域模型具备自己的属性行为状态，并与现实世界的业务对象相映射。各类具备明确的职责划分，领域对象元素之间通过聚合和引用等关系配合解决实际业务应用和规则。可复用，可维护，易扩展，可以采用合适的设计模型进行详细设计。缺点是相对复杂，要求设计人员有良好的抽象能力。<br>　　在实际的设计中，我们需要根据具体的需求选择相应的设计模式。具备复杂业务逻辑的核心业务系统适合使用领域模型，简单的信息管理系统可以考虑采用事务脚本模式。</li>
+</ul>
+<h2 id="领域-Domain"><a href="#领域-Domain" class="headerlink" title="领域(Domain)"></a>领域(Domain)</h2><p>所谓领域，即是一个组织的业务开展方式，业务价值便体现在其中。长久以来，我们程序员都是很好的技术型思考者，我们总是擅长从技术的角度来解决项目问题。但是，一个软件系统是否真正可用是通过它所提供的业务价值体现出来的。因此，与其每天钻在那些永远也学不完的技术中，何不将我们的关注点向软件系统所提供的业务价值方向思考思考，这也正是DDD所试图解决的问题。</p>
+<p>既然是领域驱动设计，那么我们主要的关注点理所当然应该放在如何设计领域模型上，以及对领域模型的划分。</p>
+<p>　　领域并不是多么高深的概念，比如，一个保险公司的领域中包含了保险单、理赔和再保险等概念；一个电商网站的领域包含了产品名录、订单、发票、库存和物流的概念。这里，我主要讲讲对领域的划分，即将一个大的领域划分成若干个子域。</p>
+<p>　　在日常开发中，我们通常会将一个大型的软件系统拆分成若干个子系统。这种划分有可能是基于架构方面的考虑，也有可能是基于基础设施的。但是在DDD中，我们对系统的划分是基于领域的，也即是基于业务的。</p>
+<p>　　于是，问题也来了：首先，哪些概念应该建模在哪些子系统里面？我们可能会发现一个领域概念建模在子系统A中是可以的，而建模在子系统B中似乎也合乎情理。第二个问题是，各个子系统之间的应该如何集成？有人可能会说，这不简单得就像客户端调用服务端那么简单吗？问题在于，两个系统之间的集成涉及到基础设施和不同领域概念在两个系统之间的翻译，稍不注意，这些概念就会对我们精心创建好的领域模型造成污染。<br>　　如何解决？答案是：限界上下文和上下文映射图。</p>
+<h2 id="限界上下文（Bounded-Context）"><a href="#限界上下文（Bounded-Context）" class="headerlink" title="限界上下文（Bounded Context）"></a>限界上下文（Bounded Context）</h2><p>在一个领域/子域中，我们会创建一个概念上的领域边界，在这个边界中，任何领域对象都只表示特定于该边界内部的确切含义。这样边界便称为限界上下文。限界上下文和领域具有一对一的关系。</p>
+<p>　　举个例子，同样是一本书，在出版阶段和出售阶段所表达的概念是不同的，出版阶段我们主要关注的是出版日期，字数，出版社和印刷厂等概念，而在出售阶段我们则主要关心价格，物流和发票等概念。我们应该怎么办呢，将所有这些概念放在单个Book对象中吗？这不是DDD的做法，DDD有限界上下文将这两个不同的概念区分开来。</p>
+<p>　　从物理上讲，一个限界上下文最终可以是一个DLL(.NET)文件或者JAR(Java)文件，甚至可以是一个命名空间（比如Java的package）中的所有对象。但是，技术本身并不应该用来界分限界上下文。</p>
+<p>　　将一个限界上下文中的所有概念，包括名词、动词和形容词全部集中在一起，我们便为该限界上下文创建了一套通用语言。通用语言是一个团队所有成员交流时所使用的语言，业务分析人员、编码人员和测试人员都应该直接通过通用语言进行交流。</p>
+<p>　　对于上文中提到的各个子域之间的集成问题，其实也是限界上下文之间的集成问题。在集成时，我们主要关心的是领域模型和集成手段之间的关系。比如需要与一个REST资源集成，你需要提供基础设施（比如Spring 中的RestTemplate），但是这些设施并不是你核心领域模型的一部分，你应该怎么办呢？答案是防腐层，该层负责与外部服务提供方打交道，还负责将外部概念翻译成自己的核心领域能够理解的概念。当然，防腐层只是限界上下文之间众多集成方式的一种，另外还有共享内核、开放主机服务等，具体细节请参考《实现领域驱动设计》原书。限界上下文之间的集成关系也可以理解为是领域概念在不同上下文之间的映射关系，因此，限界上下文之间的集成也称为上下文映射图。</p>
+<h2 id="实体vs值对象（Entity-vs-Value-Object）"><a href="#实体vs值对象（Entity-vs-Value-Object）" class="headerlink" title="实体vs值对象（Entity vs Value Object）"></a>实体vs值对象（Entity vs Value Object）</h2><p>　在一个软件系统中，实体表示那些具有生命周期并且会在其生命周期中发生改变的东西；而值对象则表示起描述性作用的并且可以相互替换的概念。同一个概念，在一个软件系统中被建模成了实体，但是在另一个系统中则有可能是值对象。例如货币，在通常交易中，我们都将它建模成了一个值对象，因为我们花了20元买了一本书，我们只是关心货币的数量而已，而不是关心具体使用了哪一张20元的钞票，也即两张20元的钞票是可以互换的。但是，如果现在中国人民银行需要建立一个系统来管理所有发行的货币，并且希望对每一张货币进行跟踪，那么此时的货币便变成了一个实体，并且具有唯一标识（Identity）。在这个系统中，即便两张钞票都是20元，他们依然表示两个不同的实体。</p>
+<p>　　具体到实现层面，值对象是没有唯一标识的，他的equals()方法（比如在Java语言中）可以用它所包含的描述性属性字段来实现。但是，对于实体而言，equals()方法便只能通过唯一标识来实现了，因为即便两个实体所拥有的状态是一样的，他们依然是不同的实体，就像两个人的名字都叫张三，但是他们却是两个不同的人的个体。</p>
+<p>　　我们发现，多数领域概念都可以建模成值对象，而非实体。值对象就像软件系统中的过客一样，具有“创建后不管”的特征，因此，我们不需要像关心实体那样去关心诸如生命周期和持久化等问题。</p>
+<h2 id="聚合（Aggregate）"><a href="#聚合（Aggregate）" class="headerlink" title="聚合（Aggregate）"></a>聚合（Aggregate）</h2><p>　聚合可能是DDD中最难理解的概念 ，之所以称之为聚合，是因为聚合中所包含的对象之间具有密不可分的联系，他们是内聚在一起的。比如一辆汽车（Car）包含了引擎（Engine）、车轮（Wheel）和油箱（Tank）等组件，缺一不可。一个聚合中可以包含多个实体和值对象，因此聚合也被称为根实体。聚合是持久化的基本单位，它和资源库（请参考下文）具有一一对应的关系。</p>
+<p>　　既然聚合可以容纳其他领域对象，那么聚合应该设计得多大呢？这也是设计聚合的难点之一。比如在一个博客（Blog）系统中，一个用户（User）可以创建多个Blog，而一个Blog又可以包含多篇博文（Post）。在建模时，我们通常的做法是在User对象中包含一个Blog的集合，然后在每个Blog中又包含了一个Post的集合。你真的需要这么做吗？如果你需要修改User的基本信息，在加载User时，所有的Blog和Post也需要加载，这将造成很大的性能损耗。诚然，我们可以通过延迟加载的方式解决问题，但是延迟加载只是技术上的实现方式而已。导致上述问题的深层原因其实在我们的设计上，我们发现，User更多的是和认证授权相关的概念，而与Blog关系并不大，因此完全没有必要在User中维护Blog的集合。在将User和Blog分离之后，Blog也和User一样成为了一个聚合，它拥有自己的资源库。问题又来了：既然User和Blog分离了，那么如果需要在Blog中引用User又该怎么办呢？在一个聚合中直接引用另外一个聚合并不是DDD所鼓励的，但是我们可以通过ID的方式引用另外的聚合，比如在Blog中可以维护一个userId的实例变量。User作为Blog的创建者，可以成为Blog的工厂。放到DDD中，创建Blog的功能也只能由User完成。</p>
+<p>   综上，对于“创建Blog”的用例，我们可以通过以下方法完成：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String email;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmail</span><span class="params">(String email)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.email = email;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在上例中，业务用例通过BlogApplicationService应用服务完成，在用例方法createBlog()中，首先通过User的资源库得到一个User，然后调用User中的工厂方法createBlog()方法创建一个Blog，最后通过BlogRepository对Blog进行持久化。整个过程构成了一次事务，因此createBlog()方法标记有@Transactional作为事务边界。<br>　　使用聚合的首要原则为在一次事务中，最多只能更改一个聚合的状态。如果一次业务操作涉及到了对多个聚合状态的更改，那么应该采用发布领域事件（参考下文）的方式通知相应的聚合。此时的数据一致性便从事务一致性变成了最终一致性（Eventual Consistency）。</p>
+<h2 id="领域服务（Domain-Service）"><a href="#领域服务（Domain-Service）" class="headerlink" title="领域服务（Domain Service）"></a>领域服务（Domain Service）</h2><p>　你是否遇到过这样的问题：想建模一个领域概念，把它放在实体上不合适，把它放在值对象上也不合适，然后你冥思苦想着自己的建模方式是不是出了问题。恭喜你，祝贺你，你的建模手法完全没有问题，只是你还没有接触到领域服务（Domain Service）这个概念，因为领域服务本来就是来处理这种场景的。比如，要对密码进行加密，我们便可以创建一个PasswordEncryptService来专门负责此事。</p>
+<p>　　值得一提的是，领域服务和上文中提到的应用服务是不同的，领域服务是领域模型的一部分，而应用服务不是。应用服务是领域服务的客户，它将领域模型变成对外界可用的软件系统。</p>
+<p>　　领域服务不能滥用，因为如果我们将太多的领域逻辑放在领域服务上，实体和值对象上将变成贫血对象。</p>
+<h2 id="仓储（Repository）"><a href="#仓储（Repository）" class="headerlink" title="仓储（Repository）"></a>仓储（Repository）</h2><p>仓储用于保存和获取聚合对象，在这一点上，仓储与DAO多少有些相似之处。但是，仓储和DAO是存在显著区别的。DAO只是对数据库的一层很薄的封装，而仓储则更加具有领域特征。另外，所有的实体都可以有相应的DAO，但并不是所有的实体都有仓储，只有聚合才有相应的仓储。<br>　　仓储分为两种，一种是基于集合的，一种是基于持久化的。顾名思义，基于集合的仓储具有编程语言中集合的特征。举个例子，Java中的List，我们从一个List中取出一个元素，在对该元素进行修改之后，我们并不用显式地将该元素重新保存到List里面。因此，面向集合的仓储并不存在save()方法。比如，对于上文中的User，其仓储可以设计为：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  public interface CollectionOrientedUserRepository &#123;</div><div class="line">    public void add(User user);</div><div class="line">    public User userById(String userId);</div><div class="line">    public List allUsers();</div><div class="line">    public void remove(User user); </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　对于面向持久化的资源库来说，在对聚合进行修改之后，我们需要显式地调用sava()方法将其更新到资源库中。依然是User，此时的资源库如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public interface PersistenceOrientedUserRepository &#123; </div><div class="line">    public void save(User user); </div><div class="line">    public User userById(String userId); </div><div class="line">    public List&lt;User&gt; allUsers(); </div><div class="line">    public void remove(User user); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在以上两种方式所实现的资源库中，虽然只是将add()方法改成了save()方法，但是在使用的时候却是不一样的。在使用面向集合资源库时，add()方法只是用来将新的聚合加入资源库；而在面向持久化的资源库中，save()方法不仅用于添加新的聚合，还用于显式地更新既有聚合。</p>
+<h2 id="领域事件（Domain-Event）"><a href="#领域事件（Domain-Event）" class="headerlink" title="领域事件（Domain Event）"></a>领域事件（Domain Event）</h2><p>在Eric的《领域驱动设计》中并没有提到领域事件，领域事件是最近几年才加入DDD生态系统的。</p>
+<p>　　在传统的软件系统中，对数据一致性的处理都是通过事务完成的，其中包括本地事务和全局事务。但是，DDD的一个重要原则便是一次事务只能更新一个聚合实例。然而，的确存在需要修改多个聚合的业务用例，那么此时我们应该怎么办呢？</p>
+<p>　　另外，在最近流行起来的微服务（Micro Service）的架构中，整个系统被分成了很多个轻量的程序模块，他们之间的数据一致性并不容易通过事务一致性完成，此时我们又该怎么办呢？</p>
+<p>　　在DDD中，领域事件便可以用于处理上述问题，此时最终一致性取代了事务一致性，通过领域事件的方式达到各个组件之间的数据一致性。<br>　　领域事件的命名遵循英语中的“名词+动词过去分词”格式，即表示的是先前发生过的一件事情。比如，购买者提交商品订单之后发布OrderSubmitted事件，用户更改邮箱地址之后发布EmailAddressChanged事件。</p>
+<p>　　需要注意的是，既然是领域事件，他们便应该从领域模型中发布。领域事件的最终接收者可以是本限界上下文中的组件，也可以是另一个限界上下文。</p>
+<p>　　领域事件的额外好处在于它可以记录发生在软件系统中所有的重要修改，这样可以很好地支持程序调试和商业智能化。另外，在CQRS架构的软件系统中，领域事件还用于写模型和读模型之间的数据同步。再进一步发展，事件驱动架构可以演变成事件源（Event Sourcing），即对聚合的获取并不是通过加载数据库中的瞬时状态，而是通过重放发生在聚合生命周期中的所有领域事件完成。</p>
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>在这篇文章中，我试图用现实世界的例子介绍域驱动设计的基本概念和术语。 目标是使您对DDD世界感到舒适。 但是真正开发使用DDD的应用程序是一个很大的挑战。 在设计对象模型时，您学习DDD的概念越多，您在设计中获得的准确度越高。 正如我之前说的最重要的是，你必须考虑域驱动的方式。 如果你不这样做，当你的应用程序是一个复杂的应用程序时，你会非常受苦。</p>
+<p>参考文章：<br>    <a href="https://www.codeproject.com/Articles/339725/Domain-Driven-Design-Clear-Your-Concepts-Before-Yo" target="_blank" rel="external">Domain Driven Design</a>。<br>    <a href="http://kb.cnblogs.com/page/213130/" target="_blank" rel="external">领域驱动设计实现之路</a>。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;软件系统面向对象的设计思想可谓历史悠久，20世纪70年代的Smalltalk可以说是面向对象语言的经典，直到今天我们依然将这门语言视为面向对
+    
+    </summary>
+    
+      <category term="DDD" scheme="http://yoursite.com/categories/DDD/"/>
+    
+    
+      <category term="DDD" scheme="http://yoursite.com/tags/DDD/"/>
+    
+      <category term="领域驱动设计" scheme="http://yoursite.com/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="Domain-Driven Design" scheme="http://yoursite.com/tags/Domain-Driven-Design/"/>
+    
+  </entry>
   
   <entry>
     <title>命令查询职责分离(CQRS)模式</title>
