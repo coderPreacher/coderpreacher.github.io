@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-15T13:50:13.938Z</updated>
+  <updated>2017-05-15T15:24:37.829Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,91 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IdentityServer介绍</title>
+    <link href="http://yoursite.com/2017/05/15/IdentityServer%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://yoursite.com/2017/05/15/IdentityServer介绍/</id>
+    <published>2017-05-15T13:59:23.000Z</published>
+    <updated>2017-05-15T15:24:37.829Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="IdentityServer是什么？"><a href="#IdentityServer是什么？" class="headerlink" title="IdentityServer是什么？"></a>IdentityServer是什么？</h1><p>IdentityServer是一个基于.NET / Katana的框架和可托管组件，允许使用OpenID Connect和OAuth2等协议实现对现代Web应用程序和API的单点登录和访问控制。 它支持广泛的客户端，如移动，Web，SPA和桌面应用程序，并且是可扩展的，可以集成到新的和现有的体系结构中。</p>
+<h1 id="入门-Getting-started"><a href="#入门-Getting-started" class="headerlink" title="入门(Getting started)"></a>入门(Getting started)</h1><p>大多数现代应用看起来或多或少是这样的：</p>
+<p><img src="http://docs.identityserver.io/en/release/_images/appArch.png" alt="appArch"></p>
+<p>最常见的互动是：</p>
+<ul>
+<li>浏览器与Web应用程序通信</li>
+<li>Web应用程序与Web API进行通信（有时是自己的，有时代表用户）</li>
+<li>基于浏览器的应用程序与Web API通信</li>
+<li>本地应用程序与Web API进行通信</li>
+<li>基于服务器的应用程序与Web API通信</li>
+<li>Web API与Web API进行通信（有时是自己的，有时代表用户）</li>
+</ul>
+<p>通常，每个层（前端，中间层和后端）都必须保护资源并实施身份验证和/或授权（通常针对同一用户存储）。</p>
+<p>将这些基本安全功能外包给安全令牌服务可以防止在这些应用程序和端点之间复制该功能。</p>
+<p>重组应用程序以支持安全令牌服务导致以下体系结构和协议：</p>
+<p><img src="http://docs.identityserver.io/en/release/_images/protocols.png" alt="protocols"></p>
+<p>这样的设计将安全问题分为两部分：</p>
+<h2 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h2><p>当应用程序需要知道当前用户的身份时，需要进行身份验证。 通常，这些应用程序代表该用户管理数据，并且需要确保该用户只能访问他被允许的数据。 最常见的例子是（经典）Web应用程序 - 但是基于本机和基于JS的应用程序也需要进行身份验证。</p>
+<p>最常见的认证协议是SAML2p，WS-Federation和OpenID Connect - SAML2p是最流行和最广泛部署的。</p>
+<p>OpenID Connect是三款中最新的，但被认为是未来，因为它具有现代应用的最大潜力。 它是从一开始就构建用于移动应用场景的，并且被设计为API友好。</p>
+<h2 id="API访问"><a href="#API访问" class="headerlink" title="API访问"></a>API访问</h2><p>应用程序有两种基本的方式与API通信 - 使用应用程序标识或委派用户身份。 有时候两种方法都需要组合。</p>
+<p>OAuth2是允许应用程序从安全令牌服务请求访问令牌并使用它们与API进行通信的协议。 该代理可以降低客户端应用程序和API的复杂性，因为可以集中验证和授权。</p>
+<h2 id="OpenID-Connect和OAuth-2-0-一起更好"><a href="#OpenID-Connect和OAuth-2-0-一起更好" class="headerlink" title="OpenID Connect和OAuth 2.0 - 一起更好"></a>OpenID Connect和OAuth 2.0 - 一起更好</h2><p>OpenID Connect和OAuth 2.0非常相似 - 实际上OpenID Connect是OAuth 2.0之上的扩展。 两个基本的安全考虑，身份验证和API访问，被组合成一个单一的协议 - 通常与安全令牌服务的单一往返。</p>
+<p>我们认为OpenID Connect和OAuth 2.0的组合是在可预见的未来保护现代应用程序的最佳方法。 IdentityServer是这两个协议的实现，并且经过高度优化，可以解决当今移动，本机和Web应用程序的典型安全问题。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>规范，文档和对象模型使用您应该注意的某些术语。</p>
+<p><img src="https://identityserver4.readthedocs.io/en/release/_images/terminology.png" alt="terminology"></p>
+<h3 id="IdentityServer"><a href="#IdentityServer" class="headerlink" title="IdentityServer"></a>IdentityServer</h3><p>IdentityServer是一个OpenID Connect提供程序 - 它实现了OpenID Connect和OAuth 2.0协议。</p>
+<p>不同的文献对于相同的角色使用不同的术语 - 您可能还会发现安全令牌服务，身份提供者，授权服务器，IP-STS等等。</p>
+<p>但总而言之，它们都是一样的：一种向客户发出安全令牌的软件。</p>
+<p>IdentityServer有许多工作和功能 - 包括：</p>
+<ul>
+<li>保护您的资源</li>
+<li>使用本地帐户商店或通过外部身份提供商验证用户</li>
+<li>提供会话管理和单点登录</li>
+<li>管理和验证客户端</li>
+<li>发出身份和访问令牌给客户</li>
+<li>验证令牌</li>
+</ul>
+<h3 id="用户-（User）"><a href="#用户-（User）" class="headerlink" title="用户 （User）"></a>用户 （User）</h3><p>用户是使用注册的客户端访问资源的人。</p>
+<h3 id="客户端（Client）"><a href="#客户端（Client）" class="headerlink" title="客户端（Client）"></a>客户端（Client）</h3><p>客户端是从IdentityServer请求令牌的软件，用于验证用户（请求身份令牌）或访问资源（请求访问令牌）。 必须首先向IdentityServer注册客户端才能请求令牌。</p>
+<p>客户端的示例是Web应用程序，本地移动或桌面应用程序，SPA，服务器进程等。</p>
+<h3 id="资源（Resources）"><a href="#资源（Resources）" class="headerlink" title="资源（Resources）"></a>资源（Resources）</h3><p>资源是您希望使用IdentityServer保护的 - 用户的身份数据或API。</p>
+<p>每个资源都有唯一的名称 - 客户端使用此名称来指定他们想要访问的资源。</p>
+<p>身份信息关于用户的身份信息（也称为权利要求），例如。 名称或电子邮件地址。</p>
+<p>API资源表示客户端想要调用的功能 - 通常被建模为Web API，但不一定。</p>
+<h3 id="身份令牌（Identity-Token）"><a href="#身份令牌（Identity-Token）" class="headerlink" title="身份令牌（Identity Token）"></a>身份令牌（Identity Token）</h3><p>身份令牌表示身份验证过程的结果。 它至少包含用户的标识符（称为副主题主题），以及用户如何以及何时进行身份验证的信息。 它可以包含其他身份数据。</p>
+<h3 id="访问令牌（Access-Token）"><a href="#访问令牌（Access-Token）" class="headerlink" title="访问令牌（Access Token）"></a>访问令牌（Access Token）</h3><p>访问令牌允许访问API资源。 客户端请求访问令牌并将其转发到API。 访问令牌包含有关客户端和用户的信息（如果存在）。 API使用该信息来授权访问其数据。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;IdentityServer是什么？&quot;&gt;&lt;a href=&quot;#IdentityServer是什么？&quot; class=&quot;headerlink&quot; title=&quot;IdentityServer是什么？&quot;&gt;&lt;/a&gt;IdentityServer是什么？&lt;/h1&gt;&lt;p&gt;Identi
+    
+    </summary>
+    
+      <category term="Authentication" scheme="http://yoursite.com/categories/Authentication/"/>
+    
+    
+      <category term="Authentication" scheme="http://yoursite.com/tags/Authentication/"/>
+    
+      <category term="OpenID Connect and OAuth 2.0" scheme="http://yoursite.com/tags/OpenID-Connect-and-OAuth-2-0/"/>
+    
+      <category term="API Access" scheme="http://yoursite.com/tags/API-Access/"/>
+    
+      <category term="IdentityServer" scheme="http://yoursite.com/tags/IdentityServer/"/>
+    
+      <category term="OpenID" scheme="http://yoursite.com/tags/OpenID/"/>
+    
+      <category term="OAuth 2.0" scheme="http://yoursite.com/tags/OAuth-2-0/"/>
+    
+      <category term="SSO" scheme="http://yoursite.com/tags/SSO/"/>
+    
+      <category term="单点登录" scheme="http://yoursite.com/tags/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/"/>
+    
+      <category term="访问控制" scheme="http://yoursite.com/tags/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>ASP.NET Boilerplate（ABP）介绍</title>
