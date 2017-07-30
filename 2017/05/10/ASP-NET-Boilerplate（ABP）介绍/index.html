@@ -1,101 +1,26 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+
+    
+
+    
 
 
 
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
+    <meta charset="utf-8">
     
     
-  
-
-  
-
-  
-
-  
-
-  
-
-  
+    
+    <title>ASP.NET Boilerplate（ABP）介绍 | coderPreacher&#39;s Blog | Love life, love technology, positive, optimistic, beyond the self</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="ASP.NET,DDD,ABP,领域驱动设计,ASP.NET Boilerplate," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="coderPreacher's Blog" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
-
-
-
-
-
-
-<meta name="description" content="背景我们正在根据不同需求创建不同的应用程序。但是，至少在某种程度上一遍又一遍地实施共同和类似的结构。授权，验证，异常处理，日志记录，本地化，数据库连接管理，设置管理，审核日志记录是其中一些常见的结构。此外，我们正在建立架构结构和最佳实践，如分层和模块化架构，域驱动设计，依赖注入等。并试图根据一些惯例开发应用程序。 由于所有这些都是非常耗时且难以为每个项目建立单独的，许多公司创建私有框架。他们正在使">
+    <meta name="keywords" content="ASP.NET,DDD,ABP,领域驱动设计,ASP.NET Boilerplate">
+    <meta name="description" content="背景我们正在根据不同需求创建不同的应用程序。但是，至少在某种程度上一遍又一遍地实施共同和类似的结构。授权，验证，异常处理，日志记录，本地化，数据库连接管理，设置管理，审核日志记录是其中一些常见的结构。此外，我们正在建立架构结构和最佳实践，如分层和模块化架构，域驱动设计，依赖注入等。并试图根据一些惯例开发应用程序。 由于所有这些都是非常耗时且难以为每个项目建立单独的，许多公司创建私有框架。他们正在使">
 <meta name="keywords" content="ASP.NET,DDD,ABP,领域驱动设计,ASP.NET Boilerplate">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ASP.NET Boilerplate（ABP）介绍">
@@ -116,330 +41,148 @@
 <meta name="twitter:title" content="ASP.NET Boilerplate（ABP）介绍">
 <meta name="twitter:description" content="背景我们正在根据不同需求创建不同的应用程序。但是，至少在某种程度上一遍又一遍地实施共同和类似的结构。授权，验证，异常处理，日志记录，本地化，数据库连接管理，设置管理，审核日志记录是其中一些常见的结构。此外，我们正在建立架构结构和最佳实践，如分层和模块化架构，域驱动设计，依赖注入等。并试图根据一些惯例开发应用程序。 由于所有这些都是非常耗时且难以为每个项目建立单独的，许多公司创建私有框架。他们正在使">
 <meta name="twitter:image" content="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/"/>
-
-
-
-
-
-  <title>ASP.NET Boilerplate（ABP）介绍 | coderPreacher's Blog</title>
+    
+        <link rel="alternate" type="application/atom+xml" title="coderPreacher&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body>
+    <div id="loading" class="active"></div>
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta custom-logo">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">coderPreacher's Blog</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-      
-        <h1 class="site-subtitle" itemprop="description">Love life, love technology, positive, optimistic, beyond the self</h1>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            Home
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            Categories
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            About
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            Tags
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404.html" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
-            
-            Commonweal 404
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            Search
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  
-  <div class="algolia-popup popup search-popup">
-    <div class="algolia-search">
-      <div class="algolia-search-input-icon">
-        <i class="fa fa-search"></i>
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/images/me.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">谢晖</h5>
+          <a href="mailto:coderpreacher@gmail.com" title="coderpreacher@gmail.com" class="mail">coderpreacher@gmail.com</a>
+        </hgroup>
       </div>
-      <div class="algolia-search-input" id="algolia-search-input"></div>
     </div>
-
-    <div class="algolia-results">
-      <div id="algolia-stats"></div>
-      <div id="algolia-hits"></div>
-      <div id="algolia-pagination" class="algolia-pagination"></div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+      </ul>
     </div>
-
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
   </div>
+</aside>
 
-
-
-
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ASP.NET Boilerplate（ABP）介绍</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
     </div>
-  
-</nav>
+</header>
+<header class="content-header post-header">
 
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
+    <div class="container fade-scale">
+        <h1 class="title">ASP.NET Boilerplate（ABP）介绍</h1>
+        <h5 class="subtitle">
             
+                <time datetime="2017-05-10T15:11:12.000Z" itemprop="datePublished" class="page-time">
+  2017-05-10
+</time>
 
-  <div id="posts" class="posts-expand">
-    
 
-  
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ASP-NET/">ASP.NET</a></li></ul>
 
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="谢晖">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/me.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderPreacher's Blog">
-    </span>
+            
+        </h5>
+    </div>
 
     
-      <header class="post-header">
 
-        
-        
-          <h2 class="post-title" itemprop="name headline">ASP.NET Boilerplate（ABP）介绍</h2>
-        
 
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#背景"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#什么是ASP-NET-Boilerplate（ABP）？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是ASP.NET Boilerplate（ABP）？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#服务端-Server-side"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">服务端(Server side)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#客户端-Client-side"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">客户端(Client side)</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ABP不是什么？"><span class="post-toc-number">3.</span> <span class="post-toc-text">ABP不是什么？</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#入门-Getting-started"><span class="post-toc-number">4.</span> <span class="post-toc-text">入门(Getting started)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#从模板创建空的web应用程序"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">从模板创建空的web应用程序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#领域层-Domain-layer"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">领域层(Domain layer)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实体-Entities"><span class="post-toc-number">4.2.1.</span> <span class="post-toc-text">实体(Entities)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#仓储-Repositories"><span class="post-toc-number">4.2.2.</span> <span class="post-toc-text">仓储(Repositories)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基础设施层-Infrastructure-layer"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">基础设施层(Infrastructure layer)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据库迁移-Database-Migrations"><span class="post-toc-number">4.3.1.</span> <span class="post-toc-text">数据库迁移(Database Migrations)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实体映射-Entity-mappings"><span class="post-toc-number">4.3.2.</span> <span class="post-toc-text">实体映射(Entity mappings)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#仓储实现"><span class="post-toc-number">4.3.3.</span> <span class="post-toc-text">仓储实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用层-Application-layer"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">应用层(Application layer)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#应用服务和数据传输对象（DTO）"><span class="post-toc-number">4.4.1.</span> <span class="post-toc-text">应用服务和数据传输对象（DTO）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据传输对象验证-DTO-Validation"><span class="post-toc-number">4.4.2.</span> <span class="post-toc-text">数据传输对象验证(DTO Validation)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动态Web-API控制器-Dynamic-Web-API-Controllers"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">动态Web API控制器(Dynamic Web API Controllers)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#显示层-Presentation-layer"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">显示层(Presentation layer)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#单页应用-Single-page-applications"><span class="post-toc-number">4.6.1.</span> <span class="post-toc-text">单页应用(Single page applications)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地化"><span class="post-toc-number">4.6.2.</span> <span class="post-toc-text">本地化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Javascript-API"><span class="post-toc-number">4.7.</span> <span class="post-toc-text">Javascript API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#日志记录API"><span class="post-toc-number">4.7.1.</span> <span class="post-toc-text">日志记录API</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通知API"><span class="post-toc-number">4.7.2.</span> <span class="post-toc-text">通知API</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MessageBox-API"><span class="post-toc-number">4.7.3.</span> <span class="post-toc-text">MessageBox API</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#UI-Block-API"><span class="post-toc-number">4.7.4.</span> <span class="post-toc-text">UI Block API</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#UI-Busy-API"><span class="post-toc-number">4.7.5.</span> <span class="post-toc-text">UI Busy API</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模块系统"><span class="post-toc-number">4.8.</span> <span class="post-toc-text">模块系统</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#依赖注入和惯例"><span class="post-toc-number">4.9.</span> <span class="post-toc-text">依赖注入和惯例</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-ASP-NET-Boilerplate（ABP）介绍"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ASP.NET Boilerplate（ABP）介绍</h1>
         <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-10T23:11:12+08:00">
-                2017-05-10
-              </time>
-            
+            <time class="post-time" title="2017-05-10 23:11:12" datetime="2017-05-10T15:11:12.000Z"  itemprop="datePublished">2017-05-10</time>
 
             
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ASP-NET/">ASP.NET</a></li></ul>
+
+
 
             
-          </span>
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ASP-NET/" itemprop="url" rel="index">
-                    <span itemprop="name">ASP.NET</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/05/10/ASP-NET-Boilerplate（ABP）介绍/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
-
-          
-
-          
 
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我们正在根据不同需求创建不同的应用程序。但是，至少在某种程度上一遍又一遍地实施共同和类似的结构。授权，验证，异常处理，日志记录，本地化，数据库连接管理，设置管理，审核日志记录是其中一些常见的结构。此外，我们正在建立架构结构和最佳实践，如分层和模块化架构，域驱动设计，依赖注入等。并试图根据一些惯例开发应用程序。</p>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我们正在根据不同需求创建不同的应用程序。但是，至少在某种程度上一遍又一遍地实施共同和类似的结构。授权，验证，异常处理，日志记录，本地化，数据库连接管理，设置管理，审核日志记录是其中一些常见的结构。此外，我们正在建立架构结构和最佳实践，如分层和模块化架构，域驱动设计，依赖注入等。并试图根据一些惯例开发应用程序。</p>
 <p>由于所有这些都是非常耗时且难以为每个项目建立单独的，许多公司创建私有框架。他们正在使用这些框架更少的错误来更快地开发新的应用程序。当然，并不是所有的公司都很幸运。他们大多数没有时间，预算和团队来发展这样的框架。即使他们有可能创建一个框架，很难记录，培训开发人员并维护它。</p>
 <p>ASP.NET Boilerplate（ABP）是一个开放源码和文档良好的应用程序框架，开始了“为所有公司和所有开发人员制定通用框架”的想法。这不仅仅是一个框架，而且还提供了一个基于领驱动设计(DDD)和最佳实践的强大的架构模型。</p>
 <p>“DRY——避免重复造轮子”，这也是ASP.NET Boilerplate（ABP）的重要思想，作者之所以把项目命名为“ASP.NET Boilerplate”，就是希望它能成为开发一般企业WEB应用的新起点，直接把ABP作为项目模板，避免做重复的工作，让开发人员只关注具体业务逻辑的实现，这样也大大提高了开发效率。</p>
@@ -478,11 +221,35 @@
 <li>这不是一个一体化的框架。 相反，它为特定任务使用了众所周知的工具/库（如用于O / RM的NHibernate和EntityFramework，用于日志记录的Log4Net，作为DI容器的Castle Windsor，SPA框架的AngularJS）。</li>
 </ul>
 <h1 id="入门-Getting-started"><a href="#入门-Getting-started" class="headerlink" title="入门(Getting started)"></a>入门(Getting started)</h1><p>在本文中，我将展示如何使用ASP.NET Boilerplate去除单页面和响应性Web应用程序（我现在称之为ABP）。 我将在这里使用DurandalJs作为SPA框架和NHibernate作为ORM框架。 我准备了另一篇用AngularJs和EntityFramework实现相同应用的文章。</p>
-<p>此示例应用程序被命名为“简单任务系统”，它由两个页面组成：一个用于列出任务，另一个是添加新任务。 一个任务可以与一个人相关，可以是活动的或完成的。 应用程序以两种语言进行本地化。 应用程序中任务列表的屏幕截图如下所示：<br><img src="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png" alt="task"></p>
+<p>此示例应用程序被命名为“简单任务系统”，它由两个页面组成：一个用于列出任务，另一个是添加新任务。 一个任务可以与一个人相关，可以是活动的或完成的。 应用程序以两种语言进行本地化。 应用程序中任务列表的屏幕截图如下所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png" alt="task" title="">
+                </div>
+                <div class="image-caption">task</div>
+            </figure></p>
 <h2 id="从模板创建空的web应用程序"><a href="#从模板创建空的web应用程序" class="headerlink" title="从模板创建空的web应用程序"></a>从模板创建空的web应用程序</h2><p>ABP为新项目提供启动模板（即使您可以手动创建项目并从nuget获取ABP包，模板方式更容易）。 请访问<a href="www.aspnetboilerplate.com/Templates">www.aspnetboilerplate.com/Templates</a>以从模板创建应用程序。 您可以选择具有可选AngularJs或DurandalJs的SPA（单页面应用）项目。 或者您可以选择MPA（经典的，多页面应用程序）项目。 那么你可以选择EntityFramework或NHibernate作为ORM框架。</p>
-<p><img src="https://www.codeproject.com/KB/aspnet/768664/create_template_v2.png" alt="create_template_v2"></p>
-<p>我将我的项目命名为SimpleTaskSystem，并与Durandal和NHibernate建立了一个SPA项目。 下载项目为zip文件。 当我打开zip文件时，我看到一个解决方案已经准备好，包含每个域驱动设计层的程序集（项目）：<br><img src="https://www.codeproject.com/KB/aspnet/768664/project_files2.png" alt="project_files2"></p>
-<p>就这样，你的项目已经准备好运行了！ 在VS2013中打开它，然后按F5：<br><img src="https://www.codeproject.com/KB/aspnet/768664/first_run.png" alt="first_run"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/create_template_v2.png" alt="create_template_v2" title="">
+                </div>
+                <div class="image-caption">create_template_v2</div>
+            </figure>
+<p>我将我的项目命名为SimpleTaskSystem，并与Durandal和NHibernate建立了一个SPA项目。 下载项目为zip文件。 当我打开zip文件时，我看到一个解决方案已经准备好，包含每个域驱动设计层的程序集（项目）：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/project_files2.png" alt="project_files2" title="">
+                </div>
+                <div class="image-caption">project_files2</div>
+            </figure></p>
+<p>就这样，你的项目已经准备好运行了！ 在VS2013中打开它，然后按F5：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/first_run.png" alt="first_run" title="">
+                </div>
+                <div class="image-caption">first_run</div>
+            </figure></p>
 <h2 id="领域层-Domain-layer"><a href="#领域层-Domain-layer" class="headerlink" title="领域层(Domain layer)"></a>领域层(Domain layer)</h2><p>“<em>负责代表业务概念，有关业务情况的信息和业务规则</em>”（Eric Evans）。 在领域驱动设计（DDD）中，核心层是领域层。 领域层定义您的实体，实现您的业务规则等。</p>
 <h3 id="实体-Entities"><a href="#实体-Entities" class="headerlink" title="实体(Entities)"></a>实体(Entities)</h3><p>实体是DDD的核心概念之一。 埃里克·埃文斯（Eric Evans）将其描述为“一个不是由其属性从根本上定义的对象，而是一个连贯性和身份的线索”。 因此，实体具有Id并存储在数据库中。</p>
 <p>任务(Task)实体类定义如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public class Task : Entity&lt;long&gt;</div><div class="line">&#123;</div><div class="line">    public virtual Person AssignedPerson &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual string Description &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual DateTime CreationTime &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual TaskState State &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public Task()</div><div class="line">    &#123;</div><div class="line">        CreationTime = DateTime.Now;</div><div class="line">        State = TaskState.Active;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -493,7 +260,13 @@
 <h3 id="仓储-Repositories"><a href="#仓储-Repositories" class="headerlink" title="仓储(Repositories)"></a>仓储(Repositories)</h3><p>“使用类收集接口访问领域对象，在领域和数据映射层之间进行中介”（Martin Fowler）。 实际上，仓储用于对域对象（实体或值类型）执行数据库操作。</p>
 <p>通常，每个实体（或聚合根）使用分隔的仓储。 ASP.NET Boilerplate为每个实体提供默认仓储（我们将看到如何使用默认仓储）。 如果我们需要定义其他方法，我们可以扩展IRepository接口。 我将其扩展到了Task库：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface ITaskRepository : IRepository&lt;Task, long&gt;</div><div class="line">&#123;</div><div class="line">    List&lt;Task&gt; GetAllWithPeople(int? assignedPersonId, TaskState? state);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>为每个Repository定义一个接口是很好的。 因此，我们可以将接口与实现分开。 仓储接口定义了仓储的常见方法：</p>
-<p><img src="https://www.codeproject.com/KB/aspnet/768664/repository_interface2.png" alt="first_run"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/repository_interface2.png" alt="first_run" title="">
+                </div>
+                <div class="image-caption">first_run</div>
+            </figure>
 <p>它定义了基本的CRUD方法。 所以，所有仓储都会自动实现所有这些方法。 除了标准的基础方法之外，还可以添加特定于该仓储的方法，就像我定义了GetAllWithPeople方法一样。</p>
 <h2 id="基础设施层-Infrastructure-layer"><a href="#基础设施层-Infrastructure-layer" class="headerlink" title="基础设施层(Infrastructure layer)"></a>基础设施层(Infrastructure layer)</h2><p>“提供支持更高层次的通用技术功能”（Eric Evans）。 它用于使用第三方库和框架（如对象关系映射）实现应用程序的抽象。 在这个应用程序中，我将使用基础设施层：</p>
 <ul>
@@ -507,9 +280,21 @@
 <p>如你所见，我为所有表写了一个前缀Sts（简单任务系统）。 这对于模块化应用程序很重要，所以所有模块都可以使用其特定的前缀来标识模块特定的表。</p>
 <p>要在数据库中创建表，我使用这种“命令行”命令使用FluentMigrator的Migrate.exe工具：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Migrate.exe /connection &quot;Server=localhost; Database=SimpleTaskSystemDb; Trusted_Connection=True;&quot; /db sqlserver /target &quot;SimpleTaskSystem.Infrastructure.NHibernate.dll&quot;</div></pre></td></tr></table></figure></p>
 <p>对于快捷方式，ABP模板包含RunMigrations.bat文件。 在Debug模式下编译项目后，我运行“RunMigrations.bat”：</p>
-<p><img src="https://www.codeproject.com/KB/aspnet/768664/migration.png" alt="migration"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/migration.png" alt="migration" title="">
+                </div>
+                <div class="image-caption">migration</div>
+            </figure>
 <p>正如你看到的，两种迁移文件执行，表创建：</p>
-<p><img src="https://www.codeproject.com/KB/aspnet/768664/db_after_migration.png" alt="migration"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/db_after_migration.png" alt="migration" title="">
+                </div>
+                <div class="image-caption">migration</div>
+            </figure>
 <p>有关FluentMigrator的更多信息，请参阅它的网站。</p>
 <h3 id="实体映射-Entity-mappings"><a href="#实体映射-Entity-mappings" class="headerlink" title="实体映射(Entity mappings)"></a>实体映射(Entity mappings)</h3><p>为了获取/存储实体到数据库中，我们应该使用数据库表映射实体。 NHibernate有几个选择可以实现。 在这里，我将使用Fluent Mapping手册（您可以使用传统的自动映射，请参阅FluentNHibernate的网站）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public class PersonMap : EntityMap&lt;Person&gt;</div><div class="line">&#123;</div><div class="line">    public PersonMap()</div><div class="line">        : base(&quot;StsPeople&quot;)</div><div class="line">    &#123;</div><div class="line">        Map(x =&gt; x.Name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class TaskMap : EntityMap&lt;Task, long&gt;</div><div class="line">&#123;</div><div class="line">    public TaskMap()</div><div class="line">        : base(&quot;StsTasks&quot;)</div><div class="line">    &#123;</div><div class="line">        Map(x =&gt; x.Description);</div><div class="line">        Map(x =&gt; x.CreationTime);</div><div class="line">        Map(x =&gt; x.State).CustomType&lt;TaskState&gt;();</div><div class="line">        References(x =&gt; x.AssignedPerson).Column(&quot;AssignedPersonId&quot;).LazyLoad();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>EntityMap是一类ABP的自动映射Id属性，并在构造函数中获取表名。所以，我从它派生和映射等性能。</p>
@@ -535,7 +320,13 @@
 <p>我建议为每个应用程序服务方法创建分离的输入和输出类，即使它只有一个输入参数。 当通过向该方法添加其他参数来扩展应用程序时，这是很好的。 它提供了一种在不破坏现有客户端的情况下向应用程序服务方法添加参数的方法。</p>
 <h2 id="动态Web-API控制器-Dynamic-Web-API-Controllers"><a href="#动态Web-API控制器-Dynamic-Web-API-Controllers" class="headerlink" title="动态Web API控制器(Dynamic Web API Controllers)"></a>动态Web API控制器(Dynamic Web API Controllers)</h2><p>应用程序服务由表示层消耗。 在单页面应用程序中，所有的数据都是使用AJAX在javascript和服务器之间发送/接收的。 ABP极大地简化了从javascript调用应用程序服务方法。 这是怎么做到的 让我来解释一下</p>
 <p>一个应用程序服务不能直接通过javascript调用。 我们可以使用ASP.NET Web API来向客户端公开服务（还有许多其他框架，如Web服务，WCF，SignalR等）。 所以，可能会有这样的一个流程：</p>
-<p><img src="https://www.codeproject.com/KB/aspnet/768664/calling_webapi_ajax.png" alt="calling_webapi_ajax"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/calling_webapi_ajax.png" alt="calling_webapi_ajax" title="">
+                </div>
+                <div class="image-caption">calling_webapi_ajax</div>
+            </figure>
 <p>Javascript通过AJAX调用Web API控件的操作，Web API控制器的操作然后调用相应的应用程序服务的方法，获取结果并返回给客户端。 这很漂亮的机器人。 ABP自动执行此操作，并可为应用程序服务动态创建Web API控制器。 这里是为我的应用服务创建Web API控制器的所有代码：任务服务和个人服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DynamicApiControllerBuilder</div><div class="line">    .ForAll&lt;IApplicationService&gt;(Assembly.GetAssembly(typeof (SimpleTaskSystemApplicationModule)), &quot;tasksystem&quot;)</div><div class="line">    .Build();</div></pre></td></tr></table></figure></p>
 <p>因此，使用ASP.NET Web API（ABP流畅的动态控制器创建API支持从Web API隐藏方法或选择特定应用程序服务，自己尝试），任务和个人应用程序服务的所有方法都暴露给客户端。 在演示层部分，我们将看到如何使用ABP的动态JavaScript代理调用这些Web API控制器。</p>
 <h2 id="显示层-Presentation-layer"><a href="#显示层-Presentation-layer" class="headerlink" title="显示层(Presentation layer)"></a>显示层(Presentation layer)</h2><p>“负责向用户显示信息并解释用户的命令”（Eric Evans）。 DDD中最明显的一层是Presentation Layer，因为我们可以看到它，我们可以点击它:)。</p>
@@ -549,7 +340,13 @@
 <p>有许多框架和库提供了构建SPA的基础设施。 ASP.NET Boilerplate可以与任何SPA框架一起使用，但可以提供简单的基础设施，以便与DurandalJs和AngularJs配合使用（请参阅AngularJs开发的相同应用程序）。</p>
 <p>Durandal [7]是这些框架之一，我认为这是一个非常成功的开源项目。 它基于成功和大多数使用的项目：jQuery（用于DOM操作和AJAX），knockout.js（用于MVVM，使用HTML绑定JavaScript模型）和require.js（用于管理javascript依赖关系并从服务器动态加载javascript）。 有关更多信息和丰富的文档，请访问Durandal的网站。</p>
 <h3 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h3><p>ABP提供了一个强大而灵活的本地化系统。你可以存储在资源文件，XML文件，甚至在自定义源您的本地化的文本。在本节中，我将展示使用XML文件。简单的任务系统项目包括本地化文件夹中的XML文件：</p>
-<p><img src="https://www.codeproject.com/KB/aspnet/768664/localization_files2.png" alt="localization_files2"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.codeproject.com/KB/aspnet/768664/localization_files2.png" alt="localization_files2" title="">
+                </div>
+                <div class="image-caption">localization_files2</div>
+            </figure>
 <p>在这里，SimpleTaskSystem.xml的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</div><div class="line">&lt;localizationDictionary culture=&quot;en&quot;&gt;</div><div class="line">  &lt;texts&gt;</div><div class="line">    &lt;text name=&quot;TaskSystem&quot; value=&quot;Task System&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskList&quot; value=&quot;Task List&quot; /&gt;</div><div class="line">    &lt;text name=&quot;NewTask&quot; value=&quot;New Task&quot; /&gt;</div><div class="line">    &lt;text name=&quot;Xtasks&quot; value=&quot;&#123;0&#125; tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;AllTasks&quot; value=&quot;All tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;ActiveTasks&quot; value=&quot;Active tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;CompletedTasks&quot; value=&quot;Completed tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskDescription&quot; value=&quot;Task description&quot; /&gt;</div><div class="line">    &lt;text name=&quot;EnterDescriptionHere&quot; value=&quot;Task description&quot; /&gt;</div><div class="line">    &lt;text name=&quot;AssignTo&quot; value=&quot;Assign to&quot; /&gt;</div><div class="line">    &lt;text name=&quot;SelectPerson&quot; value=&quot;Select person&quot; /&gt;</div><div class="line">    &lt;text name=&quot;CreateTheTask&quot; value=&quot;Create the task&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskUpdatedMessage&quot; value=&quot;Task has been successfully updated.&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskCreatedMessage&quot; value=&quot;Task &#123;0&#125; has been created successfully.&quot; /&gt;</div><div class="line">  &lt;/texts&gt;</div><div class="line">&lt;/localizationDictionary&gt;</div></pre></td></tr></table></figure></p>
 <p>这是一个简单的XML文件，包括所有可本地化文本的名称 - 值对。 文化属性定义文件的文化。 在解决方案中还有一个土耳其语（tr）本地化的XML文件。 本地化文件应该注册到ABP，以便可以在C＃和javascript中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Configuration.Localization.Sources.Add(</div><div class="line">    new XmlLocalizationSource(</div><div class="line">        &quot;SimpleTaskSystem&quot;,</div><div class="line">        HttpContext.Current.Server.MapPath(&quot;~/Localization/SimpleTaskSystem&quot;)</div><div class="line">        )</div><div class="line">    );</div></pre></td></tr></table></figure></p>
 <p>本地化源必须是唯一的名称（SimpleTaskSystem这里）。 因此，可以在应用程序中使用不同的源（以不同的格式和数据源存储）。 XmlLocalizationSource还需要一个文件夹（/ Localization / SimpleTaskSystem here）来读取本地化文件。</p>
@@ -573,811 +370,306 @@
 <p>ASP.NET Boilerplate自动注册它，因为它实现了IApplicationService接口（它只是一个空的接口）。 它被注册为transient（每个用法创建的实例）。 当您注册（使用构造函数注入）IPersonAppService接口到一个类时，将创建一个PersonAppService对象并自动传递到构造函数中。 请参阅有关依赖注入的详细文档，并在ASP.NET Boilerplate中实现。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Abp提供了一个基于DDD的一款优秀的asp.net框架，提供了基本基本常用的api,可以让开发者只关注具体的业务逻辑,省去了很多重复造轮子的工作，虽然abp为开发者提供了创建项目的一个好的模块、入口的基本框架。但abp也对开发者本身所掌握的知识和经验有一定的要求，如果你使用abp作为你项目的框架,同时意味着你必须熟悉DDD知识并且拥有一定的经验。</p>
 
-      
-    </div>
+        </div>
 
-    <div>
-      
+        <blockquote class="post-copyright">
+    <div class="content">
         
+<span class="post-time">
+    Last updated: <time datetime="2017-05-15T13:50:13.938Z" itemprop="dateUpdated">2017-05-15 21:50:13</time>
+</span><br>
 
-      
-    </div>
 
-    <div>
-      
         
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/wechatpay.JPG" alt="谢晖 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/alipay.JPG" alt="谢晖 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
-
-      
-    </div>
-
-    <div>
-      
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/" target="_blank" rel="external">http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/</a>
         
-
-      
     </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/ASP-NET/" rel="tag"># ASP.NET</a>
-          
-            <a href="/tags/DDD/" rel="tag"># DDD</a>
-          
-            <a href="/tags/ABP/" rel="tag"># ABP</a>
-          
-            <a href="/tags/领域驱动设计/" rel="tag"># 领域驱动设计</a>
-          
-            <a href="/tags/ASP-NET-Boilerplate/" rel="tag"># ASP.NET Boilerplate</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/05/15/IdentityServer介绍/" rel="next" title="IdentityServer介绍">
-                <i class="fa fa-chevron-left"></i> IdentityServer介绍
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/09/领域驱动设计-DDD-Domain-Driven-Design/" rel="prev" title="领域驱动设计(DDD:Domain-Driven Design)">
-                领域驱动设计(DDD:Domain-Driven Design) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/images/me.jpg" alt="谢晖">
+            谢晖
+        </a>
     </footer>
-  </article>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
 
 
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ABP/">ABP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASP-NET/">ASP.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASP-NET-Boilerplate/">ASP.NET Boilerplate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DDD/">DDD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/领域驱动设计/">领域驱动设计</a></li></ul>
 
 
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
+            
+<div class="page-share-wrap">
     
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/&title=《ASP.NET Boilerplate（ABP）介绍》 — coderPreacher's Blog&pic=http://yoursite.com/images/me.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/&title=《ASP.NET Boilerplate（ABP）介绍》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ASP.NET Boilerplate（ABP）介绍》 — coderPreacher's Blog&url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
 
 
         </div>
-        
-          
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/09/领域驱动设计-DDD-Domain-Driven-Design/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">领域驱动设计(DDD:Domain-Driven Design)</h4>
+      </a>
     </div>
-  </div>
+  
 
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/me.jpg"
-               alt="谢晖" />
-          <p class="site-author-name" itemprop="name">谢晖</p>
-           
-              <p class="site-description motion-element" itemprop="description"></p>
-           
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">posts</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">tags</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-        
-
-
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是ASP-NET-Boilerplate（ABP）？"><span class="nav-number">2.</span> <span class="nav-text">什么是ASP.NET Boilerplate（ABP）？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端-Server-side"><span class="nav-number">2.0.1.</span> <span class="nav-text">服务端(Server side)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端-Client-side"><span class="nav-number">2.0.2.</span> <span class="nav-text">客户端(Client side)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ABP不是什么？"><span class="nav-number">3.</span> <span class="nav-text">ABP不是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#入门-Getting-started"><span class="nav-number">4.</span> <span class="nav-text">入门(Getting started)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从模板创建空的web应用程序"><span class="nav-number">4.1.</span> <span class="nav-text">从模板创建空的web应用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#领域层-Domain-layer"><span class="nav-number">4.2.</span> <span class="nav-text">领域层(Domain layer)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体-Entities"><span class="nav-number">4.2.1.</span> <span class="nav-text">实体(Entities)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仓储-Repositories"><span class="nav-number">4.2.2.</span> <span class="nav-text">仓储(Repositories)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础设施层-Infrastructure-layer"><span class="nav-number">4.3.</span> <span class="nav-text">基础设施层(Infrastructure layer)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库迁移-Database-Migrations"><span class="nav-number">4.3.1.</span> <span class="nav-text">数据库迁移(Database Migrations)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实体映射-Entity-mappings"><span class="nav-number">4.3.2.</span> <span class="nav-text">实体映射(Entity mappings)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仓储实现"><span class="nav-number">4.3.3.</span> <span class="nav-text">仓储实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用层-Application-layer"><span class="nav-number">4.4.</span> <span class="nav-text">应用层(Application layer)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用服务和数据传输对象（DTO）"><span class="nav-number">4.4.1.</span> <span class="nav-text">应用服务和数据传输对象（DTO）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传输对象验证-DTO-Validation"><span class="nav-number">4.4.2.</span> <span class="nav-text">数据传输对象验证(DTO Validation)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态Web-API控制器-Dynamic-Web-API-Controllers"><span class="nav-number">4.5.</span> <span class="nav-text">动态Web API控制器(Dynamic Web API Controllers)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示层-Presentation-layer"><span class="nav-number">4.6.</span> <span class="nav-text">显示层(Presentation layer)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单页应用-Single-page-applications"><span class="nav-number">4.6.1.</span> <span class="nav-text">单页应用(Single page applications)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地化"><span class="nav-number">4.6.2.</span> <span class="nav-text">本地化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript-API"><span class="nav-number">4.7.</span> <span class="nav-text">Javascript API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日志记录API"><span class="nav-number">4.7.1.</span> <span class="nav-text">日志记录API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通知API"><span class="nav-number">4.7.2.</span> <span class="nav-text">通知API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MessageBox-API"><span class="nav-number">4.7.3.</span> <span class="nav-text">MessageBox API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI-Block-API"><span class="nav-number">4.7.4.</span> <span class="nav-text">UI Block API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI-Busy-API"><span class="nav-number">4.7.5.</span> <span class="nav-text">UI Busy API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块系统"><span class="nav-number">4.8.</span> <span class="nav-text">模块系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖注入和惯例"><span class="nav-number">4.9.</span> <span class="nav-text">依赖注入和惯例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
-
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/15/IdentityServer介绍/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">IdentityServer介绍</h4>
+      </a>
     </div>
-  </aside>
+  
+</nav>
 
 
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
         
-      </div>
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechatpay.JPG" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/images/wechatpay.JPG" data-alipay="/images/alipay.JPG">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>谢晖 &copy; 2015 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
     </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">谢晖</span>
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/&title=《ASP.NET Boilerplate（ABP）介绍》 — coderPreacher's Blog&pic=http://yoursite.com/images/me.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/&title=《ASP.NET Boilerplate（ABP）介绍》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ASP.NET Boilerplate（ABP）介绍》 — coderPreacher's Blog&url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtUlEQVR42u3a0U4DMQwEQP7/p0HiCYHuurbjtkhzT1UFuUyQkrD2x0f8fH4/f7/5+fRGuBozGeHYg4eHh9ea+tVz9eKrqdz/5P0U72H3Y16Oj4eHh7fGu39Zsq33tu8Ef8WL3o6Hh4f3Ul5+sa4eJL2DAQ8PD+9/8XJMQrofuboQeHh4eM/hJWFENQjIYfn3i1kLHh4eXsyrFsDe4fNifQ8PDw9vUFXPS2JJWJAEE/m1PponHh4e3gIvv+b2Svi9bb16yX7wFjw8PLwF3iQC6E0x3/SPHTN4eHh4WzfYQvE+Gbo6ifnBE/0N8fDw8Aa8asmq2j6V4JM39jJbPDw8vD3eqeAg3/SrB0Cy0JcHAx4eHt5R3iQkzRdlsgS9hgY8PDy8Pd7kMOjFr9XIuIp/0DSAh4eHN+b1Nui8tJ8fJ/mxlL8FDw8Pb4+Xl6+Sz/nVOQ+Oe8cSHh4e3vN5Z8takyv4pH0BDw8Pb4PXo1Zjhd7RkkcVhf8V8PDw8Aa83qW5WryvtgWcWho8PDy8PV4SB+SF/N6YeUtWgY2Hh4e3zMuLUskhkUQJvUtz4VjCw8PDW+P1Wpeq5a5qXNuLkvHw8PCew6u2SeVP3iJQDTKin8HDw8Nb41WbBuYtWdUFagbEeHh4eE/hJRFDHrkm23o1qsgPGzw8PLwNXq+5Kr/y5tOtBha9pjE8PDy8OW+yuVd/99QiFuIMPDw8vAXeJHLtYfJxDp94eHh4eId4k62/Gl4kK129gj+YDx4eHt4C72wTQDVQyC/KvWXFw8PD2+NVI4a8qD9pQcjbCB4sKx4eHt4ab37BzQOFjUgCDw8P7/15vYBgEnP0WhDw8PDwXsvLN+X8kp0X0noj4+Hh4e3xemFEHkz0mrF6rQnHshY8PDy8QV9TNZbtFavmV/PD9T08PDy837/7BS0usYafdGYiAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
-<div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
-</div>
-
-<div class="theme-info">
-  Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
 
 
-        
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 
-        
-      </div>
-    </footer>
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
 </script>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
 
 
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
 
-  
 
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-  
-  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
-
-
-
-  
-
-
-  
-
-    
-      <script id="dsq-count-scr" src="https://coderpreacher.disqus.com.disqus.com/count.js" async></script>
-    
-
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/';
-          this.page.identifier = '2017/05/10/ASP-NET-Boilerplate（ABP）介绍/';
-          this.page.title = 'ASP.NET Boilerplate（ABP）介绍';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://coderpreacher.disqus.com.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === '') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-  
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
-
-  
-  
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
-
-
-
-  
-
-  
 <script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
 })();
 </script>
 
-
-  
-
-  
-
-  
-  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.0"></script>
-  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.0"></script>
-
-
-  
-  <script type="text/javascript" src="/js/src/exturl.js?v=5.1.0"></script>
 
 
 </body>
