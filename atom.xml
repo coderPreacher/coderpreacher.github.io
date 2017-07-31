@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://coderpreacher.top/"/>
-  <updated>2017-05-15T15:24:37.830Z</updated>
+  <updated>2017-07-31T14:12:27.638Z</updated>
   <id>http://coderpreacher.top/</id>
   
   <author>
@@ -14,6 +14,70 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>了解Node.js事件循环</title>
+    <link href="http://coderpreacher.top/2017/07/31/%E4%BA%86%E8%A7%A3Node-js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"/>
+    <id>http://coderpreacher.top/2017/07/31/了解Node-js事件循环/</id>
+    <published>2017-07-31T13:13:18.000Z</published>
+    <updated>2017-07-31T14:12:27.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。</p>
+<h1 id="事件驱动编程"><a href="#事件驱动编程" class="headerlink" title="事件驱动编程"></a>事件驱动编程</h1><p>为了了解”事件循环”所需要的第一件事当然是理解事件驱动编程。事件驱动编程主要用于UI应用程序。 JavaScript的主要用法是与DOM进行交互，因此使用基于事件的API是自然的。</p>
+<p>定义简单：事件驱动编程是由事件或状态变化决定的应用程序流控制。 一般的实现是具有侦听事件的中心机制，并且一旦检测到事件（即状态已经改变）就调用回调函数。 听起来很熟悉 这应该就是Node的事件循环的基本原理。</p>
+<p>对于熟悉客户端JavaScript开发的人员，请考虑与DOM Elements结合使用的所有.on *（）方法，如element.onclick（），以传达用户交互。 当单个项目可以发出许多可能的事件时，此模式运行良好。 Node以EventEmitter的形式使用此模式，并且位于诸如Server，Socket和“http”模块之类的位置。 当我们需要从单个实例发出多种类型的状态更改时，这很有用。</p>
+<p>另一种常见的模式是成功或失败。 今天有两个常见的实现。 首先是“回退错误”回调风格，其中调用的错误是传递给回调的第一个参数。 ES6已经出现了第二个，使用Promises。</p>
+<p>‘fs’模块主要使用回退回调风格。 在技术上可能会为某些调用发出额外的事件，例如fs.readFile（），但是API只是为了提醒用户，如果所需的操作成功或者某些失败。 此API选择是一种体系结构决策，而不是由于技术限制。</p>
+<p>一个常见的误解是，事件发射器本质上是异步的，但这是不正确的。 以下是一个简单的代码片段来演示这一点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line">util.inherits(MyEmitter, EventEmitter);</div><div class="line"></div><div class="line">MyEmitter.prototype.doStuff = <span class="function"><span class="keyword">function</span> <span class="title">doStuff</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'before'</span>)</div><div class="line">  emitter.emit(<span class="string">'fire'</span>)</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'after'</span>)&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> me = <span class="keyword">new</span> MyEmitter();</div><div class="line">me.on(<span class="string">'fire'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'emit fired'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">me.doStuff();</div><div class="line"><span class="comment">// Output:</span></div><div class="line"><span class="comment">// before</span></div><div class="line"><span class="comment">// emit fired</span></div><div class="line"><span class="comment">// after</span></div></pre></td></tr></table></figure>
+<p>EventEmitter经常出现异步，因为它经常用于表示异步操作的完成，但EventEmitter API完全是同步的。 发射功能可以异步调用，但请注意，所有侦听器函数将按照添加的顺序同步执行，之后任何执行可以在调用发出后的语句中继续执行。</p>
+<h1 id="机制概述"><a href="#机制概述" class="headerlink" title="机制概述"></a>机制概述</h1><p>Node本身取决于多个库。 其中之一是libuv，它是处理异步事件排队和处理的魔法库。 对于这篇文章的其余部分，请记住，我不会区分一个点是否直接与Node或libuv相关。</p>
+<p>Node尽可能利用操作系统的内核可用的内容。 因此，将制作写请求，保持连接等更多的责任由系统委托并处理。 例如，传入连接由系统排队，直到它们可以被Node处理。</p>
+<p>您可能已经听说Node有一个线程池，可能会想知道“如果Node将所有这些责任推下来，为什么需要一个线程池？ 这是因为内核不支持异步处理。 在这些情况下，Node必须在操作期间锁定线程，以便可以继续执行事件循环而不阻止。</p>
+<p>这是一个简化的图表，用于解释何时运行的机制概览：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/understanding-the-nodejs-event-loop-diagram.png" alt="event loop" title="">
+                </div>
+                <div class="image-caption">event loop</div>
+            </figure>
+<p>关于事件循环的内部工作的几个重要注意事项，将难以包含在图中：</p>
+<ul>
+<li>通过process.nextTick（）调度的所有回调都在转换到下一阶段之前在事件循环阶段（例如定时器）结束时运行。 这会产生潜在的无意中使用循环调用process.nextTick（）的事件循环。</li>
+<li>“Pending callbacks”是回调排队运行，不会被任何其他阶段处理（例如，传回给fs.write（）的回调）。</li>
+</ul>
+<h1 id="事件发射器-Event-Emitter-和事件循环-Event-Loop"><a href="#事件发射器-Event-Emitter-和事件循环-Event-Loop" class="headerlink" title="事件发射器(Event Emitter)和事件循环(Event Loop)"></a>事件发射器(Event Emitter)和事件循环(Event Loop)</h1><p>为了简化与事件循环的交互，创建了EventEmitter。 它是一个通用的包装器，可以更容易地创建基于事件的API。 由于这两种互动之间的一些困惑，我们现在将解决常常会让开发者陷入困境的问题。</p>
+<p>以下示例显示如何忘记发生事件同步发生可能会导致用户错过事件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Post v0.10, require('events').EventEmitter is not necessary.</span></div><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyThing</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">  doFirstThing();</div><div class="line">  <span class="keyword">this</span>.emit(<span class="string">'thing1'</span>);</div><div class="line">&#125;</div><div class="line">util.inherits(MyThing, EventEmitter);</div><div class="line"></div><div class="line"><span class="keyword">var</span> mt = <span class="keyword">new</span> MyThing();</div><div class="line"></div><div class="line">mt.on(<span class="string">'thing1'</span>, <span class="function"><span class="keyword">function</span> <span class="title">onThing1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// Sorry, never going to happen.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上述的缺点是，’thing1’永远不能被用户捕获，因为MyThing（）必须在侦听任何事件之前完成实例化。 这是一个简单的解决方案，也不需要任何额外的关闭：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyThing</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">  doFirstThing();</div><div class="line">  setImmediate(emitThing1, <span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line">util.inherits(MyThing, EventEmitter);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">emitThing1</span>(<span class="params">self</span>) </span>&#123;</div><div class="line">  self.emit(<span class="string">'thing1'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> mt = <span class="keyword">new</span> MyThing();</div><div class="line"></div><div class="line">mt.on(<span class="string">'thing1'</span>, <span class="function"><span class="keyword">function</span> <span class="title">onThing1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// Whoot!</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>以下也可以工作，但是性能成本很高：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyThing</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">  doFirstThing();</div><div class="line">  <span class="comment">// Using Function#bind() makes the world much slower.</span></div><div class="line">  setImmediate(<span class="keyword">this</span>.emit.bind(<span class="keyword">this</span>, <span class="string">'thing1'</span>));</div><div class="line">&#125;</div><div class="line">util.inherits(MyThing, EventEmitter);</div></pre></td></tr></table></figure>
+<p>另一个问题是发生错误。 解决您的应用程序的问题可能很难，但丢失调用堆栈可能会使它不可能。 当错误在异步请求的远端被实例化时，调用堆栈丢失。 解决这个问题的两个最合理的解决方案是同步发射或确保其他重要信息与错误一起传播。 以下示例显示正在使用的每个：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">MyThing.prototype.foo = <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// This error will be emitted asynchronously.</span></div><div class="line">  <span class="keyword">var</span> er = doFirstThing();</div><div class="line">  <span class="keyword">if</span> (er) &#123;</div><div class="line">    <span class="comment">// The error needs to be created immediately to preserve</span></div><div class="line">    <span class="comment">// the call stack.</span></div><div class="line">    setImmediate(emitError, <span class="keyword">this</span>, <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Bad stuff'</span>));</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// Emit the error immediately so it can be handled.</span></div><div class="line">  <span class="keyword">var</span> er = doSecondThing();</div><div class="line">  <span class="keyword">if</span> (er) &#123;</div><div class="line">    <span class="keyword">this</span>.emit(<span class="string">'error'</span>, <span class="string">'More bad stuff'</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>考虑这个情况 在应用程序执行之前，可能会立即处理正在发出的错误。 或者它可能是一个微不足道的问题，需要报告，可以很容易地处理。 此外，由于对象实例的构造可能非常不完整，因此有一个发出错误的构造函数不是一个好主意。 在这种情况下抛出异常。</p>
+<p>-</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。&lt;/p&gt;
+&lt;h1 id=&quot;事件驱动编程&quot;&gt;&lt;a hr
+    
+    </summary>
+    
+      <category term="Node.js" scheme="http://coderpreacher.top/categories/Node-js/"/>
+    
+    
+      <category term="JavaScript" scheme="http://coderpreacher.top/tags/JavaScript/"/>
+    
+      <category term="Node.js" scheme="http://coderpreacher.top/tags/Node-js/"/>
+    
+      <category term="事件循环" scheme="http://coderpreacher.top/tags/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"/>
+    
+      <category term="Event Loop" scheme="http://coderpreacher.top/tags/Event-Loop/"/>
+    
+  </entry>
   
   <entry>
     <title>IdentityServer介绍</title>

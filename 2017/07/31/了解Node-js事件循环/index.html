@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>了解Node.js事件循环 | coderPreacher&#39;s Blog | Love life, love technology, positive, optimistic, beyond the self</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JavaScript,Node.js,事件循环,Event Loop">
+    <meta name="description" content="Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。 事件驱动编程为了了解”事件循环”所需要的第一件事当然是理解事件驱动编程。事件驱动编程主要用于UI应用程序。 JavaScript的主要用法是与DOM进行交互，因此使用基于事件的">
+<meta name="keywords" content="JavaScript,Node.js,事件循环,Event Loop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="了解Node.js事件循环">
+<meta property="og:url" content="http://coderpreacher.top/2017/07/31/了解Node-js事件循环/index.html">
+<meta property="og:site_name" content="coderPreacher's Blog">
+<meta property="og:description" content="Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。 事件驱动编程为了了解”事件循环”所需要的第一件事当然是理解事件驱动编程。事件驱动编程主要用于UI应用程序。 JavaScript的主要用法是与DOM进行交互，因此使用基于事件的">
+<meta property="og:image" content="http://coderpreacher.top/images/understanding-the-nodejs-event-loop-diagram.png">
+<meta property="og:updated_time" content="2017-07-31T14:12:27.638Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="了解Node.js事件循环">
+<meta name="twitter:description" content="Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。 事件驱动编程为了了解”事件循环”所需要的第一件事当然是理解事件驱动编程。事件驱动编程主要用于UI应用程序。 JavaScript的主要用法是与DOM进行交互，因此使用基于事件的">
+<meta name="twitter:image" content="http://coderpreacher.top/images/understanding-the-nodejs-event-loop-diagram.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="coderPreacher&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/images/me.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">谢晖</h5>
+          <a href="mailto:coderpreacher@gmail.com" title="coderpreacher@gmail.com" class="mail">coderpreacher@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">了解Node.js事件循环</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">了解Node.js事件循环</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-07-31T13:13:18.000Z" itemprop="datePublished" class="page-time">
+  2017-07-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Node-js/">Node.js</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#事件驱动编程"><span class="post-toc-number">1.</span> <span class="post-toc-text">事件驱动编程</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#机制概述"><span class="post-toc-number">2.</span> <span class="post-toc-text">机制概述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#事件发射器-Event-Emitter-和事件循环-Event-Loop"><span class="post-toc-number">3.</span> <span class="post-toc-text">事件发射器(Event Emitter)和事件循环(Event Loop)</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-了解Node-js事件循环"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">了解Node.js事件循环</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-07-31 21:13:18" datetime="2017-07-31T13:13:18.000Z"  itemprop="datePublished">2017-07-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Node-js/">Node.js</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。</p>
+<h1 id="事件驱动编程"><a href="#事件驱动编程" class="headerlink" title="事件驱动编程"></a>事件驱动编程</h1><p>为了了解”事件循环”所需要的第一件事当然是理解事件驱动编程。事件驱动编程主要用于UI应用程序。 JavaScript的主要用法是与DOM进行交互，因此使用基于事件的API是自然的。</p>
+<p>定义简单：事件驱动编程是由事件或状态变化决定的应用程序流控制。 一般的实现是具有侦听事件的中心机制，并且一旦检测到事件（即状态已经改变）就调用回调函数。 听起来很熟悉 这应该就是Node的事件循环的基本原理。</p>
+<p>对于熟悉客户端JavaScript开发的人员，请考虑与DOM Elements结合使用的所有.on *（）方法，如element.onclick（），以传达用户交互。 当单个项目可以发出许多可能的事件时，此模式运行良好。 Node以EventEmitter的形式使用此模式，并且位于诸如Server，Socket和“http”模块之类的位置。 当我们需要从单个实例发出多种类型的状态更改时，这很有用。</p>
+<p>另一种常见的模式是成功或失败。 今天有两个常见的实现。 首先是“回退错误”回调风格，其中调用的错误是传递给回调的第一个参数。 ES6已经出现了第二个，使用Promises。</p>
+<p>‘fs’模块主要使用回退回调风格。 在技术上可能会为某些调用发出额外的事件，例如fs.readFile（），但是API只是为了提醒用户，如果所需的操作成功或者某些失败。 此API选择是一种体系结构决策，而不是由于技术限制。</p>
+<p>一个常见的误解是，事件发射器本质上是异步的，但这是不正确的。 以下是一个简单的代码片段来演示这一点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyEmitter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line">util.inherits(MyEmitter, EventEmitter);</div><div class="line"></div><div class="line">MyEmitter.prototype.doStuff = <span class="function"><span class="keyword">function</span> <span class="title">doStuff</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'before'</span>)</div><div class="line">  emitter.emit(<span class="string">'fire'</span>)</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'after'</span>)&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> me = <span class="keyword">new</span> MyEmitter();</div><div class="line">me.on(<span class="string">'fire'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'emit fired'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">me.doStuff();</div><div class="line"><span class="comment">// Output:</span></div><div class="line"><span class="comment">// before</span></div><div class="line"><span class="comment">// emit fired</span></div><div class="line"><span class="comment">// after</span></div></pre></td></tr></table></figure>
+<p>EventEmitter经常出现异步，因为它经常用于表示异步操作的完成，但EventEmitter API完全是同步的。 发射功能可以异步调用，但请注意，所有侦听器函数将按照添加的顺序同步执行，之后任何执行可以在调用发出后的语句中继续执行。</p>
+<h1 id="机制概述"><a href="#机制概述" class="headerlink" title="机制概述"></a>机制概述</h1><p>Node本身取决于多个库。 其中之一是libuv，它是处理异步事件排队和处理的魔法库。 对于这篇文章的其余部分，请记住，我不会区分一个点是否直接与Node或libuv相关。</p>
+<p>Node尽可能利用操作系统的内核可用的内容。 因此，将制作写请求，保持连接等更多的责任由系统委托并处理。 例如，传入连接由系统排队，直到它们可以被Node处理。</p>
+<p>您可能已经听说Node有一个线程池，可能会想知道“如果Node将所有这些责任推下来，为什么需要一个线程池？ 这是因为内核不支持异步处理。 在这些情况下，Node必须在操作期间锁定线程，以便可以继续执行事件循环而不阻止。</p>
+<p>这是一个简化的图表，用于解释何时运行的机制概览：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/understanding-the-nodejs-event-loop-diagram.png" alt="event loop" title="">
+                </div>
+                <div class="image-caption">event loop</div>
+            </figure>
+<p>关于事件循环的内部工作的几个重要注意事项，将难以包含在图中：</p>
+<ul>
+<li>通过process.nextTick（）调度的所有回调都在转换到下一阶段之前在事件循环阶段（例如定时器）结束时运行。 这会产生潜在的无意中使用循环调用process.nextTick（）的事件循环。</li>
+<li>“Pending callbacks”是回调排队运行，不会被任何其他阶段处理（例如，传回给fs.write（）的回调）。</li>
+</ul>
+<h1 id="事件发射器-Event-Emitter-和事件循环-Event-Loop"><a href="#事件发射器-Event-Emitter-和事件循环-Event-Loop" class="headerlink" title="事件发射器(Event Emitter)和事件循环(Event Loop)"></a>事件发射器(Event Emitter)和事件循环(Event Loop)</h1><p>为了简化与事件循环的交互，创建了EventEmitter。 它是一个通用的包装器，可以更容易地创建基于事件的API。 由于这两种互动之间的一些困惑，我们现在将解决常常会让开发者陷入困境的问题。</p>
+<p>以下示例显示如何忘记发生事件同步发生可能会导致用户错过事件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Post v0.10, require('events').EventEmitter is not necessary.</span></div><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyThing</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">  doFirstThing();</div><div class="line">  <span class="keyword">this</span>.emit(<span class="string">'thing1'</span>);</div><div class="line">&#125;</div><div class="line">util.inherits(MyThing, EventEmitter);</div><div class="line"></div><div class="line"><span class="keyword">var</span> mt = <span class="keyword">new</span> MyThing();</div><div class="line"></div><div class="line">mt.on(<span class="string">'thing1'</span>, <span class="function"><span class="keyword">function</span> <span class="title">onThing1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// Sorry, never going to happen.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上述的缺点是，’thing1’永远不能被用户捕获，因为MyThing（）必须在侦听任何事件之前完成实例化。 这是一个简单的解决方案，也不需要任何额外的关闭：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyThing</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">  doFirstThing();</div><div class="line">  setImmediate(emitThing1, <span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line">util.inherits(MyThing, EventEmitter);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">emitThing1</span>(<span class="params">self</span>) </span>&#123;</div><div class="line">  self.emit(<span class="string">'thing1'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> mt = <span class="keyword">new</span> MyThing();</div><div class="line"></div><div class="line">mt.on(<span class="string">'thing1'</span>, <span class="function"><span class="keyword">function</span> <span class="title">onThing1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// Whoot!</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>以下也可以工作，但是性能成本很高：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyThing</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  EventEmitter.call(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">  doFirstThing();</div><div class="line">  <span class="comment">// Using Function#bind() makes the world much slower.</span></div><div class="line">  setImmediate(<span class="keyword">this</span>.emit.bind(<span class="keyword">this</span>, <span class="string">'thing1'</span>));</div><div class="line">&#125;</div><div class="line">util.inherits(MyThing, EventEmitter);</div></pre></td></tr></table></figure>
+<p>另一个问题是发生错误。 解决您的应用程序的问题可能很难，但丢失调用堆栈可能会使它不可能。 当错误在异步请求的远端被实例化时，调用堆栈丢失。 解决这个问题的两个最合理的解决方案是同步发射或确保其他重要信息与错误一起传播。 以下示例显示正在使用的每个：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">MyThing.prototype.foo = <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// This error will be emitted asynchronously.</span></div><div class="line">  <span class="keyword">var</span> er = doFirstThing();</div><div class="line">  <span class="keyword">if</span> (er) &#123;</div><div class="line">    <span class="comment">// The error needs to be created immediately to preserve</span></div><div class="line">    <span class="comment">// the call stack.</span></div><div class="line">    setImmediate(emitError, <span class="keyword">this</span>, <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Bad stuff'</span>));</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// Emit the error immediately so it can be handled.</span></div><div class="line">  <span class="keyword">var</span> er = doSecondThing();</div><div class="line">  <span class="keyword">if</span> (er) &#123;</div><div class="line">    <span class="keyword">this</span>.emit(<span class="string">'error'</span>, <span class="string">'More bad stuff'</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>考虑这个情况 在应用程序执行之前，可能会立即处理正在发出的错误。 或者它可能是一个微不足道的问题，需要报告，可以很容易地处理。 此外，由于对象实例的构造可能非常不完整，因此有一个发出错误的构造函数不是一个好主意。 在这种情况下抛出异常。</p>
+<p>-</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2017-07-31T14:12:27.638Z" itemprop="dateUpdated">2017-07-31 22:12:27</time>
+</span><br>
+
+
+        
+        原始链接：<a href="/2017/07/31/了解Node-js事件循环/" target="_blank" rel="external">http://coderpreacher.top/2017/07/31/了解Node-js事件循环/</a>
+        
+    </div>
+    <footer>
+        <a href="http://coderpreacher.top">
+            <img src="/images/me.jpg" alt="谢晖">
+            谢晖
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Event-Loop/">Event Loop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/事件循环/">事件循环</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/&title=《了解Node.js事件循环》 — coderPreacher's Blog&pic=http://coderpreacher.top/images/me.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/&title=《了解Node.js事件循环》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《了解Node.js事件循环》 — coderPreacher's Blog&url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/&via=http://coderpreacher.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/15/IdentityServer介绍/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">IdentityServer介绍</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechatpay.JPG" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/images/wechatpay.JPG" data-alipay="/images/alipay.JPG">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>谢晖 &copy; 2015 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/&title=《了解Node.js事件循环》 — coderPreacher's Blog&pic=http://coderpreacher.top/images/me.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/&title=《了解Node.js事件循环》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《了解Node.js事件循环》 — coderPreacher's Blog&url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/&via=http://coderpreacher.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://coderpreacher.top/2017/07/31/了解Node-js事件循环/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aW26DMBAFUPa/6XQBFfReD6mEOXxFigM+VJp6HscRX5+TK195tv7st8c3LgwMjMcykgcnW5+8gt/Pql8KBgbGCxjXm7t+cLI+D7LJfTAwMDDyIJisnGwdAwMDY8K4Drtt0pvwMDAwMJIk9vp4t5a45snzbbk4BgbGAxl5qvn/n7/S38DAwHgU41Ne9x4f2zbA6a4wMDC2ZuQBbpKItmsW94OBgbE1Y9JQzEv/k5bD6LCIgYHxcMZayGuLccn9k52c8jAwMLZmtDWrvCQ3Kah9vfSGgYHxWEaemiYFsrtGMW77+2BgYDyWkY9EtEX89kW0qS8GBsbbGGtltfYo2TY1i1IdBgbG1ozJuEMSvtvyXHtAxMDAeA9jEhbX2pZr919samJgYGzEyEe18s/JYbEdKSvycgwMjI0YbVl/Xm5rj5XFCRcDA2M7xnwYa62F2Y56FL1WDAyM7Rh5WLwrXK4dMUeNAQwMjI0Yk/JZvsW1dLceDsPAwNiakY9K5E2ClpG3Nv/IxTEwMLZjzINjsrkiKW3vg4GB8QLGPKTOR8dyUvQ1BgbGFoxPeeVNhTmpoGJgYGzNmB/RJrA8xW1HNzAwMPZjJA9YG5JYC6NrDVEMDIw3MOqWYRxw87R5FPoxMDAwxqWx61+1r+DIv8DAwHglIx+nyO+Qk27+v4GBgfEoRp6C5mX9CaltJ2BgYOzNyFPHtWGytm1513ETAwNjC8YPFXlqmOt4nQIAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
