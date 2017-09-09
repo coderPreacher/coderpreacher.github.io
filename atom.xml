@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://coderpreacher.top/"/>
-  <updated>2017-07-31T14:12:27.638Z</updated>
+  <updated>2017-09-09T17:25:12.000Z</updated>
   <id>http://coderpreacher.top/</id>
   
   <author>
@@ -16,11 +16,200 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>你必须知道的Node.js Stream</title>
+    <link href="http://coderpreacher.top/2017/09/09/%E4%BD%A0%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84Node-js-Stream/"/>
+    <id>http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/</id>
+    <published>2017-09-09T14:11:50.000Z</published>
+    <updated>2017-09-09T17:25:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
+<h1 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h1><p>流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。<br>然而，流不仅仅是关于使用大数据。 他们也给我们在我们的代码中组合的力量。 就像我们可以通过管道其他较小的Linux命令组成强大的linux命令一样，我们可以在Node中使用流完全一样。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png" alt="stream" title="">
+                </div>
+                <div class="image-caption">stream</div>
+            </figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const grep = ... // A stream for the grep output</div><div class="line">const wc = ... // A stream for the wc input</div><div class="line">grep.pipe(wc)</div></pre></td></tr></table></figure>
+<p>Node中的许多内置模块实现流式接口：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="node stream module" title="">
+                </div>
+                <div class="image-caption">node stream module</div>
+            </figure></p>
+<p>上面的列表有一些本机Node.js对象的示例，这些对象也是可读写的流。 这些对象中的一些是可读写的流，如TCP套接字，<code>zlib</code>和<code>crypto</code>流。<br>注意对象也是密切相关的。 虽然HTTP响应是客户端上的可读流，但它是服务器上的可写入流。 这是因为在HTTP情况下，我们基本上从一个对象（<code>http.IncomingMessage</code>）读取并写入另一个对象（<code>http.ServerResponse</code>）。<br>还要注意，当涉及到子进程时，stdio stream（stdin，stdout，stderr）如何具有逆流类型。 这允许一种非常简单的方式来管理来自主进程stdio流的这些流。</p>
+<h1 id="您的第一流应用程序"><a href="#您的第一流应用程序" class="headerlink" title="您的第一流应用程序"></a>您的第一流应用程序</h1><p>我们来仔细看看流。 为此，我们将构建一个简单的文件上传应用程序。 首先，我们需要构建一个使用可读流读取文件并将数据管理到特定目标的客户端。 在管道的另一端，我们将实现一个使用可写入流保存上传数据的服务器。</p>
+<p>我们从客户端开始吧。 我们从导入HTTP和文件系统模块开始。</p>
+<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var http = require(&apos;http&apos;)</div><div class="line">  , fs = require(&apos;fs&apos;);</div></pre></td></tr></table></figure>
+<p>然后，我们定义我们的HTTP请求。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var options = &#123;</div><div class="line">  host: &apos;localhost&apos;</div><div class="line">  , port: 8000</div><div class="line">  , path: &apos;/&apos;</div><div class="line">  , method: &apos;POST&apos;</div><div class="line">&#125;;</div><div class="line">var req = http.request(options, function(res) &#123;</div><div class="line">  console.log(res.statusCode);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>现在我们有了我们的请求，我们创建一个读取文件并将内容管理到请求对象的可读流。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var readStream = fs.ReadStream(__dirname + &amp;quot;/in.txt&amp;quot;);</div><div class="line">readStream.pipe(req);</div></pre></td></tr></table></figure>
+<p>一旦流完成读取所有数据，我们关闭与服务器的连接，调用我们的请求的<code>end()</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">readStream.on(&apos;close&apos;, function () &#123;</div><div class="line">  req.end();</div><div class="line">  console.log(&amp;quot;I finished.&amp;quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><p>就像我们为客户端所做的那样，我们从导入Node.js模块开始。然后，我们创建一个新的可写流，将数据保存到文本文件中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var http = require(&apos;http&apos;)</div><div class="line">  , fs = require(&apos;fs&apos;);</div><div class="line"></div><div class="line">var writeStream = fs.createWriteStream(__dirname + &amp;quot;/out.txt&amp;quot;);</div></pre></td></tr></table></figure>
+<p>为了让我们的客户端应用上传文件，我们必须创建一个新的Web服务器对象。当数据来自请求对象时，服务器调用我们的流并将缓冲区刷新到输出文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var server = http.createServer(function (req, res) &#123;</div><div class="line">  req.on(&apos;data&apos;, function (data) &#123;</div><div class="line">    writeStream.write(data);</div><div class="line">  &#125;);</div><div class="line">  req.on(&apos;end&apos;, function() &#123;</div><div class="line">    writeStream.end();</div><div class="line">    res.statusCode = 200;</div><div class="line">    res.end(&amp;quot;OK&amp;quot;);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line">server.listen(8000);</div></pre></td></tr></table></figure>
+<p>请注意，<code>createServer（）</code>返回的<code>req</code>和<code>res</code>对象分别是可读流和可写入流。我们可以监听数据事件，并且一旦处理结束，就将结果回送给客户端。</p>
+<h1 id="Node-js中的Stream"><a href="#Node-js中的Stream" class="headerlink" title="Node.js中的Stream"></a>Node.js中的Stream</h1><p>Node.js中有四种基本流类型：<code>Readable</code>（可读），<code>Writable</code>（可写），<code>Duplex</code>（双工）和<code>Transform</code>（转换）。</p>
+<ul>
+<li><code>Readable</code>可读流是可以从其中消耗数据的源的抽象。一个例子是<code>fs.createReadStream</code>方法。</li>
+<li><code>Writable</code>可写流是可以写入数据的目的地的抽象。一个例子是<code>fs.createWriteStream</code>方法。</li>
+<li><code>Duplex</code>双工流既可读又可写。一个例子是TCP套接字。</li>
+<li><code>Transform</code>变换流基本上是一个双工流，可用于在写入和读取数据时修改或转换数据。一个例子是使用<code>gzip</code>压缩数据的<code>zlib.createGzip</code>流。您可以将变换流视为函数，其中输入是可写入流部分，输出是可读流部分。您也可能会听到称为“通过流”的转换流。</li>
+</ul>
+<p>所有流都是<code>EventEmitter</code>的实例。它们发出可用于读取和写入数据的事件。但是，我们可以使用管道方法以更简单的方式使用流数据。</p>
+<h3 id="pipe-管道-方法"><a href="#pipe-管道-方法" class="headerlink" title="pipe(管道) 方法"></a><code>pipe</code>(管道) 方法</h3><p>这是您需要记住的魔术线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">readableSrc.pipe(writableDest)</div></pre></td></tr></table></figure>
+<p>在这个简单的一行中，我们将可读流的输出（数据源）作为可写流的输入 - 目标管道。源必须是可读流，目的地必须是可写的。当然，它们也可以是双工/转换流。实际上，如果我们正在进行双工流，我们可以像在Linux中一样链接管道呼叫：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">readableSrc</div><div class="line">  .pipe(transformStream1)</div><div class="line">  .pipe(transformStream2)</div><div class="line">  .pipe(finalWrtitableDest)</div></pre></td></tr></table></figure>
+<p><code>pipe</code>方法返回目标流，这使我们能够在上面进行链接。对于流（可读），b和c（双工）和d（可写），我们可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">a.pipe(b).pipe(c).pipe(d)</div><div class="line"></div><div class="line"># Which is equivalent to:</div><div class="line">a.pipe(b)</div><div class="line">b.pipe(c)</div><div class="line">c.pipe(d)</div><div class="line"></div><div class="line"># Which, in Linux, is equivalent to:</div><div class="line">$ a | b | c | d</div></pre></td></tr></table></figure>
+<p><code>pipe</code>方法是消耗流的最简单方法。通常建议使用管道方法或使用事件消耗流，但不要混合这两个。通常当您使用管道方法时，您不需要使用事件，但是如果您需要以更自定义的方式使用流，那么事件就是要走的路。</p>
+<h3 id="流事件-Stream-events"><a href="#流事件-Stream-events" class="headerlink" title="流事件(Stream events)"></a>流事件(Stream events)</h3><p>除了从可读流源读取和写入可写目的地之外，管道方法还会自动管理一些事情。例如，它处理错误，文件结尾以及一个流比另一个流更慢或更快的情况。</p>
+<p>但是，流也可以直接与事件一起使用。以下是管道方法主要用于读取和写入数据的简化事件等效代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"># readable.pipe(writable)</div><div class="line">readable.on(&apos;data&apos;, (chunk) =&gt; &#123;</div><div class="line">  writable.write(chunk);</div><div class="line">&#125;);</div><div class="line">readable.on(&apos;end&apos;, () =&gt; &#123;</div><div class="line">  writable.end();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>以下是可读写可用流的重要事件和功能的列表：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="流事件(Stream events)" title="">
+                </div>
+                <div class="image-caption">流事件(Stream events)</div>
+            </figure>
+<p>事件和功能在某种程度上是相关的，因为它们通常被一起使用。</p>
+<p><code>Readable</code>可读流最重要的事件是：</p>
+<ul>
+<li><code>data</code>事件，当流将一大块数据传递给消费者时，该事件被发出。</li>
+<li><code>end</code>事件，当没有更多数据要从流中消耗时发出。</li>
+</ul>
+<p><code>Writable</code>可写的流中最重要的事件是：</p>
+<ul>
+<li><code>drain</code>事件是可写入流可以接收更多数据的信号。</li>
+<li><code>finish</code>事件，当所有数据已刷新到底层系统时都会发出。</li>
+</ul>
+<p>事件和功能可以组合起来，以便定制和优化流的使用。要使用可读流，我们可以使用<code>pipe/unpipe</code>方法，或者<code>read/unshift/resume</code>方法。要使用可写入流，我们可以使用<code>pipe/unpipe</code>方法，或者只是使用<code>write</code>方法写入它，并在完成后调用<code>end</code>方法。</p>
+<h3 id="可读流的暂停和流动模式"><a href="#可读流的暂停和流动模式" class="headerlink" title="可读流的暂停和流动模式"></a>可读流的暂停和流动模式</h3><p>可读流具有两种主要模式，影响我们消费的方式：</p>
+<ul>
+<li>它们可以处于暂停模式</li>
+<li>或者在流动模式</li>
+</ul>
+<p>这些模式有时被称为拉和推模式。 </p>
+<p>默认情况下，所有可读流可在暂停模式下启动，但在需要时可以轻松切换到流动状态并返回到暂停状态。有时会自动切换。 </p>
+<p>当可读流处于暂停模式时，我们可以使用<code>read</code>方法从流中读取流，但是，对于流模式中的可读流，数据持续流动，我们必须收听事件消耗它</p>
+<p>在流动模式下，如果没有消费者可以处理它，数据实际上可能会丢失。这就是为什么当我们在流模式下有可读流时，我们需要一个数据事件处理程序。事实上，只需添加一个数据事件处理程序即可将暂停的流转换为流模式，并删除数据事件处理程序将流切换回暂停模式。其中一些是为了与旧的<code>Node Stream</code>接口的向后兼容而完成的。 </p>
+<p>要手动切换这两种流模式，可以使用<code>resume</code>和<code>pause</code>方法。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*HI-mtispQ13qm8ib5yey3g.png" alt="Readable Streams" title="">
+                </div>
+                <div class="image-caption">Readable Streams</div>
+            </figure>
+<p>当使用管道方法消耗可读流时，我们不必担心管道自动管理这些模式。</p>
+<h1 id="流实现"><a href="#流实现" class="headerlink" title="流实现"></a>流实现</h1><p>当谈到Node.js中的流时，主要有两个不同的任务：</p>
+<ul>
+<li>实现流的任务。 </li>
+<li>消费它们的任务。 </li>
+</ul>
+<p>到目前为止，我们一直在谈论只消耗流。让我们实现一些！</p>
+<h3 id="实现可写流-Writable"><a href="#实现可写流-Writable" class="headerlink" title="实现可写流(Writable)"></a>实现可写流(Writable)</h3><p>要实现可写流，我们需要使用<code>Stream</code>模块中的<code>Writable</code>构造函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const &#123; Writable &#125; = require(&apos;stream&apos;);</div></pre></td></tr></table></figure>
+<p>我们可以在许多方面实现一个可写的流。例如，我们可以扩展<code>Writable</code>构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">class myWritableStream extends Writable &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是，我更喜欢更简单的构造方法。我们只是从<code>Writable</code>构造函数创建一个对象，并传递一些选项。唯一需要的选项是<code>write</code>函数，它暴露要写入的数据块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const &#123; Writable &#125; = require(&apos;stream&apos;);</div><div class="line">const outStream = new Writable(&#123;</div><div class="line">  write(chunk, encoding, callback) &#123;</div><div class="line">    console.log(chunk.toString());</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">process.stdin.pipe(outStream);</div></pre></td></tr></table></figure>
+<p>这个写入方法有三个参数。</p>
+<ul>
+<li>除非我们以不同的方式配置流，否则<code>chunk</code>(块)通常是缓冲区。</li>
+<li>在这种情况下需要<code>encoding</code>(编码参数)，但通常我们可以忽略它。</li>
+<li><code>callback</code>回调函数是处理数据块后我们需要调用的函数。这是写信是否成功的信号。要发出失败信号，请使用错误对象调用回调。</li>
+</ul>
+<p>在<code>outStream</code>中，我们只是将该块作为一个字符串进行<code>console.log</code>，然后在没有错误的情况下调用回调来表示成功。这是一个非常简单的，可能不是很有用的回声流。它将回传任何收到的东西。</p>
+<p>要消耗这个流，我们可以简单地使用<code>process.stdin</code>，这是一个可读的流，所以我们可以将<code>process.stdin</code>管道传入我们的<code>outstream</code></p>
+<p>当我们运行上面的代码时，我们输入到process.stdin的任何东西都将使用outStream console.log行回显。</p>
+<p>这不是一个非常有用的实现流，因为它实际上已经被实现和内置。这非常等同于process.stdout。我们可以将stdin管道输入stdout，我们可以用这条单行得到完全相同的回声功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">process.stdin.pipe(process.stdout);</div></pre></td></tr></table></figure>
+<h3 id="实现可读流-Readable"><a href="#实现可读流-Readable" class="headerlink" title="实现可读流(Readable)"></a>实现可读流(Readable)</h3><p>要实现可读流，我们需要可读接口并从中构造一个对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const &#123; Readable &#125; = require(&apos;stream&apos;);</div><div class="line">const inStream = new Readable(&#123;&#125;);</div></pre></td></tr></table></figure>
+<p>有一种实现可读流的简单方法。我们可以直接<code>push</code>(推送)我们希望消费者消费的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const &#123; Readable &#125; = require(&apos;stream&apos;); </div><div class="line">const inStream = new Readable();</div><div class="line">inStream.push(&apos;ABCDEFGHIJKLM&apos;);</div><div class="line">inStream.push(&apos;NOPQRSTUVWXYZ&apos;);</div><div class="line">inStream.push(null); // No more data</div><div class="line">inStream.pipe(process.stdout);</div></pre></td></tr></table></figure>
+<p>当我们<code>push</code>一个空对象时，这意味着我们想要表示流没有任何更多的数据。</p>
+<p>为了消耗这个简单的可读流，我们可以简单地将它导入到可写入流<code>process.stdout</code>中。</p>
+<p>当我们运行上面的代码时，我们将从<code>inStream</code>读取所有数据，并将其回显到标准。很简单，也不是很有效率。</p>
+<p>我们基本上推送流中的所有数据，然后将其管理到<code>process.stdout</code>。更好的方法是在消费者要求时按需推送数据。我们可以通过在可读流配置中实现<code>read</code>方法来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const inStream = new Readable(&#123;</div><div class="line">  read(size) &#123;</div><div class="line">    // there is a demand on the data... Someone wants to read it.</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>当读取方法在可读流上被调用时，该实现可以将部分数据推送到队列。例如，我们可以一次推一个字母，从字符代码65（表示A）开始，并在每次推送时递增：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const inStream = new Readable(&#123;</div><div class="line">  read(size) &#123;</div><div class="line">    this.push(String.fromCharCode(this.currentCharCode++));</div><div class="line">    if (this.currentCharCode &gt; 90) &#123;</div><div class="line">      this.push(null);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">inStream.currentCharCode = 65;</div><div class="line">inStream.pipe(process.stdout);</div></pre></td></tr></table></figure>
+<p>当消费者读取可读流时，读取方法将继续触发，我们会推送更多的信件。我们需要在某个地方停止这个循环，这就是为什么当currentCharCode大于90（表示Z）时，if语句推空。</p>
+<p>这个代码相当于我们开始使用的更简单的代码，但是现在我们正在按消费者要求的数据推送数据。你应该永远这样做.</p>
+<h3 id="实现双工-转换流"><a href="#实现双工-转换流" class="headerlink" title="实现双工/转换流"></a>实现双工/转换流</h3><p>使用双工流，我们可以使用相同的对象来实现可读和可写的流。就好像我们从两个接口继承。 </p>
+<p>这是一个实例双工流，它结合了上面实现的两个可写和可读的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const &#123; Duplex &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const inoutStream = new Duplex(&#123;</div><div class="line">  write(chunk, encoding, callback) &#123;</div><div class="line">    console.log(chunk.toString());</div><div class="line">    callback();</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  read(size) &#123;</div><div class="line">    this.push(String.fromCharCode(this.currentCharCode++));</div><div class="line">    if (this.currentCharCode &gt; 90) &#123;</div><div class="line">      this.push(null);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">inoutStream.currentCharCode = 65;</div><div class="line">process.stdin.pipe(inoutStream).pipe(process.stdout);</div></pre></td></tr></table></figure>
+<p>通过组合这些方法，我们可以使用这个双工流来读取从A到Z的字母，我们也可以用它的回波特征。我们将可读的stdin流管道到这个双工流中以使用回声功能，我们将双工流本身管道写入可写入stdout流，以查看字母A到Z。</p>
+<p>重要的是要了解双工流的可读写双方完全独立运行。这只是将两个特征组合成一个对象。</p>
+<p>变换流是更有趣的双工流，因为它的输出是从其输入计算的。</p>
+<p>对于一个变换流，我们不需要实现读取或者写入方法，我们只需要实现一个转换方法，它将两者结合起来。它具有写入方式的签名，我们也可以使用它来推送数据。</p>
+<p>这是一个简单的转换流，它将您将其转换为大写格式后，再次输入任何内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const upperCaseTr = new Transform(&#123;</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().toUpperCase());</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">process.stdin.pipe(upperCaseTr).pipe(process.stdout);</div></pre></td></tr></table></figure>
+<p>在这个转换流中，我们正在消费与之前的双工流示例一样，我们只实现了一个transform（）方法。在该方法中，我们将块转换为大写版本，然后将该版本推送为可读部分。</p>
+<h3 id="流对象模式-Stream-Object-Mode"><a href="#流对象模式-Stream-Object-Mode" class="headerlink" title="流对象模式(Stream Object Mode)"></a>流对象模式(Stream Object Mode)</h3><p>默认情况下，流期望缓冲区/字符串值。有一个objectMode标志，我们可以设置为让流接受任何JavaScript对象。</p>
+<p>这是一个简单的例子来证明这一点。以下变换流的组合使得将逗号分隔值的字符串映射为JavaScript对象的功能。所以“a，b，c，d”成为{a：b，c：d}。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line">const commaSplitter = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().trim().split(&apos;,&apos;));</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const arrayToObject = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    const obj = &#123;&#125;;</div><div class="line">    for(let i=0; i &lt; chunk.length; i+=2) &#123;</div><div class="line">      obj[chunk[i]] = chunk[i+1];</div><div class="line">    &#125;</div><div class="line">    this.push(obj);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const objectToString = new Transform(&#123;</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(JSON.stringify(chunk) + &apos;\n&apos;);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">process.stdin</div><div class="line">  .pipe(commaSplitter)</div><div class="line">  .pipe(arrayToObject)</div><div class="line">  .pipe(objectToString)</div><div class="line">  .pipe(process.stdout)</div></pre></td></tr></table></figure>
+<p>我们通过commasplitter传递输入字符串（例如“a，b，c，d”），该数组将数组作为其可读取数据（[“a”，“b”，“c”，“d”]））。在该流上添加可读ObjectMode标志是必要的，因为我们正在将对象推送到其上，而不是字符串。</p>
+<p>然后我们将数组并且将其导入到arrayToObject流中。我们需要一个writableObjectMode标志来使该流接受一个对象。它还将推送一个对象（输入数组映射到一个对象），这就是为什么我们也需要可读ObjectMode标志的原因。最后一个objectToString流接受一个对象，但是推出一个字符串，这就是为什么我们只需要一个writableObjectMode标志的原因。可读部分是普通字符串（字符串对象）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*u2kQzUD0ruPpt-xx0UOHoA.png" alt="abcd" title="">
+                </div>
+                <div class="image-caption">abcd</div>
+            </figure>
+<h3 id="Node-js内置的转换流"><a href="#Node-js内置的转换流" class="headerlink" title="Node.js内置的转换流"></a>Node.js内置的转换流</h3><p>Node有一些非常有用的内置变换流。即，<code>zlib</code>和<code>crypto</code> stream。</p>
+<p>这是一个使用<code>zlib.createGzip</code>（）流结合<code>fs</code>  <code>readable/writable</code> 流创建文件压缩脚本的示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.gz&apos;));</div></pre></td></tr></table></figure>
+<p>您可以使用此脚本将您传递的任何文件gzip作为参数。我们将该文件的可读流管道转换为zlib内置的转换流，然后转换为新的gzip压缩文件的可写流。简单。</p>
+<p>使用管道的很酷的事情是，如果我们需要，我们可以将它们与事件结合起来。例如，我希望用户在脚本运行时看到一个进度指示符，当脚本完成时，我想要一个“完成”消息。由于管道方法返回目标流，因此我们可以链接注册事件处理程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .on(&apos;data&apos;, () =&gt; process.stdout.write(&apos;.&apos;))</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.zz&apos;))</div><div class="line">  .on(&apos;finish&apos;, () =&gt; console.log(&apos;Done&apos;));</div></pre></td></tr></table></figure>
+<p>所以使用管道方法，我们可以轻松地消耗流，但是我们还可以使用需要的事件进一步定制与这些流的交互。 </p>
+<p>管道方法有什么好处，但是我们可以使用它以一种可读的方式逐个构成我们的程序。例如，我们可以简单地创建一个变换流来报告进度，而不用监听上面的数据事件，并用另一个.pipe（）调用替换.on（）调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const reportProgress = new Transform(&#123;</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    process.stdout.write(&apos;.&apos;);</div><div class="line">    callback(null, chunk);</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(reportProgress)</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.zz&apos;))</div><div class="line">  .on(&apos;finish&apos;, () =&gt; console.log(&apos;Done&apos;));</div></pre></td></tr></table></figure>
+<p>该reportProgress流是一个简单的直通流，但它将进度标准化。注意我如何使用callback（）函数中的第二个参数来推送transform（）方法中的数据。这相当于推动数据。 </p>
+<p>结合流的应用是无止境的。例如，如果我们需要在我们gzip之前或之后加密文件，我们需要做的就是按照我们需要的确切顺序来管理另一个转换流。我们可以使用Node的加密模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const crypto = require(&apos;crypto&apos;);</div><div class="line">// ...</div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(crypto.createCipher(&apos;aes192&apos;, &apos;a_secret&apos;))</div><div class="line">  .pipe(reportProgress)</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.zz&apos;))</div><div class="line">  .on(&apos;finish&apos;, () =&gt; console.log(&apos;Done&apos;));</div></pre></td></tr></table></figure>
+<p>上面的脚本压缩然后加密传递的文件，只有具有秘密的人可以使用输出的文件。我们无法使用正常的解压缩实用程序解压缩此文件，因为它已加密。 </p>
+<p>为了能够解压缩上面脚本压缩的任何东西，我们需要以相反的顺序使用相反的加密和zlib流，这很简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(crypto.createDecipher(&apos;aes192&apos;, &apos;a_secret&apos;))</div><div class="line">  .pipe(zlib.createGunzip())</div><div class="line">  .pipe(reportProgress)</div><div class="line">  .pipe(fs.createWriteStream(file.slice(0, -3)))</div><div class="line">  .on(&apos;finish&apos;, () =&gt; console.log(&apos;Done&apos;));</div></pre></td></tr></table></figure>
+<p>假设传递的文件是压缩版本，上面的代码将创建一个从它的读取流，将其传输到crypto createDecipher（）流（使用相同的密钥），将其输出管道输入到zlib createGunzip（）流中，然后将文件写回到没有扩展部分的文件中。 </p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>了解了这些 Stream 的内部机制，对我们后续深入理解上层代码有很大的促进作用，特别希望初学 Node.js 的同学花点时间进来看看。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论
+    
+    </summary>
+    
+      <category term="Node.js" scheme="http://coderpreacher.top/categories/Node-js/"/>
+    
+    
+      <category term="Stream" scheme="http://coderpreacher.top/tags/Stream/"/>
+    
+      <category term="Node.js Stream" scheme="http://coderpreacher.top/tags/Node-js-Stream/"/>
+    
+      <category term="Node" scheme="http://coderpreacher.top/tags/Node/"/>
+    
+  </entry>
+  
+  <entry>
     <title>了解Node.js事件循环</title>
     <link href="http://coderpreacher.top/2017/07/31/%E4%BA%86%E8%A7%A3Node-js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"/>
     <id>http://coderpreacher.top/2017/07/31/了解Node-js事件循环/</id>
     <published>2017-07-31T13:13:18.000Z</published>
-    <updated>2017-07-31T14:12:27.638Z</updated>
+    <updated>2017-07-31T14:12:27.000Z</updated>
     
     <content type="html"><![CDATA[<p>Node的“事件循环”是能够处理高吞吐量场景的核心。 它是一个充满独角兽和彩虹的神奇的地方，是Node本质上可以“单线程”的原因，同时还允许在后台处理任意数量的操作。 这个帖子将揭示事件循环如何运行，这样你也可以享受魔术。</p>
 <h1 id="事件驱动编程"><a href="#事件驱动编程" class="headerlink" title="事件驱动编程"></a>事件驱动编程</h1><p>为了了解”事件循环”所需要的第一件事当然是理解事件驱动编程。事件驱动编程主要用于UI应用程序。 JavaScript的主要用法是与DOM进行交互，因此使用基于事件的API是自然的。</p>
@@ -84,7 +273,7 @@
     <link href="http://coderpreacher.top/2017/05/15/IdentityServer%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/05/15/IdentityServer介绍/</id>
     <published>2017-05-15T13:59:23.000Z</published>
-    <updated>2017-05-15T15:24:37.830Z</updated>
+    <updated>2017-05-15T15:24:37.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="IdentityServer是什么？"><a href="#IdentityServer是什么？" class="headerlink" title="IdentityServer是什么？"></a>IdentityServer是什么？</h1><p>IdentityServer是一个基于.NET / Katana的框架和可托管组件，允许使用OpenID Connect和OAuth2等协议实现对现代Web应用程序和API的单点登录和访问控制。 它支持广泛的客户端，如移动，Web，SPA和桌面应用程序，并且是可扩展的，可以集成到新的和现有的体系结构中。</p>
 <h1 id="入门-Getting-started"><a href="#入门-Getting-started" class="headerlink" title="入门(Getting started)"></a>入门(Getting started)</h1><p>大多数现代应用看起来或多或少是这样的：</p>
@@ -187,7 +376,7 @@
     <link href="http://coderpreacher.top/2017/05/10/ASP-NET-Boilerplate%EF%BC%88ABP%EF%BC%89%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/05/10/ASP-NET-Boilerplate（ABP）介绍/</id>
     <published>2017-05-10T15:11:12.000Z</published>
-    <updated>2017-05-15T13:50:13.938Z</updated>
+    <updated>2017-05-15T13:50:13.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我们正在根据不同需求创建不同的应用程序。但是，至少在某种程度上一遍又一遍地实施共同和类似的结构。授权，验证，异常处理，日志记录，本地化，数据库连接管理，设置管理，审核日志记录是其中一些常见的结构。此外，我们正在建立架构结构和最佳实践，如分层和模块化架构，域驱动设计，依赖注入等。并试图根据一些惯例开发应用程序。</p>
 <p>由于所有这些都是非常耗时且难以为每个项目建立单独的，许多公司创建私有框架。他们正在使用这些框架更少的错误来更快地开发新的应用程序。当然，并不是所有的公司都很幸运。他们大多数没有时间，预算和团队来发展这样的框架。即使他们有可能创建一个框架，很难记录，培训开发人员并维护它。</p>
@@ -404,7 +593,7 @@
     <link href="http://coderpreacher.top/2017/05/09/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1-DDD-Domain-Driven-Design/"/>
     <id>http://coderpreacher.top/2017/05/09/领域驱动设计-DDD-Domain-Driven-Design/</id>
     <published>2017-05-09T15:14:33.000Z</published>
-    <updated>2017-05-09T16:27:26.800Z</updated>
+    <updated>2017-05-09T16:27:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>软件系统面向对象的设计思想可谓历史悠久，20世纪70年代的Smalltalk可以说是面向对象语言的经典，直到今天我们依然将这门语言视为面向对象语言的基础。随着编程语言和技术的发展，各种语言特性层出不穷，面向对象是大部分语言的一个基本特性，像C++、Java、C#这样的静态语言，Ruby、Python这样的动态语言都是面向对象的语言。</p>
 <p>但是面向对象语言并不是银弹，如果开发人员认为使用面向对象语言写出来的程度本身就是面向对象的，那就大错特错了，实际开发中，大量的业务逻辑堆积在一个巨型类中的例子屡见不鲜，代码的复用性和扩展性无法得到保证。为了解决这样的问题，领域驱动设计提出了清晰的分层架构和领域对象的概念，让面向对象的分析和设计进入了一个新的阶段，对企业级软件开发起到了巨大的推动作用。</p>
@@ -533,7 +722,7 @@
     <link href="http://coderpreacher.top/2017/05/08/%E5%91%BD%E4%BB%A4%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB-CQRS-%E6%A8%A1%E5%BC%8F/"/>
     <id>http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/</id>
     <published>2017-05-08T13:08:30.000Z</published>
-    <updated>2017-05-09T01:05:45.205Z</updated>
+    <updated>2017-05-09T01:05:45.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景和问题"><a href="#背景和问题" class="headerlink" title="背景和问题"></a>背景和问题</h1><p>在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。</p>
 <p>通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新DTO的某些字段（可能通过数据绑定），然后DTO将由DAL保存回数据存储。 同样的DTO用于读写操作。 该图说明了传统的CRUD架构。</p>
@@ -687,7 +876,7 @@
     <link href="http://coderpreacher.top/2017/05/07/Nginx-%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E/"/>
     <id>http://coderpreacher.top/2017/05/07/Nginx-基本配置与参数说明/</id>
     <published>2017-05-07T14:28:15.000Z</published>
-    <updated>2017-05-07T16:01:13.564Z</updated>
+    <updated>2017-05-07T16:01:13.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>Nginx 是一个高性能的 Web 和反向代理服务器, 它具有有很多非常优越的特性:</p>
 <ul>
@@ -812,7 +1001,7 @@
     <link href="http://coderpreacher.top/2017/04/27/SSH%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/04/27/SSH协议介绍/</id>
     <published>2017-04-27T14:53:41.000Z</published>
-    <updated>2017-04-27T15:52:19.515Z</updated>
+    <updated>2017-04-27T15:52:19.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="SSH协议介绍"><a href="#SSH协议介绍" class="headerlink" title="SSH协议介绍"></a>SSH协议介绍</h1><p>安全Shell（SSH）协议是一种用于安全网络通信的协议，旨在实现相对简单和便宜。 初始版本，SSH1，专注于提供安全的远程登录功能，以取代Telnet和其他远程登录方案，而不提供安全性[4]。 SSH还提供了更一般的客户端 - 服务器功能，可用于保护文件传输和电子邮件等网络功能。 新版本的SSH2提供了SSH的标准化定义，并以许多方式改进了SSH1。 SSH2被记录为RFC 4250至4256中的建议标准。</p>
 <p>SSH客户端和服务器应用程序广泛适用于大多数操作系统。 它已成为远程登录和X隧道技术的首选方法，并且正在迅速成为嵌入式系统以外的最普遍的加密技术应用之一。 SSH被组织为通常在TCP之上运行的三种协议（图1）：</p>
@@ -1067,7 +1256,7 @@
     <link href="http://coderpreacher.top/2017/04/27/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%9A%84%E8%89%BA%E6%9C%AF/"/>
     <id>http://coderpreacher.top/2017/04/27/单元测试的艺术/</id>
     <published>2017-04-27T07:42:57.000Z</published>
-    <updated>2017-04-27T12:36:34.296Z</updated>
+    <updated>2017-04-27T12:36:34.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="什么是单元测试"><a href="#什么是单元测试" class="headerlink" title="什么是单元测试?"></a>什么是单元测试?</h1><p>  单元测试是开发人员对其所实现功能的代码进行的另外编写的测试，用于检测其代码功能的完整性、正确性和其运行效率，从而提高代码质量，并且在写单元测试时发现功能代码间的依赖等设计问题，从而提高产品的可扩展性。</p>
 <h1 id="为什么需要单元测试？"><a href="#为什么需要单元测试？" class="headerlink" title="为什么需要单元测试？"></a>为什么需要单元测试？</h1><p>当编写项目的时刻，如果我们假设底层的代码是正确无误的，那么先是高层代码中使用了底层代码；然后这些高层代码又被更高层的代码所使用，如此往复。当基本的底层代码不再可靠时，那么必需的改动就无法只局限在底层。虽然你可以修正底层的问题，但是这些对底层代码的修改必然会影响到高层代码。于是，一个对底层代码的修正，可能会导致对几乎所有代码的一连串改动，从而使修改越来越多，也越来越复杂。从而使整个项目也以失败告终。</p>
@@ -1448,7 +1637,7 @@
     <link href="http://coderpreacher.top/2017/04/26/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E5%BA%94%E8%AF%A5%E4%BB%8ESvn%E5%88%87%E6%8D%A2%E5%88%B0Git/"/>
     <id>http://coderpreacher.top/2017/04/26/为什么你应该从Svn切换到Git/</id>
     <published>2017-04-26T14:26:05.000Z</published>
-    <updated>2017-04-27T04:32:07.119Z</updated>
+    <updated>2017-04-27T04:32:07.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Git介绍"><a href="#Git介绍" class="headerlink" title="Git介绍"></a>Git介绍</h1><p>Git是一款免费、开源的目前世界上最先进的分布式版本控制系统（没有之一），用于敏捷高效地处理任何或小或大的项目， Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。</p>
 <h1 id="Git的诞生"><a href="#Git的诞生" class="headerlink" title="Git的诞生"></a>Git的诞生</h1><p>很多人都知道，Linus在1991年创建了开源的Linux，从此，Linux系统不断发展，已经成为最大的服务器系统软件了。</p>
@@ -1518,7 +1707,7 @@
     <link href="http://coderpreacher.top/2017/04/17/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE/"/>
     <id>http://coderpreacher.top/2017/04/17/分布式一致性协议/</id>
     <published>2017-04-17T14:11:02.000Z</published>
-    <updated>2017-04-19T14:27:28.805Z</updated>
+    <updated>2017-04-19T14:27:28.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="一致性协议"><a href="#一致性协议" class="headerlink" title="一致性协议"></a>一致性协议</h1><p>为了解决分布式一致性问题，在长期的探索研究的过程中，涌现出了一大批经典的一致性协议和算法，其中最著名的就是二阶段、三阶段提交协议和Paxos算法。</p>
 <h2 id="2PC与3PC"><a href="#2PC与3PC" class="headerlink" title="2PC与3PC"></a>2PC与3PC</h2><p>在分布式系统中，每一个机器节点虽然都能明确的知道自己执行的事务是成功还是失败，但是却无法知道其他分布式节点的事务执行情况。因此，当一个事务要跨越多个分布式节点的时候（比如，淘宝下单流程，下单系统和库存系统可能就是分别部署在不同的分布式节点中），为了保证该事务可以满足ACID，就要引入一个协调者（Cooradinator）。其他的节点被称为参与者（Participant）。协调者负责调度参与者的行为，并最终决定这些参与者是否要把事务进行提交。</p>
@@ -1733,7 +1922,7 @@
     <link href="http://coderpreacher.top/2017/04/14/docker-%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/04/14/docker-介绍/</id>
     <published>2017-04-14T13:41:18.000Z</published>
-    <updated>2017-04-14T15:55:18.087Z</updated>
+    <updated>2017-04-14T15:55:18.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Docker-介绍"><a href="#Docker-介绍" class="headerlink" title="Docker 介绍"></a>Docker 介绍</h1><p>如果您是程序员或技术人员，您至少可以听说Docker：一个有用的工具，用于在“容器”中打包，运送和运行应用程序。这很难让所有的注意力得到 这些天 - 从开发人员和系统管理员一样。 即使像Google，VMware和亚马逊这样的大公司也在建设服务来支持它。</p>
 <p>Docker是一个新的容器化的技术，它轻巧，且易移植，号称“build once, configure once and run anywhere”。</p>
@@ -1858,7 +2047,7 @@
     <link href="http://coderpreacher.top/2017/04/13/WebSockets-%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/04/13/WebSockets-介绍/</id>
     <published>2017-04-13T14:11:37.000Z</published>
-    <updated>2017-04-13T14:59:25.196Z</updated>
+    <updated>2017-04-13T14:59:25.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="WebSockets介绍"><a href="#WebSockets介绍" class="headerlink" title="WebSockets介绍"></a>WebSockets介绍</h1><p>WebSocket是允许客户端和服务器/端点之间使用单个TCP连接进行通信的协议。听起来有点像http不是吗？ WebSocket通过HTTP的优势是协议是全双工的（允许同时进行双向通信），它的头部比HTTP头部要小得多，因此即使在小数据包上也能实现更高效的通信。</p>
 <p>WebSocket的生命周期也很容易理解：</p>
@@ -1951,7 +2140,7 @@
     <link href="http://coderpreacher.top/2017/04/13/%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8E-NET%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84Web%E6%A1%86%E6%9E%B6-Nancy/"/>
     <id>http://coderpreacher.top/2017/04/13/一个基于-NET轻量级的Web框架-Nancy/</id>
     <published>2017-04-13T13:12:15.000Z</published>
-    <updated>2017-04-13T14:02:17.867Z</updated>
+    <updated>2017-04-13T14:02:17.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Nancy框架介绍"><a href="#Nancy框架介绍" class="headerlink" title="Nancy框架介绍"></a>Nancy框架介绍</h1><p>Nancy是一个轻量级的低成本框架，用于在.NET和Mono上构建基于HTTP的服务。框架的目标是尽可能的避开障碍，为所有的互动提供超级快乐的路径。</p>
 <p>这意味着Nancy的所有内容都被设置为具有明智的默认和约定，而不是让你跳过环，并且通过配置，只是为了起床和运行。与Nancy，你可以从零到网站在几分钟内。字面上</p>
@@ -2002,7 +2191,7 @@
     <link href="http://coderpreacher.top/2017/04/12/node-js-%E4%B8%BA%E4%BD%95%E5%A6%82%E6%AD%A4%E6%B5%81%E8%A1%8C/"/>
     <id>http://coderpreacher.top/2017/04/12/node-js-为何如此流行/</id>
     <published>2017-04-12T14:09:26.000Z</published>
-    <updated>2017-04-13T01:49:11.389Z</updated>
+    <updated>2017-04-13T01:49:11.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="node-js-为何如此流行"><a href="#node-js-为何如此流行" class="headerlink" title="node.js 为何如此流行?"></a>node.js 为何如此流行?</h1><p>Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。<br>Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。<br>Node.js服务器技术用于创建和运行各种Web应用程序，与Ruby On Rails，Spring Framework和ASP.NET相似。 它利用JavaScript作为主要语言，它是一个轻量级的内置Web服务器，并且通过节点包管理器（NPM）管理了大量的插件，可让您自定义构建应用程序以满足您的需求。 它可能听起来像任何其他好的网络技术，但它具有某些功能，使其成为开发人员构建广泛的Web应用程序的受欢迎的选择。</p>
 <h2 id="它是无处不在的JavaScript"><a href="#它是无处不在的JavaScript" class="headerlink" title="它是无处不在的JavaScript"></a>它是无处不在的JavaScript</h2><p>Node.js如此受欢迎的最大原因之一是因为它使用JavaScript作为其主要语言来构建Web应用程序。 说实话，JavaScript现在是在浏览器中开发Web应用程序的唯一选择。 还有什么！ 引入了一个新的，稳健的框架来引导开发人员。 使用Node.js，JavaScript在服务器上已经彻底革新了。 这种语言对于大多数网络开发者是很常见的，当然也是当今这个世界的驱动。 据专家说，这个趋势不会很快消失。</p>
@@ -2037,7 +2226,7 @@
     <link href="http://coderpreacher.top/2017/04/11/kafka-%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/04/11/kafka-介绍/</id>
     <published>2017-04-11T13:30:25.000Z</published>
-    <updated>2017-05-08T04:54:33.656Z</updated>
+    <updated>2017-05-08T04:54:33.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h3 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h3><p>Kafka是一种分布式的，基于发布/订阅的消息系统。主要设计目标如下：</p>
 <ul>
@@ -2243,7 +2432,7 @@
     <link href="http://coderpreacher.top/2017/04/10/Jwt-%E4%BB%8B%E7%BB%8D/"/>
     <id>http://coderpreacher.top/2017/04/10/Jwt-介绍/</id>
     <published>2017-04-10T14:08:49.000Z</published>
-    <updated>2017-04-12T15:45:11.057Z</updated>
+    <updated>2017-04-12T15:45:11.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Jwt是什么"><a href="#Jwt是什么" class="headerlink" title="Jwt是什么?"></a>Jwt是什么?</h1><p>   Jwt的全称是JSON Web Token（<a href="http://www.jwt.io" target="_blank" rel="external">JWT</a>）是一种开放标准（RFC 7519），它定义了一种紧凑且独立的方式，用于将各方之间的信息安全地传输为JSON对象。 该信息可以通过数字签名进行验证和信任。 使用加密（使用HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。</p>
 <p> Jwt特点：</p>
