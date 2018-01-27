@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://coderpreacher.top/"/>
-  <updated>2017-09-09T17:25:12.000Z</updated>
+  <updated>2017-09-10T15:18:16.000Z</updated>
   <id>http://coderpreacher.top/</id>
   
   <author>
@@ -16,13 +16,173 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>了解Node.js事件驱动架构</title>
+    <link href="http://coderpreacher.top/2017/09/10/%E4%BA%86%E8%A7%A3Node-js%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9E%B6%E6%9E%84/"/>
+    <id>http://coderpreacher.top/2017/09/10/了解Node-js事件驱动架构/</id>
+    <published>2017-09-10T05:02:05.000Z</published>
+    <updated>2017-09-10T15:18:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Node的大部分对象（如HTTP请求，响应和流）都实现了<code>EventEmitter</code>模块，从而可以提供发送和监听事件的方法。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png" alt="EventEmitter" title="">
+                </div>
+                <div class="image-caption">EventEmitter</div>
+            </figure>
+<p>事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如<code>fs.readFile</code>。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。</p>
+<p>我们先来探讨这个基本形式。</p>
+<h1 id="当你准备好的时候给我打电话，Node！"><a href="#当你准备好的时候给我打电话，Node！" class="headerlink" title="当你准备好的时候给我打电话，Node！"></a>当你准备好的时候给我打电话，Node！</h1><p>Node处理异步事件的原始方式是回调。这是很久以前，在JavaScript有本机(<code>Promise</code>)承诺支持和<code>async</code>/<code>await</code>功能之前。</p>
+<p>回调基本上只是你传递给其他功能的函数。这在JavaScript中是可能的，因为函数是第一类对象。</p>
+<p>重要的是要明白回调在代码中不表示异步调用。函数可以同步和异步地调用回调。</p>
+<p>例如，这里是一个主机函数<code>fileSize</code>，它接受一个回调函数<code>cb</code>，并且可以基于一个条件同步和异步地调用该回调函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function fileSize (fileName, cb) &#123;</div><div class="line">  if (typeof fileName !== &apos;string&apos;) &#123;</div><div class="line">    return cb(new TypeError(&apos;argument should be string&apos;)); // Sync</div><div class="line">  &#125;</div><div class="line">  fs.stat(fileName, (err, stats) =&gt; &#123;</div><div class="line">    if (err) &#123; return cb(err); &#125; // Async</div><div class="line">    cb(null, stats.size); // Async</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>请注意，这是导致意外错误的不良做法。设计主机函数以始终同步或始终异步地使用回调。</p>
+<p>我们来探讨一个典型的异步Node函数的简单示例，它使用回调样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const readFileAsArray = function(file, cb) &#123;</div><div class="line">  fs.readFile(file, function(err, data) &#123;</div><div class="line">    if (err) &#123;</div><div class="line">      return cb(err);</div><div class="line">    &#125;</div><div class="line">    const lines = data.toString().trim().split(&apos;\n&apos;);</div><div class="line">    cb(null, lines);</div><div class="line">  &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><code>readFileAsArray</code>需要一个文件路径和一个回调函数。它读取文件内容，将其拆分成行数组，并使用该数组调用回调函数。</p>
+<p>这是一个用例。假设我们在同一目录中的文件numbers.txt包含如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td></tr></table></figure>
+<p>如果我们有一个任务来计算该文件中的奇数，我们可以使用<code>readFileAsArray</code>来简化代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">readFileAsArray(&apos;./numbers.txt&apos;, (err, lines) =&gt; &#123;</div><div class="line">  if (err) throw err;</div><div class="line">  const numbers = lines.map(Number);</div><div class="line">  const oddNumbers = numbers.filter(n =&gt; n%2 === 1);</div><div class="line">  console.log(&apos;Odd numbers count:&apos;, oddNumbers.length);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>代码将数字内容读入字符串数组，将其解析为数字，并计数奇数。</p>
+<p>Node的回调风格纯粹在这里使用。回调有一个第一个错误的参数<code>err</code>为空，我们将回调作为主机函数的最后一个参数传递。您应该始终在您的功能中执行此操作，因为用户可能会假设。使主机函数接收回调作为其最后一个参数，并使回调期望一个错误对象作为其第一个参数。</p>
+<h1 id="回调的现代JavaScript替代方案"><a href="#回调的现代JavaScript替代方案" class="headerlink" title="回调的现代JavaScript替代方案"></a>回调的现代JavaScript替代方案</h1><p>在现代JavaScript中，我们有承诺(Promise)的对象。 Promises可以替代异步API的回调。而不是将回调作为参数传递并在相同的地方处理错误，承诺对象允许我们单独处理成功和错误的情况，并且还允许我们链接多个异步调用而不是嵌套它们。</p>
+<p>如果readFileAsArray函数支持promises，我们可以使用它，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">readFileAsArray(&apos;./numbers.txt&apos;)</div><div class="line">  .then(lines =&gt; &#123;</div><div class="line">    const numbers = lines.map(Number);</div><div class="line">    const oddNumbers = numbers.filter(n =&gt; n%2 === 1);</div><div class="line">    console.log(&apos;Odd numbers count:&apos;, oddNumbers.length);</div><div class="line">  &#125;)</div><div class="line">  .catch(console.error);</div></pre></td></tr></table></figure>
+<p>而不是传入回调函数，我们在主机函数的返回值上调用了<code>.then</code>函数。这个<code>.then</code>函数通常给我们访问我们在回调版本中获得的相同的行数组，我们可以像以前一样对它进行处理。为了处理错误，我们在结果上添加一个<code>.catch</code>调用，当我们发生错误时，我们可以访问一个错误。</p>
+<p>由于新的Promise对象，使现代JavaScript中的主机功能支持承诺界面更容易。这里的<code>readFileAsArray</code>函数修改为支持promise界面，除了它已经支持的回调接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">const readFileAsArray = function(file, cb = () =&gt; &#123;&#125;) &#123;</div><div class="line">  return new Promise((resolve, reject) =&gt; &#123;</div><div class="line">    fs.readFile(file, function(err, data) &#123;</div><div class="line">      if (err) &#123;</div><div class="line">        reject(err);</div><div class="line">        return cb(err);</div><div class="line">      &#125;</div><div class="line">      const lines = data.toString().trim().split(&apos;\n&apos;);</div><div class="line">      resolve(lines);</div><div class="line">      cb(null, lines);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>所以我们使函数返回一个<code>Promise</code>对象，它包裹<code>fs.readFile</code>异步调用。 promise对象暴露两个参数，一个<code>resolve</code>函数和一个<code>reject</code>函数。</p>
+<p>每当我们想使用错误调用回调时，我们也使用promise <code>reject</code>函数，当我们想要使用数据调用回调函数时，我们也使用promise <code>resolve</code>函数。</p>
+<p>在这种情况下，我们需要做的唯一其他事情是为这个回调参数设置默认值，以防代码与promise接口一起使用。我们可以在这个例子的参数中使用一个简单的默认空函数：（）=&gt; {}。</p>
+<h1 id="消费承诺与async-await"><a href="#消费承诺与async-await" class="headerlink" title="消费承诺与async/await"></a>消费承诺与async/await</h1><p>当需要循环异步功能时，添加承诺界面可使您的代码更容易处理。随着回调，事情变得凌乱。</p>
+<p>承诺改善了一点，功能发生器改善了一点点。这就是说，使用异步代码的最新替代方案是使用异步功能，它允许我们将异步代码视为同步代码，使其整体上更加可读。</p>
+<p>以下是使用async / await的<code>readFileAsArray</code>函数的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">async function countOdd () &#123;</div><div class="line">  try &#123;</div><div class="line">    const lines = await readFileAsArray(&apos;./numbers&apos;);</div><div class="line">    const numbers = lines.map(Number);</div><div class="line">    const oddCount = numbers.filter(n =&gt; n%2 === 1).length;</div><div class="line">    console.log(&apos;Odd numbers count:&apos;, oddCount);</div><div class="line">  &#125; catch(err) &#123;</div><div class="line">    console.error(err);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">countOdd();</div></pre></td></tr></table></figure>
+<p>我们首先创建一个异步功能，这是一个正常的功能，它之前的字异步。在异步函数内部，我们调用readFileAsArray函数，就像它返回的是行变量一样，为了做这个工作，我们使用关键字await。之后，我们继续执行代码，就好像readFileAsArray调用是同步的。</p>
+<p>要使事情运行，我们执行异步功能。这很简单，可读性更高。要处理错误，我们需要将异步调用包装在一个try / catch语句中。</p>
+<p>使用此异步/等待功能，我们不必使用任何特殊的API（如.then和.catch）。我们只是标记功能不同，并使用纯JavaScript代码。</p>
+<p>我们可以使用async / await功能与任何支持承诺接口的功能。但是，我们无法使用回调式异步函数（例如setTimeout）。</p>
+<h1 id="EventEmitter模块"><a href="#EventEmitter模块" class="headerlink" title="EventEmitter模块"></a><code>EventEmitter</code>模块</h1><p><code>EventEmitter</code>是一个促进Node中对象之间的通信的模块。 <code>EventEmitter</code>是Node异步事件驱动架构的核心。 Node的许多内置模块都继承自EventEmitter。</p>
+<p>这个概念很简单：发射体对象会发出命名事件，这些事件会导致以前注册的侦听器被调用。所以，发射器对象基本上有两个主要特征：</p>
+<ul>
+<li>发出名称事件。</li>
+<li>注册和注销侦听器功能。</li>
+</ul>
+<p>要使用EventEmitter，我们只需创建一个扩展EventEmitter的类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">class MyEmitter extends EventEmitter &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Emitter对象是我们从基于EventEmitter的类实例化的对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const myEmitter = new MyEmitter();</div></pre></td></tr></table></figure>
+<p>在这些发射器对象的生命周期的任何时刻，我们可以使用emit函数发出我们想要的任何命名事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">myEmitter.emit(&apos;something-happened&apos;);</div></pre></td></tr></table></figure>
+<p>发出事件是发生某种情况的信号。这种情况通常是关于发光物体的状态变化。</p>
+<p>我们可以使用on方法添加监听器函数，并且这些监听器函数将在每次发射器对象发出关联名称事件时执行。</p>
+<h1 id="事件！-异步"><a href="#事件！-异步" class="headerlink" title="事件！==异步"></a>事件！==异步</h1><p>我们来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const EventEmitter = require(&apos;events&apos;);</div><div class="line"></div><div class="line">class WithLog extends EventEmitter &#123;</div><div class="line">  execute(taskFunc) &#123;</div><div class="line">    console.log(&apos;Before executing&apos;);</div><div class="line">    this.emit(&apos;begin&apos;);</div><div class="line">    taskFunc();</div><div class="line">    this.emit(&apos;end&apos;);</div><div class="line">    console.log(&apos;After executing&apos;);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const withLog = new WithLog();</div><div class="line"></div><div class="line">withLog.on(&apos;begin&apos;, () =&gt; console.log(&apos;About to execute&apos;));</div><div class="line">withLog.on(&apos;end&apos;, () =&gt; console.log(&apos;Done with execute&apos;));</div><div class="line"></div><div class="line">withLog.execute(() =&gt; console.log(&apos;*** Executing task ***&apos;));</div></pre></td></tr></table></figure>
+<p>Class <code>WithLog</code> 是事件发射器。它定义一个实例函数<code>execute</code>。此执行函数接收一个参数，任务函数，并使用log语句包装其执行。它在执行之前和之后触发事件。 </p>
+<p>要查看这里会发生什么的顺序，我们在两个命名事件上注册侦听器，最后执行一个示例任务来触发事件。</p>
+<p>这是以下的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Before executing</div><div class="line">About to execute</div><div class="line">*** Executing task ***</div><div class="line">Done with execute</div><div class="line">After executing</div></pre></td></tr></table></figure>
+<p>我想让你注意到上面的输出是一切都是同步发生的。这段代码没有异步。<br>我们先得到“执行前”行。<br>begin命名事件导致“关于执行”行。<br>实际执行行然后输出“<strong><em>执行任务</em></strong>”行。<br>结束命名事件然后导致“完成与执行”行<br>我们得到最后执行“行”。<br>就像普通的回调一样，不要以为事件意味着同步或异步代码。<br>这很重要，因为如果我们传递异步taskFunc来执行，那么发出的事件将不再准确。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Node的大部分对象（如HTTP请求，响应和流）都实现了&lt;code&gt;EventEmitter&lt;/code&gt;模块，从而可以提供发送和监听事件的方法。&lt;/p&gt;
+&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;i
+    
+    </summary>
+    
+      <category term="Node.js" scheme="http://coderpreacher.top/categories/Node-js/"/>
+    
+    
+      <category term="Nodejs" scheme="http://coderpreacher.top/tags/Nodejs/"/>
+    
+      <category term="Node.js Event-Driven" scheme="http://coderpreacher.top/tags/Node-js-Event-Driven/"/>
+    
+      <category term="Event-Driven Architecture" scheme="http://coderpreacher.top/tags/Event-Driven-Architecture/"/>
+    
+      <category term="Node.js Architecture" scheme="http://coderpreacher.top/tags/Node-js-Architecture/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>你必须知道的Node.js Child Processes</title>
+    <link href="http://coderpreacher.top/2017/09/10/%E4%BD%A0%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84Node-js-Child-Processes/"/>
+    <id>http://coderpreacher.top/2017/09/10/你必须知道的Node-js-Child-Processes/</id>
+    <published>2017-09-10T02:41:18.000Z</published>
+    <updated>2017-09-10T02:45:23.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Node.js" scheme="http://coderpreacher.top/categories/Node-js/"/>
+    
+    
+      <category term="JavaScript" scheme="http://coderpreacher.top/tags/JavaScript/"/>
+    
+      <category term="Nodejs" scheme="http://coderpreacher.top/tags/Nodejs/"/>
+    
+      <category term="Node.js Child Processes" scheme="http://coderpreacher.top/tags/Node-js-Child-Processes/"/>
+    
+      <category term="Child Processes" scheme="http://coderpreacher.top/tags/Child-Processes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>可扩展的Node.js应用</title>
+    <link href="http://coderpreacher.top/2017/09/10/%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84Node-js%E5%BA%94%E7%94%A8/"/>
+    <id>http://coderpreacher.top/2017/09/10/可扩展的Node-js应用/</id>
+    <published>2017-09-10T02:14:58.000Z</published>
+    <updated>2017-09-10T02:25:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js中的可扩展性不是事后的想法。这是一个被烘焙成运行时核心的东西。 Node被命名为Node，以强调Node应用程序应该包含相互通信的多个小型分布式节点的想法。</p>
+<p>您是否为Node应用程序运行多个节点？您是否在生产机器的每个CPU核心上运行一个Node进程，并负载平衡其中的所有请求？你知道Node有一个内置的模块来帮助吗？</p>
+<p>节点的集群模块不仅提供了一个开箱即用的解决方案来利用机器的全部CPU功能，而且还有助于提高节点进程的可用性，并提供一个可以在零停机时重新启动整个应用程序的选项。本文涵盖了所有的善良和更多。</p>
+<h1 id="可扩展性策略"><a href="#可扩展性策略" class="headerlink" title="可扩展性策略"></a>可扩展性策略</h1><p>工作量是我们扩展应用程序最受欢迎的原因，但并不是唯一的原因。我们还扩展了应用程序，以增加其可用性和容错性。</p>
+<p>扩展应用程序主要有三种不同的事情：</p>
+<h3 id="1-克隆"><a href="#1-克隆" class="headerlink" title="1 - 克隆"></a>1 - 克隆</h3><p>扩展大型应用程序最简单的方法是克隆多次，并将每个克隆的实例处理部分工作负载（例如使用负载平衡器）。这在开发时间方面并不花费很多，而且非常有效。此策略是您应该做的最小的工作，Node.js具有内置模块，集群，使您更容易在单个服务器上实施克隆策略。 </p>
+<h3 id="2-分解"><a href="#2-分解" class="headerlink" title="2 - 分解"></a>2 - 分解</h3><p>我们还可以根据功能和服务进行分解来扩展应用程序。这意味着具有多个不同的应用程序，具有不同的代码库，有时具有自己的专用数据库和用户界面。<br>这个策略通常与<code>Microservice</code>这个术语有关，其中micro表示这些服务应该尽可能的小，但实际上服务的大小不是什么重要的，而是执行松耦合和服务之间的高度凝聚力。这个战略的实施往往并不容易，可能会导致长期的意想不到的问题，但是当做好的时候，优势是巨大的。 </p>
+<h3 id="3-分割"><a href="#3-分割" class="headerlink" title="3 - 分割"></a>3 - 分割</h3><p>我们还可以将应用程序拆分成多个实例，每个实例只负责应用程序数据的一部分。这种策略通常被称为数据库中的水平分区或分片。数据分区需要在每个操作之前查找步骤，以确定要使用的应用程序的哪个实例。例如，也许我们希望根据他们的国家/地区或语言对用户进行分区。我们首先需要查找该信息。<br>成功扩大应用程序应该最终实现所有三种策略。 Node.js可以轻松实现，但我将重点介绍本文中的克隆策略，并探讨Node.js中可用的内置工具来实现。<br>请注意，在阅读本文之前，您需要对Node.js子进程了解很多。如果你还没有，我建议你先阅读另一篇文章：</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;Node.js中的可扩展性不是事后的想法。这是一个被烘焙成运行时核心的东西。 Node被命名为Node，以强调Node应用程序应该包含相互通
+    
+    </summary>
+    
+      <category term="Node.js" scheme="http://coderpreacher.top/categories/Node-js/"/>
+    
+    
+      <category term="JavaScript" scheme="http://coderpreacher.top/tags/JavaScript/"/>
+    
+      <category term="Nodejs" scheme="http://coderpreacher.top/tags/Nodejs/"/>
+    
+      <category term="Node.js Scaling" scheme="http://coderpreacher.top/tags/Node-js-Scaling/"/>
+    
+      <category term="Distributed Systems" scheme="http://coderpreacher.top/tags/Distributed-Systems/"/>
+    
+  </entry>
+  
+  <entry>
     <title>你必须知道的Node.js Stream</title>
     <link href="http://coderpreacher.top/2017/09/09/%E4%BD%A0%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84Node-js-Stream/"/>
     <id>http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/</id>
     <published>2017-09-09T14:11:50.000Z</published>
-    <updated>2017-09-09T17:25:12.000Z</updated>
+    <updated>2017-09-10T01:49:48.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
+    <content type="html"><![CDATA[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg" alt="Streami-" title="">
+                </div>
+                <div class="image-caption">Streami-</div>
+            </figure>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
 <h1 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h1><p>流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。<br>然而，流不仅仅是关于使用大数据。 他们也给我们在我们的代码中组合的力量。 就像我们可以通过管道其他较小的Linux命令组成强大的linux命令一样，我们可以在Node中使用流完全一样。</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -130,7 +290,7 @@
 </ul>
 <p>在<code>outStream</code>中，我们只是将该块作为一个字符串进行<code>console.log</code>，然后在没有错误的情况下调用回调来表示成功。这是一个非常简单的，可能不是很有用的回声流。它将回传任何收到的东西。</p>
 <p>要消耗这个流，我们可以简单地使用<code>process.stdin</code>，这是一个可读的流，所以我们可以将<code>process.stdin</code>管道传入我们的<code>outstream</code></p>
-<p>当我们运行上面的代码时，我们输入到process.stdin的任何东西都将使用outStream console.log行回显。</p>
+<p>当我们运行上面的代码时，我们输入到<code>process.stdin</code>的任何东西都将使用<code>outStream</code> <code>console.log</code>行回显。</p>
 <p>这不是一个非常有用的实现流，因为它实际上已经被实现和内置。这非常等同于process.stdout。我们可以将stdin管道输入stdout，我们可以用这条单行得到完全相同的回声功能：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">process.stdin.pipe(process.stdout);</div></pre></td></tr></table></figure>
 <h3 id="实现可读流-Readable"><a href="#实现可读流-Readable" class="headerlink" title="实现可读流(Readable)"></a>实现可读流(Readable)</h3><p>要实现可读流，我们需要可读接口并从中构造一个对象：</p>
@@ -146,17 +306,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const inStream = new Readable(&#123;</div><div class="line">  read(size) &#123;</div><div class="line">    this.push(String.fromCharCode(this.currentCharCode++));</div><div class="line">    if (this.currentCharCode &gt; 90) &#123;</div><div class="line">      this.push(null);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">inStream.currentCharCode = 65;</div><div class="line">inStream.pipe(process.stdout);</div></pre></td></tr></table></figure>
 <p>当消费者读取可读流时，读取方法将继续触发，我们会推送更多的信件。我们需要在某个地方停止这个循环，这就是为什么当currentCharCode大于90（表示Z）时，if语句推空。</p>
 <p>这个代码相当于我们开始使用的更简单的代码，但是现在我们正在按消费者要求的数据推送数据。你应该永远这样做.</p>
-<h3 id="实现双工-转换流"><a href="#实现双工-转换流" class="headerlink" title="实现双工/转换流"></a>实现双工/转换流</h3><p>使用双工流，我们可以使用相同的对象来实现可读和可写的流。就好像我们从两个接口继承。 </p>
+<h3 id="实现双工-Duplex-转换流-Transfer"><a href="#实现双工-Duplex-转换流-Transfer" class="headerlink" title="实现双工(Duplex)/转换流(Transfer)"></a>实现双工(Duplex)/转换流(Transfer)</h3><p>使用双工流，我们可以使用相同的对象来实现可读和可写的流。就好像我们从两个接口继承。 </p>
 <p>这是一个实例双工流，它结合了上面实现的两个可写和可读的例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const &#123; Duplex &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const inoutStream = new Duplex(&#123;</div><div class="line">  write(chunk, encoding, callback) &#123;</div><div class="line">    console.log(chunk.toString());</div><div class="line">    callback();</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  read(size) &#123;</div><div class="line">    this.push(String.fromCharCode(this.currentCharCode++));</div><div class="line">    if (this.currentCharCode &gt; 90) &#123;</div><div class="line">      this.push(null);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">inoutStream.currentCharCode = 65;</div><div class="line">process.stdin.pipe(inoutStream).pipe(process.stdout);</div></pre></td></tr></table></figure>
-<p>通过组合这些方法，我们可以使用这个双工流来读取从A到Z的字母，我们也可以用它的回波特征。我们将可读的stdin流管道到这个双工流中以使用回声功能，我们将双工流本身管道写入可写入stdout流，以查看字母A到Z。</p>
+<p>通过组合这些方法，我们可以使用这个双工流来读取从A到Z的字母，我们也可以用它的回波特征。我们将可读的stdin流管道到这个双工流中以使用回声功能，我们将双工流本身管道写入可写入<code>stdout</code>流，以查看字母A到Z。</p>
 <p>重要的是要了解双工流的可读写双方完全独立运行。这只是将两个特征组合成一个对象。</p>
-<p>变换流是更有趣的双工流，因为它的输出是从其输入计算的。</p>
-<p>对于一个变换流，我们不需要实现读取或者写入方法，我们只需要实现一个转换方法，它将两者结合起来。它具有写入方式的签名，我们也可以使用它来推送数据。</p>
+<p>转换流是更有趣的双工流，因为它的输出是从其输入计算的。</p>
+<p>对于一个转换流，我们不需要实现读取或者写入方法，我们只需要实现一个转换方法，它将两者结合起来。它具有写入方式的签名，我们也可以使用它来推送数据。</p>
 <p>这是一个简单的转换流，它将您将其转换为大写格式后，再次输入任何内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const upperCaseTr = new Transform(&#123;</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().toUpperCase());</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">process.stdin.pipe(upperCaseTr).pipe(process.stdout);</div></pre></td></tr></table></figure>
-<p>在这个转换流中，我们正在消费与之前的双工流示例一样，我们只实现了一个transform（）方法。在该方法中，我们将块转换为大写版本，然后将该版本推送为可读部分。</p>
-<h3 id="流对象模式-Stream-Object-Mode"><a href="#流对象模式-Stream-Object-Mode" class="headerlink" title="流对象模式(Stream Object Mode)"></a>流对象模式(Stream Object Mode)</h3><p>默认情况下，流期望缓冲区/字符串值。有一个objectMode标志，我们可以设置为让流接受任何JavaScript对象。</p>
+<p>在这个转换流中，我们正在消费与之前的双工流示例一样，我们只实现了一个<code>transform</code>方法。在该方法中，我们将块转换为大写版本，然后将该版本推送为可读部分。</p>
+<h3 id="流对象模式-Stream-Object-Mode"><a href="#流对象模式-Stream-Object-Mode" class="headerlink" title="流对象模式(Stream Object Mode)"></a>流对象模式(Stream Object Mode)</h3><p>默认情况下，流期望缓冲区(Buffer)/字符串(String)值。有一个<code>objectMode</code>标志，我们可以设置为让流接受任何JavaScript对象。</p>
 <p>这是一个简单的例子来证明这一点。以下变换流的组合使得将逗号分隔值的字符串映射为JavaScript对象的功能。所以“a，b，c，d”成为{a：b，c：d}。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line">const commaSplitter = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().trim().split(&apos;,&apos;));</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const arrayToObject = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    const obj = &#123;&#125;;</div><div class="line">    for(let i=0; i &lt; chunk.length; i+=2) &#123;</div><div class="line">      obj[chunk[i]] = chunk[i+1];</div><div class="line">    &#125;</div><div class="line">    this.push(obj);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const objectToString = new Transform(&#123;</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(JSON.stringify(chunk) + &apos;\n&apos;);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">process.stdin</div><div class="line">  .pipe(commaSplitter)</div><div class="line">  .pipe(arrayToObject)</div><div class="line">  .pipe(objectToString)</div><div class="line">  .pipe(process.stdout)</div></pre></td></tr></table></figure>
 <p>我们通过commasplitter传递输入字符串（例如“a，b，c，d”），该数组将数组作为其可读取数据（[“a”，“b”，“c”，“d”]））。在该流上添加可读ObjectMode标志是必要的，因为我们正在将对象推送到其上，而不是字符串。</p>
@@ -171,7 +331,7 @@
 <h3 id="Node-js内置的转换流"><a href="#Node-js内置的转换流" class="headerlink" title="Node.js内置的转换流"></a>Node.js内置的转换流</h3><p>Node有一些非常有用的内置变换流。即，<code>zlib</code>和<code>crypto</code> stream。</p>
 <p>这是一个使用<code>zlib.createGzip</code>（）流结合<code>fs</code>  <code>readable/writable</code> 流创建文件压缩脚本的示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.gz&apos;));</div></pre></td></tr></table></figure>
-<p>您可以使用此脚本将您传递的任何文件gzip作为参数。我们将该文件的可读流管道转换为zlib内置的转换流，然后转换为新的gzip压缩文件的可写流。简单。</p>
+<p>您可以使用此脚本将您传递的任何文件gzip作为参数。我们将该文件的可读流管道转换为zlib内置的转换流，然后转换为新的<code>gzip</code>-压缩文件的可写流。简单。</p>
 <p>使用管道的很酷的事情是，如果我们需要，我们可以将它们与事件结合起来。例如，我希望用户在脚本运行时看到一个进度指示符，当脚本完成时，我想要一个“完成”消息。由于管道方法返回目标流，因此我们可以链接注册事件处理程序：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .on(&apos;data&apos;, () =&gt; process.stdout.write(&apos;.&apos;))</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.zz&apos;))</div><div class="line">  .on(&apos;finish&apos;, () =&gt; console.log(&apos;Done&apos;));</div></pre></td></tr></table></figure>
 <p>所以使用管道方法，我们可以轻松地消耗流，但是我们还可以使用需要的事件进一步定制与这些流的交互。 </p>
@@ -189,7 +349,10 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论
+      &lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbox&quot;&gt;
+                    &lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+                   
     
     </summary>
     

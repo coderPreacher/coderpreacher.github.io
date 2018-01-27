@@ -1,184 +1,448 @@
 <!DOCTYPE html>
-<html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
 <head>
-    
-
-    
-
-    
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
-    <meta charset="utf-8">
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
     
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
     
-    <title>你必须知道的Node.js Stream | coderPreacher&#39;s Blog | Love life, love technology, positive, optimistic, beyond the self</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="theme-color" content="#3F51B5">
-    
-    
-    <meta name="keywords" content="Stream,Node.js Stream,Node">
-    <meta name="description" content="介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。 什么是流？流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。然而，流不仅仅是关于使用大数据。 他们也给">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Stream,Node.js Stream,Node," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="coderPreacher's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Streami-              介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换">
 <meta name="keywords" content="Stream,Node.js Stream,Node">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你必须知道的Node.js Stream">
 <meta property="og:url" content="http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/index.html">
 <meta property="og:site_name" content="coderPreacher's Blog">
-<meta property="og:description" content="介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。 什么是流？流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。然而，流不仅仅是关于使用大数据。 他们也给">
+<meta property="og:description" content="Streami-              介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*HGXpeiF5-hJrOk_8tT2jFA.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*HI-mtispQ13qm8ib5yey3g.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*u2kQzUD0ruPpt-xx0UOHoA.png">
-<meta property="og:updated_time" content="2017-09-09T17:25:12.000Z">
+<meta property="og:updated_time" content="2017-09-10T01:49:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你必须知道的Node.js Stream">
-<meta name="twitter:description" content="介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。 什么是流？流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。然而，流不仅仅是关于使用大数据。 他们也给">
-<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png">
-    
-        <link rel="alternate" type="application/atom+xml" title="coderPreacher&#39;s Blog" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <script>window.lazyScripts=[]</script>
+<meta name="twitter:description" content="Streami-              介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/"/>
+
+
+
+
+
+  <title>你必须知道的Node.js Stream | coderPreacher's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </head>
 
-<body>
-    <div id="loading" class="active"></div>
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
-    <aside id="menu" class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/images/me.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">谢晖</h5>
-          <a href="mailto:coderpreacher@gmail.com" title="coderpreacher@gmail.com" class="mail">coderpreacher@gmail.com</a>
-        </hgroup>
-      </div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderPreacher's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="waves-block waves-effect">
-              <a href="/"  >
-                <i class="icon icon-lg icon-home"></i>
-                Home
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/archives"  >
-                <i class="icon icon-lg icon-archives"></i>
-                Archives
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/tags"  >
-                <i class="icon icon-lg icon-tags"></i>
-                Tags
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/categories"  >
-                <i class="icon icon-lg icon-th-list"></i>
-                Categories
-              </a>
-            </li>
-        
-      </ul>
-    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Love life, love technology, positive, optimistic, beyond the self</h1>
+      
   </div>
-</aside>
 
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">你必须知道的Node.js Stream</div>
-        
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
-        
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
-        
-    </div>
-</header>
-<header class="content-header post-header">
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
 
-    <div class="container fade-scale">
-        <h1 class="title">你必须知道的Node.js Stream</h1>
-        <h5 class="subtitle">
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
             
-                <time datetime="2017-09-09T14:11:50.000Z" itemprop="datePublished" class="page-time">
-  2017-09-09
-</time>
-
-
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Node-js/">Node.js</a></li></ul>
-
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-        </h5>
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
     </div>
 
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
 
+  
 
-</header>
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/">
 
-<div class="container body-wrap">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢晖">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderPreacher's Blog">
+    </span>
+
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#什么是流？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是流？</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#您的第一流应用程序"><span class="post-toc-number">3.</span> <span class="post-toc-text">您的第一流应用程序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#客户端"><span class="post-toc-number">3.0.0.1.</span> <span class="post-toc-text">客户端</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#服务端"><span class="post-toc-number">3.0.0.2.</span> <span class="post-toc-text">服务端</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Node-js中的Stream"><span class="post-toc-number">4.</span> <span class="post-toc-text">Node.js中的Stream</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#pipe-管道-方法"><span class="post-toc-number">4.0.1.</span> <span class="post-toc-text">pipe(管道) 方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#流事件-Stream-events"><span class="post-toc-number">4.0.2.</span> <span class="post-toc-text">流事件(Stream events)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可读流的暂停和流动模式"><span class="post-toc-number">4.0.3.</span> <span class="post-toc-text">可读流的暂停和流动模式</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#流实现"><span class="post-toc-number">5.</span> <span class="post-toc-text">流实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现可写流-Writable"><span class="post-toc-number">5.0.1.</span> <span class="post-toc-text">实现可写流(Writable)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现可读流-Readable"><span class="post-toc-number">5.0.2.</span> <span class="post-toc-text">实现可读流(Readable)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现双工-转换流"><span class="post-toc-number">5.0.3.</span> <span class="post-toc-text">实现双工/转换流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#流对象模式-Stream-Object-Mode"><span class="post-toc-number">5.0.4.</span> <span class="post-toc-text">流对象模式(Stream Object Mode)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Node-js内置的转换流"><span class="post-toc-number">5.0.5.</span> <span class="post-toc-text">Node.js内置的转换流</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#小结"><span class="post-toc-number">6.</span> <span class="post-toc-text">小结</span></a></li></ol>
-        </nav>
-    </aside>
-    
-<article id="post-你必须知道的Node-js-Stream"
-  class="post-article article-type-post fade" itemprop="blogPost">
+      <header class="post-header">
 
-    <div class="post-card">
-        <h1 class="post-card-title">你必须知道的Node.js Stream</h1>
+        
+        
+          <h2 class="post-title" itemprop="name headline">你必须知道的Node.js Stream</h2>
+        
+
         <div class="post-meta">
-            <time class="post-time" title="2017-09-09 22:11:50" datetime="2017-09-09T14:11:50.000Z"  itemprop="datePublished">2017-09-09</time>
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-09T22:11:50+08:00">
+                2017-09-09
+              </time>
+            
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Node-js/">Node.js</a></li></ul>
-
-
 
             
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
-</span>
+          </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Node.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/09/你必须知道的Node-js-Stream/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/09/你必须知道的Node-js-Stream/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
 
         </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg" alt="Streami-" title="">
+                </div>
+                <div class="image-caption">Streami-</div>
+            </figure>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
 <h1 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h1><p>流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。<br>然而，流不仅仅是关于使用大数据。 他们也给我们在我们的代码中组合的力量。 就像我们可以通过管道其他较小的Linux命令组成强大的linux命令一样，我们可以在Node中使用流完全一样。</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -286,7 +550,7 @@
 </ul>
 <p>在<code>outStream</code>中，我们只是将该块作为一个字符串进行<code>console.log</code>，然后在没有错误的情况下调用回调来表示成功。这是一个非常简单的，可能不是很有用的回声流。它将回传任何收到的东西。</p>
 <p>要消耗这个流，我们可以简单地使用<code>process.stdin</code>，这是一个可读的流，所以我们可以将<code>process.stdin</code>管道传入我们的<code>outstream</code></p>
-<p>当我们运行上面的代码时，我们输入到process.stdin的任何东西都将使用outStream console.log行回显。</p>
+<p>当我们运行上面的代码时，我们输入到<code>process.stdin</code>的任何东西都将使用<code>outStream</code> <code>console.log</code>行回显。</p>
 <p>这不是一个非常有用的实现流，因为它实际上已经被实现和内置。这非常等同于process.stdout。我们可以将stdin管道输入stdout，我们可以用这条单行得到完全相同的回声功能：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">process.stdin.pipe(process.stdout);</div></pre></td></tr></table></figure>
 <h3 id="实现可读流-Readable"><a href="#实现可读流-Readable" class="headerlink" title="实现可读流(Readable)"></a>实现可读流(Readable)</h3><p>要实现可读流，我们需要可读接口并从中构造一个对象：</p>
@@ -302,17 +566,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const inStream = new Readable(&#123;</div><div class="line">  read(size) &#123;</div><div class="line">    this.push(String.fromCharCode(this.currentCharCode++));</div><div class="line">    if (this.currentCharCode &gt; 90) &#123;</div><div class="line">      this.push(null);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">inStream.currentCharCode = 65;</div><div class="line">inStream.pipe(process.stdout);</div></pre></td></tr></table></figure>
 <p>当消费者读取可读流时，读取方法将继续触发，我们会推送更多的信件。我们需要在某个地方停止这个循环，这就是为什么当currentCharCode大于90（表示Z）时，if语句推空。</p>
 <p>这个代码相当于我们开始使用的更简单的代码，但是现在我们正在按消费者要求的数据推送数据。你应该永远这样做.</p>
-<h3 id="实现双工-转换流"><a href="#实现双工-转换流" class="headerlink" title="实现双工/转换流"></a>实现双工/转换流</h3><p>使用双工流，我们可以使用相同的对象来实现可读和可写的流。就好像我们从两个接口继承。 </p>
+<h3 id="实现双工-Duplex-转换流-Transfer"><a href="#实现双工-Duplex-转换流-Transfer" class="headerlink" title="实现双工(Duplex)/转换流(Transfer)"></a>实现双工(Duplex)/转换流(Transfer)</h3><p>使用双工流，我们可以使用相同的对象来实现可读和可写的流。就好像我们从两个接口继承。 </p>
 <p>这是一个实例双工流，它结合了上面实现的两个可写和可读的例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const &#123; Duplex &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const inoutStream = new Duplex(&#123;</div><div class="line">  write(chunk, encoding, callback) &#123;</div><div class="line">    console.log(chunk.toString());</div><div class="line">    callback();</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  read(size) &#123;</div><div class="line">    this.push(String.fromCharCode(this.currentCharCode++));</div><div class="line">    if (this.currentCharCode &gt; 90) &#123;</div><div class="line">      this.push(null);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">inoutStream.currentCharCode = 65;</div><div class="line">process.stdin.pipe(inoutStream).pipe(process.stdout);</div></pre></td></tr></table></figure>
-<p>通过组合这些方法，我们可以使用这个双工流来读取从A到Z的字母，我们也可以用它的回波特征。我们将可读的stdin流管道到这个双工流中以使用回声功能，我们将双工流本身管道写入可写入stdout流，以查看字母A到Z。</p>
+<p>通过组合这些方法，我们可以使用这个双工流来读取从A到Z的字母，我们也可以用它的回波特征。我们将可读的stdin流管道到这个双工流中以使用回声功能，我们将双工流本身管道写入可写入<code>stdout</code>流，以查看字母A到Z。</p>
 <p>重要的是要了解双工流的可读写双方完全独立运行。这只是将两个特征组合成一个对象。</p>
-<p>变换流是更有趣的双工流，因为它的输出是从其输入计算的。</p>
-<p>对于一个变换流，我们不需要实现读取或者写入方法，我们只需要实现一个转换方法，它将两者结合起来。它具有写入方式的签名，我们也可以使用它来推送数据。</p>
+<p>转换流是更有趣的双工流，因为它的输出是从其输入计算的。</p>
+<p>对于一个转换流，我们不需要实现读取或者写入方法，我们只需要实现一个转换方法，它将两者结合起来。它具有写入方式的签名，我们也可以使用它来推送数据。</p>
 <p>这是一个简单的转换流，它将您将其转换为大写格式后，再次输入任何内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line"></div><div class="line">const upperCaseTr = new Transform(&#123;</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().toUpperCase());</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">process.stdin.pipe(upperCaseTr).pipe(process.stdout);</div></pre></td></tr></table></figure>
-<p>在这个转换流中，我们正在消费与之前的双工流示例一样，我们只实现了一个transform（）方法。在该方法中，我们将块转换为大写版本，然后将该版本推送为可读部分。</p>
-<h3 id="流对象模式-Stream-Object-Mode"><a href="#流对象模式-Stream-Object-Mode" class="headerlink" title="流对象模式(Stream Object Mode)"></a>流对象模式(Stream Object Mode)</h3><p>默认情况下，流期望缓冲区/字符串值。有一个objectMode标志，我们可以设置为让流接受任何JavaScript对象。</p>
+<p>在这个转换流中，我们正在消费与之前的双工流示例一样，我们只实现了一个<code>transform</code>方法。在该方法中，我们将块转换为大写版本，然后将该版本推送为可读部分。</p>
+<h3 id="流对象模式-Stream-Object-Mode"><a href="#流对象模式-Stream-Object-Mode" class="headerlink" title="流对象模式(Stream Object Mode)"></a>流对象模式(Stream Object Mode)</h3><p>默认情况下，流期望缓冲区(Buffer)/字符串(String)值。有一个<code>objectMode</code>标志，我们可以设置为让流接受任何JavaScript对象。</p>
 <p>这是一个简单的例子来证明这一点。以下变换流的组合使得将逗号分隔值的字符串映射为JavaScript对象的功能。所以“a，b，c，d”成为{a：b，c：d}。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line">const commaSplitter = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().trim().split(&apos;,&apos;));</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const arrayToObject = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    const obj = &#123;&#125;;</div><div class="line">    for(let i=0; i &lt; chunk.length; i+=2) &#123;</div><div class="line">      obj[chunk[i]] = chunk[i+1];</div><div class="line">    &#125;</div><div class="line">    this.push(obj);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const objectToString = new Transform(&#123;</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(JSON.stringify(chunk) + &apos;\n&apos;);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">process.stdin</div><div class="line">  .pipe(commaSplitter)</div><div class="line">  .pipe(arrayToObject)</div><div class="line">  .pipe(objectToString)</div><div class="line">  .pipe(process.stdout)</div></pre></td></tr></table></figure>
 <p>我们通过commasplitter传递输入字符串（例如“a，b，c，d”），该数组将数组作为其可读取数据（[“a”，“b”，“c”，“d”]））。在该流上添加可读ObjectMode标志是必要的，因为我们正在将对象推送到其上，而不是字符串。</p>
@@ -327,7 +591,7 @@
 <h3 id="Node-js内置的转换流"><a href="#Node-js内置的转换流" class="headerlink" title="Node.js内置的转换流"></a>Node.js内置的转换流</h3><p>Node有一些非常有用的内置变换流。即，<code>zlib</code>和<code>crypto</code> stream。</p>
 <p>这是一个使用<code>zlib.createGzip</code>（）流结合<code>fs</code>  <code>readable/writable</code> 流创建文件压缩脚本的示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.gz&apos;));</div></pre></td></tr></table></figure>
-<p>您可以使用此脚本将您传递的任何文件gzip作为参数。我们将该文件的可读流管道转换为zlib内置的转换流，然后转换为新的gzip压缩文件的可写流。简单。</p>
+<p>您可以使用此脚本将您传递的任何文件gzip作为参数。我们将该文件的可读流管道转换为zlib内置的转换流，然后转换为新的<code>gzip</code>-压缩文件的可写流。简单。</p>
 <p>使用管道的很酷的事情是，如果我们需要，我们可以将它们与事件结合起来。例如，我希望用户在脚本运行时看到一个进度指示符，当脚本完成时，我想要一个“完成”消息。由于管道方法返回目标流，因此我们可以链接注册事件处理程序：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .on(&apos;data&apos;, () =&gt; process.stdout.write(&apos;.&apos;))</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.zz&apos;))</div><div class="line">  .on(&apos;finish&apos;, () =&gt; console.log(&apos;Done&apos;));</div></pre></td></tr></table></figure>
 <p>所以使用管道方法，我们可以轻松地消耗流，但是我们还可以使用需要的事件进一步定制与这些流的交互。 </p>
@@ -342,299 +606,802 @@
 <p>假设传递的文件是压缩版本，上面的代码将创建一个从它的读取流，将其传输到crypto createDecipher（）流（使用相同的密钥），将其输出管道输入到zlib createGunzip（）流中，然后将文件写回到没有扩展部分的文件中。 </p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>了解了这些 Stream 的内部机制，对我们后续深入理解上层代码有很大的促进作用，特别希望初学 Node.js 的同学花点时间进来看看。</p>
 
-        </div>
-
-        <blockquote class="post-copyright">
-    <div class="content">
-        
-<span class="post-time">
-    Last updated: <time datetime="2017-09-09T17:25:12.000Z" itemprop="dateUpdated">2017-09-10 01:25:12</time>
-</span><br>
-
-
-        
-        原始链接：<a href="/2017/09/09/你必须知道的Node-js-Stream/" target="_blank" rel="external">http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/</a>
-        
+      
     </div>
-    <footer>
-        <a href="http://coderpreacher.top">
-            <img src="/images/me.jpg" alt="谢晖">
-            谢晖
-        </a>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.JPG" alt="谢晖 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.JPG" alt="谢晖 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Stream/" rel="tag"># Stream</a>
+          
+            <a href="/tags/Node-js-Stream/" rel="tag"># Node.js Stream</a>
+          
+            <a href="/tags/Node/" rel="tag"># Node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/10/可扩展的Node-js应用/" rel="next" title="可扩展的Node.js应用">
+                <i class="fa fa-chevron-left"></i> 可扩展的Node.js应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/31/了解Node-js事件循环/" rel="prev" title="了解Node.js事件循环">
+                了解Node.js事件循环 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
-</blockquote>
-
-        
-<div class="page-reward">
-    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
-</div>
+  </article>
 
 
 
-        <div class="post-footer">
-            
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node/">Node</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js-Stream/">Node.js Stream</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stream/">Stream</a></li></ul>
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
-            
-<div class="page-share-wrap">
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/&title=《你必须知道的Node.js Stream》 — coderPreacher's Blog&pic=http://coderpreacher.top/images/me.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/&title=《你必须知道的Node.js Stream》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《你必须知道的Node.js Stream》 — coderPreacher's Blog&url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/&via=http://coderpreacher.top" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
 
 
         </div>
-    </div>
-
-    
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2017/07/31/了解Node-js事件循环/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">了解Node.js事件循环</h4>
-      </a>
-    </div>
-  
-
-  
-</nav>
-
-
-
-    
-
-
-<section class="comments" id="comments">
-    <div id="disqus_thread"></div>
-    <script>
-    var disqus_shortname = 'true';
-    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-</article>
-
-<div id="reward" class="page-modal reward-lay">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <h3 class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        谢谢大爷~
-        <i class="icon icon-quote-right"></i>
-    </h3>
-    <div class="reward-content">
         
-        <div class="reward-code">
-            <img id="rewardCode" src="/images/wechatpay.JPG" alt="打赏二维码">
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/me.jpg"
+               alt="谢晖" />
+          <p class="site-author-name" itemprop="name">谢晖</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
         </div>
-        
-        <label class="reward-toggle">
-            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
-                data-wechat="/images/wechatpay.JPG" data-alipay="/images/alipay.JPG">
-            <div class="reward-toggle-ctrol">
-                <span class="reward-toggle-item wechat">微信</span>
-                <span class="reward-toggle-label"></span>
-                <span class="reward-toggle-item alipay">支付宝</span>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
             </div>
-        </label>
-        
-    </div>
-</div>
+          
 
-
-
-</div>
-
-        <footer class="footer">
-    <div class="top">
-        
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
-
-
-        <p>
+          
             
-                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
-        </p>
-    </div>
-    <div class="bottom">
-        <p><span>谢晖 &copy; 2015 - 2017</span>
-            <span>
-                
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
-            </span>
-        </p>
-    </div>
-</footer>
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是流？"><span class="nav-number">2.</span> <span class="nav-text">什么是流？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#您的第一流应用程序"><span class="nav-number">3.</span> <span class="nav-text">您的第一流应用程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务端"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">服务端</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js中的Stream"><span class="nav-number">4.</span> <span class="nav-text">Node.js中的Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pipe-管道-方法"><span class="nav-number">4.0.1.</span> <span class="nav-text">pipe(管道) 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流事件-Stream-events"><span class="nav-number">4.0.2.</span> <span class="nav-text">流事件(Stream events)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可读流的暂停和流动模式"><span class="nav-number">4.0.3.</span> <span class="nav-text">可读流的暂停和流动模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流实现"><span class="nav-number">5.</span> <span class="nav-text">流实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现可写流-Writable"><span class="nav-number">5.0.1.</span> <span class="nav-text">实现可写流(Writable)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现可读流-Readable"><span class="nav-number">5.0.2.</span> <span class="nav-text">实现可读流(Readable)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现双工-Duplex-转换流-Transfer"><span class="nav-number">5.0.3.</span> <span class="nav-text">实现双工(Duplex)/转换流(Transfer)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流对象模式-Stream-Object-Mode"><span class="nav-number">5.0.4.</span> <span class="nav-text">流对象模式(Stream Object Mode)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-js内置的转换流"><span class="nav-number">5.0.5.</span> <span class="nav-text">Node.js内置的转换流</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
     </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/&title=《你必须知道的Node.js Stream》 — coderPreacher's Blog&pic=http://coderpreacher.top/images/me.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/&title=《你必须知道的Node.js Stream》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《你必须知道的Node.js Stream》 — coderPreacher's Blog&url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/&via=http://coderpreacher.top" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACt0lEQVR42u3awW7bMBAE0Pz/T7dATz3U8swu6aTA08kwFImPAcj1LL++4uvXn+vV57+/ef7b5GmvnvD8ltWFh4eHNxr6q+v5nvyZM0AyrW9GhYeHh3eNl2wGyZ359pC/pZ0mPDw8vJ/D2yzoz/ck04SHh4f3//Lysvv5+/0WgoeHh/e9vCSMaDeGTYn8fM+VrAUPDw8v5u0bYJ///NH+Hh4eHl68JSSL+6zw3cS4xWjx8PDwLvD2bf72Ze03bYQR/WLAw8PDO8rL2XmzahY3tNP68l14eHh4l3ltUXsbkxfxRUmNh4eHd4i3OTQwa4y1sLzsxsPDw7vH2yzubUS771IVAUSSKOPh4eGNeHno0Lbz27ZZMtw8gCgaYHh4eHglry18Z42rpECfFdbFoSs8PDy8Q7xZAd3CNocJ2ljkzQECPDw8vDUvX5TbwHdzBGEfT9QMPDw8vK5SPVBe50cQZvFHUie/mWg8PDy8Q7w2nG1DgTbMnQXKL6cVDw8P7xovOUBwNpCdHSCo23J4eHh413h50LAJBWYxbltSR/seHh4e3oLX9tzzIwXPQ8/7+7OCGw8PD+82r12UTx0IiMri/YWHh4d3mfccwrbt/LywbsOLIjjGw8PDO8rLYZvWV/KcU78G8PDw8G7zckwe+LYRxiaqiP4BeHh4eEd5s2igDXNnQe2+xMfDw8P7JK9Fzq6zRxbw8PDwPsObxaPtFLSHpdohHmiV4eHh4cW82VKeRwNt9DBb+l+W+3h4eHgXeJuDWe0r91OQT82Bc2d4eHh4j7w8MmhbVptwNp/Kor+Hh4eHd5SXbwZnV919cfzmHjw8PLxv5bXBRLF8j3jR/Xh4eHg/gNcGr8l2kqzns80GDw8P7x5vVha3y/2sKM+n+B9vxMPDw7vAmx1smrWjZoObTTceHh7eBd5vPFJK34OIkqkAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢晖</span>
 </div>
 
 
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
 
-    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
 
 
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
-
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item">
-    <a href="{path}" class="waves-block waves-effect">
-        <div class="title ellipsis" title="{title}">{title}</div>
-        <div class="flex-row flex-middle">
-            <div class="tags ellipsis">
-                {tags}
-            </div>
-            <time class="flex-col time">{date}</time>
-        </div>
-    </a>
-</li>
-</template>
-
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
 
 
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  
 
 
 
-<script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = '死鬼去哪里了！';
-            clearTimeout(titleTime);
-        } else {
-            document.title = '(つェ⊂)咦!又好了!';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://coderpreacher.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/';
+          this.page.identifier = '2017/09/09/你必须知道的Node-js-Stream/';
+          this.page.title = '你必须知道的Node.js Stream';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://coderpreacher.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
         }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
     });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
 })();
 </script>
 
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.0"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/exturl.js?v=5.1.0"></script>
 
 
 </body>

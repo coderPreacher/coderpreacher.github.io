@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nodejs,Node.js Event-Driven,Event-Driven Architecture,Node.js Architecture," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="coderPreacher's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。                                                                                              EventEmitter              事件驱动性质的最简单形式是一些流行的No">
+<meta name="keywords" content="Nodejs,Node.js Event-Driven,Event-Driven Architecture,Node.js Architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="了解Node.js事件驱动架构">
+<meta property="og:url" content="http://coderpreacher.top/2017/09/10/了解Node-js事件驱动架构/index.html">
+<meta property="og:site_name" content="coderPreacher's Blog">
+<meta property="og:description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。                                                                                              EventEmitter              事件驱动性质的最简单形式是一些流行的No">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png">
+<meta property="og:updated_time" content="2017-09-10T15:18:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="了解Node.js事件驱动架构">
+<meta name="twitter:description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。                                                                                              EventEmitter              事件驱动性质的最简单形式是一些流行的No">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://coderpreacher.top/2017/09/10/了解Node-js事件驱动架构/"/>
+
+
+
+
+
+  <title>了解Node.js事件驱动架构 | coderPreacher's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coderPreacher's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Love life, love technology, positive, optimistic, beyond the self</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://coderpreacher.top/2017/09/10/了解Node-js事件驱动架构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢晖">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderPreacher's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">了解Node.js事件驱动架构</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-10T13:02:05+08:00">
+                2017-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Node.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/10/了解Node-js事件驱动架构/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/10/了解Node-js事件驱动架构/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Node的大部分对象（如HTTP请求，响应和流）都实现了<code>EventEmitter</code>模块，从而可以提供发送和监听事件的方法。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png" alt="EventEmitter" title="">
+                </div>
+                <div class="image-caption">EventEmitter</div>
+            </figure>
+<p>事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如<code>fs.readFile</code>。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。</p>
+<p>我们先来探讨这个基本形式。</p>
+<h1 id="当你准备好的时候给我打电话，Node！"><a href="#当你准备好的时候给我打电话，Node！" class="headerlink" title="当你准备好的时候给我打电话，Node！"></a>当你准备好的时候给我打电话，Node！</h1><p>Node处理异步事件的原始方式是回调。这是很久以前，在JavaScript有本机(<code>Promise</code>)承诺支持和<code>async</code>/<code>await</code>功能之前。</p>
+<p>回调基本上只是你传递给其他功能的函数。这在JavaScript中是可能的，因为函数是第一类对象。</p>
+<p>重要的是要明白回调在代码中不表示异步调用。函数可以同步和异步地调用回调。</p>
+<p>例如，这里是一个主机函数<code>fileSize</code>，它接受一个回调函数<code>cb</code>，并且可以基于一个条件同步和异步地调用该回调函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function fileSize (fileName, cb) &#123;</div><div class="line">  if (typeof fileName !== &apos;string&apos;) &#123;</div><div class="line">    return cb(new TypeError(&apos;argument should be string&apos;)); // Sync</div><div class="line">  &#125;</div><div class="line">  fs.stat(fileName, (err, stats) =&gt; &#123;</div><div class="line">    if (err) &#123; return cb(err); &#125; // Async</div><div class="line">    cb(null, stats.size); // Async</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>请注意，这是导致意外错误的不良做法。设计主机函数以始终同步或始终异步地使用回调。</p>
+<p>我们来探讨一个典型的异步Node函数的简单示例，它使用回调样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const readFileAsArray = function(file, cb) &#123;</div><div class="line">  fs.readFile(file, function(err, data) &#123;</div><div class="line">    if (err) &#123;</div><div class="line">      return cb(err);</div><div class="line">    &#125;</div><div class="line">    const lines = data.toString().trim().split(&apos;\n&apos;);</div><div class="line">    cb(null, lines);</div><div class="line">  &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><code>readFileAsArray</code>需要一个文件路径和一个回调函数。它读取文件内容，将其拆分成行数组，并使用该数组调用回调函数。</p>
+<p>这是一个用例。假设我们在同一目录中的文件numbers.txt包含如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td></tr></table></figure>
+<p>如果我们有一个任务来计算该文件中的奇数，我们可以使用<code>readFileAsArray</code>来简化代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">readFileAsArray(&apos;./numbers.txt&apos;, (err, lines) =&gt; &#123;</div><div class="line">  if (err) throw err;</div><div class="line">  const numbers = lines.map(Number);</div><div class="line">  const oddNumbers = numbers.filter(n =&gt; n%2 === 1);</div><div class="line">  console.log(&apos;Odd numbers count:&apos;, oddNumbers.length);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>代码将数字内容读入字符串数组，将其解析为数字，并计数奇数。</p>
+<p>Node的回调风格纯粹在这里使用。回调有一个第一个错误的参数<code>err</code>为空，我们将回调作为主机函数的最后一个参数传递。您应该始终在您的功能中执行此操作，因为用户可能会假设。使主机函数接收回调作为其最后一个参数，并使回调期望一个错误对象作为其第一个参数。</p>
+<h1 id="回调的现代JavaScript替代方案"><a href="#回调的现代JavaScript替代方案" class="headerlink" title="回调的现代JavaScript替代方案"></a>回调的现代JavaScript替代方案</h1><p>在现代JavaScript中，我们有承诺(Promise)的对象。 Promises可以替代异步API的回调。而不是将回调作为参数传递并在相同的地方处理错误，承诺对象允许我们单独处理成功和错误的情况，并且还允许我们链接多个异步调用而不是嵌套它们。</p>
+<p>如果readFileAsArray函数支持promises，我们可以使用它，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">readFileAsArray(&apos;./numbers.txt&apos;)</div><div class="line">  .then(lines =&gt; &#123;</div><div class="line">    const numbers = lines.map(Number);</div><div class="line">    const oddNumbers = numbers.filter(n =&gt; n%2 === 1);</div><div class="line">    console.log(&apos;Odd numbers count:&apos;, oddNumbers.length);</div><div class="line">  &#125;)</div><div class="line">  .catch(console.error);</div></pre></td></tr></table></figure>
+<p>而不是传入回调函数，我们在主机函数的返回值上调用了<code>.then</code>函数。这个<code>.then</code>函数通常给我们访问我们在回调版本中获得的相同的行数组，我们可以像以前一样对它进行处理。为了处理错误，我们在结果上添加一个<code>.catch</code>调用，当我们发生错误时，我们可以访问一个错误。</p>
+<p>由于新的Promise对象，使现代JavaScript中的主机功能支持承诺界面更容易。这里的<code>readFileAsArray</code>函数修改为支持promise界面，除了它已经支持的回调接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">const readFileAsArray = function(file, cb = () =&gt; &#123;&#125;) &#123;</div><div class="line">  return new Promise((resolve, reject) =&gt; &#123;</div><div class="line">    fs.readFile(file, function(err, data) &#123;</div><div class="line">      if (err) &#123;</div><div class="line">        reject(err);</div><div class="line">        return cb(err);</div><div class="line">      &#125;</div><div class="line">      const lines = data.toString().trim().split(&apos;\n&apos;);</div><div class="line">      resolve(lines);</div><div class="line">      cb(null, lines);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>所以我们使函数返回一个<code>Promise</code>对象，它包裹<code>fs.readFile</code>异步调用。 promise对象暴露两个参数，一个<code>resolve</code>函数和一个<code>reject</code>函数。</p>
+<p>每当我们想使用错误调用回调时，我们也使用promise <code>reject</code>函数，当我们想要使用数据调用回调函数时，我们也使用promise <code>resolve</code>函数。</p>
+<p>在这种情况下，我们需要做的唯一其他事情是为这个回调参数设置默认值，以防代码与promise接口一起使用。我们可以在这个例子的参数中使用一个简单的默认空函数：（）=&gt; {}。</p>
+<h1 id="消费承诺与async-await"><a href="#消费承诺与async-await" class="headerlink" title="消费承诺与async/await"></a>消费承诺与async/await</h1><p>当需要循环异步功能时，添加承诺界面可使您的代码更容易处理。随着回调，事情变得凌乱。</p>
+<p>承诺改善了一点，功能发生器改善了一点点。这就是说，使用异步代码的最新替代方案是使用异步功能，它允许我们将异步代码视为同步代码，使其整体上更加可读。</p>
+<p>以下是使用async / await的<code>readFileAsArray</code>函数的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">async function countOdd () &#123;</div><div class="line">  try &#123;</div><div class="line">    const lines = await readFileAsArray(&apos;./numbers&apos;);</div><div class="line">    const numbers = lines.map(Number);</div><div class="line">    const oddCount = numbers.filter(n =&gt; n%2 === 1).length;</div><div class="line">    console.log(&apos;Odd numbers count:&apos;, oddCount);</div><div class="line">  &#125; catch(err) &#123;</div><div class="line">    console.error(err);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">countOdd();</div></pre></td></tr></table></figure>
+<p>我们首先创建一个异步功能，这是一个正常的功能，它之前的字异步。在异步函数内部，我们调用readFileAsArray函数，就像它返回的是行变量一样，为了做这个工作，我们使用关键字await。之后，我们继续执行代码，就好像readFileAsArray调用是同步的。</p>
+<p>要使事情运行，我们执行异步功能。这很简单，可读性更高。要处理错误，我们需要将异步调用包装在一个try / catch语句中。</p>
+<p>使用此异步/等待功能，我们不必使用任何特殊的API（如.then和.catch）。我们只是标记功能不同，并使用纯JavaScript代码。</p>
+<p>我们可以使用async / await功能与任何支持承诺接口的功能。但是，我们无法使用回调式异步函数（例如setTimeout）。</p>
+<h1 id="EventEmitter模块"><a href="#EventEmitter模块" class="headerlink" title="EventEmitter模块"></a><code>EventEmitter</code>模块</h1><p><code>EventEmitter</code>是一个促进Node中对象之间的通信的模块。 <code>EventEmitter</code>是Node异步事件驱动架构的核心。 Node的许多内置模块都继承自EventEmitter。</p>
+<p>这个概念很简单：发射体对象会发出命名事件，这些事件会导致以前注册的侦听器被调用。所以，发射器对象基本上有两个主要特征：</p>
+<ul>
+<li>发出名称事件。</li>
+<li>注册和注销侦听器功能。</li>
+</ul>
+<p>要使用EventEmitter，我们只需创建一个扩展EventEmitter的类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">class MyEmitter extends EventEmitter &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Emitter对象是我们从基于EventEmitter的类实例化的对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const myEmitter = new MyEmitter();</div></pre></td></tr></table></figure>
+<p>在这些发射器对象的生命周期的任何时刻，我们可以使用emit函数发出我们想要的任何命名事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">myEmitter.emit(&apos;something-happened&apos;);</div></pre></td></tr></table></figure>
+<p>发出事件是发生某种情况的信号。这种情况通常是关于发光物体的状态变化。</p>
+<p>我们可以使用on方法添加监听器函数，并且这些监听器函数将在每次发射器对象发出关联名称事件时执行。</p>
+<h1 id="事件！-异步"><a href="#事件！-异步" class="headerlink" title="事件！==异步"></a>事件！==异步</h1><p>我们来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const EventEmitter = require(&apos;events&apos;);</div><div class="line"></div><div class="line">class WithLog extends EventEmitter &#123;</div><div class="line">  execute(taskFunc) &#123;</div><div class="line">    console.log(&apos;Before executing&apos;);</div><div class="line">    this.emit(&apos;begin&apos;);</div><div class="line">    taskFunc();</div><div class="line">    this.emit(&apos;end&apos;);</div><div class="line">    console.log(&apos;After executing&apos;);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const withLog = new WithLog();</div><div class="line"></div><div class="line">withLog.on(&apos;begin&apos;, () =&gt; console.log(&apos;About to execute&apos;));</div><div class="line">withLog.on(&apos;end&apos;, () =&gt; console.log(&apos;Done with execute&apos;));</div><div class="line"></div><div class="line">withLog.execute(() =&gt; console.log(&apos;*** Executing task ***&apos;));</div></pre></td></tr></table></figure>
+<p>Class <code>WithLog</code> 是事件发射器。它定义一个实例函数<code>execute</code>。此执行函数接收一个参数，任务函数，并使用log语句包装其执行。它在执行之前和之后触发事件。 </p>
+<p>要查看这里会发生什么的顺序，我们在两个命名事件上注册侦听器，最后执行一个示例任务来触发事件。</p>
+<p>这是以下的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Before executing</div><div class="line">About to execute</div><div class="line">*** Executing task ***</div><div class="line">Done with execute</div><div class="line">After executing</div></pre></td></tr></table></figure>
+<p>我想让你注意到上面的输出是一切都是同步发生的。这段代码没有异步。<br>我们先得到“执行前”行。<br>begin命名事件导致“关于执行”行。<br>实际执行行然后输出“<strong><em>执行任务</em></strong>”行。<br>结束命名事件然后导致“完成与执行”行<br>我们得到最后执行“行”。<br>就像普通的回调一样，不要以为事件意味着同步或异步代码。<br>这很重要，因为如果我们传递异步taskFunc来执行，那么发出的事件将不再准确。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.JPG" alt="谢晖 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.JPG" alt="谢晖 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nodejs/" rel="tag"># Nodejs</a>
+          
+            <a href="/tags/Node-js-Event-Driven/" rel="tag"># Node.js Event-Driven</a>
+          
+            <a href="/tags/Event-Driven-Architecture/" rel="tag"># Event-Driven Architecture</a>
+          
+            <a href="/tags/Node-js-Architecture/" rel="tag"># Node.js Architecture</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/10/你必须知道的Node-js-Child-Processes/" rel="prev" title="你必须知道的Node.js Child Processes">
+                你必须知道的Node.js Child Processes <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/me.jpg"
+               alt="谢晖" />
+          <p class="site-author-name" itemprop="name">谢晖</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#当你准备好的时候给我打电话，Node！"><span class="nav-number">1.</span> <span class="nav-text">当你准备好的时候给我打电话，Node！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回调的现代JavaScript替代方案"><span class="nav-number">2.</span> <span class="nav-text">回调的现代JavaScript替代方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消费承诺与async-await"><span class="nav-number">3.</span> <span class="nav-text">消费承诺与async/await</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EventEmitter模块"><span class="nav-number">4.</span> <span class="nav-text">EventEmitter模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事件！-异步"><span class="nav-number">5.</span> <span class="nav-text">事件！==异步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢晖</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://coderpreacher.disqus.com.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://coderpreacher.top/2017/09/10/了解Node-js事件驱动架构/';
+          this.page.identifier = '2017/09/10/了解Node-js事件驱动架构/';
+          this.page.title = '了解Node.js事件驱动架构';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://coderpreacher.disqus.com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.0"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/exturl.js?v=5.1.0"></script>
+
+
+</body>
+</html>
