@@ -442,19 +442,7 @@
 </ul>
 <p><strong>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。</strong></p>
 <h1 id="认识Nginx"><a href="#认识Nginx" class="headerlink" title="认识Nginx"></a>认识Nginx</h1><p>Nginx是由俄罗斯软件工程师Igor Sysoev开发的一个高性能的HTTP和反向代理服务器，具备IMAP/POP3和SMTP服务器功能。Nginx最大的特点是对高并发的支持和高效的负载均衡，在高并发的需求场景下，是Apache服务器不错的替代品。目前，包括新浪、腾讯等知名网站已经开始使用Nginx作为Web应用服务器。</p>
-<h2 id="正向代理与反向代理"><a href="#正向代理与反向代理" class="headerlink" title="正向代理与反向代理"></a>正向代理与反向代理</h2><p>Nginx 最常的用途是提供反向代理服务，那么什么反向代理呢？正向代理相信很多大陆同胞都在这片神奇的土地上用过了，原理大致如下图：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_915.png" alt="proxy1" title="">
-                </div>
-                <div class="image-caption">proxy1</div>
-            </figure><br>代理服务器作为客户端这边的中介接受请求，隐藏掉真实的客户，向服务器获取资源。如果代理服务器在长城外的话还能顺便帮助我们实现翻越长城的目的。而反向代理顾名思义就是反过来代理服务器作为服务器的中介，隐藏掉真实提供服务的服务器，原理大致如下图：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_673.png" alt="proxy2" title="">
-                </div>
-                <div class="image-caption">proxy2</div>
-            </figure></p>
+<h2 id="正向代理与反向代理"><a href="#正向代理与反向代理" class="headerlink" title="正向代理与反向代理"></a>正向代理与反向代理</h2><p>Nginx 最常的用途是提供反向代理服务，那么什么反向代理呢？正向代理相信很多大陆同胞都在这片神奇的土地上用过了，原理大致如下图：<br><img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_915.png" alt="proxy1"><br>代理服务器作为客户端这边的中介接受请求，隐藏掉真实的客户，向服务器获取资源。如果代理服务器在长城外的话还能顺便帮助我们实现翻越长城的目的。而反向代理顾名思义就是反过来代理服务器作为服务器的中介，隐藏掉真实提供服务的服务器，原理大致如下图：<br><img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_673.png" alt="proxy2"></p>
 <p>这么做当然不是为了实现翻越长城，而是为了实现安全和负载均衡等一系列的功能。所谓安全指客户端的请求不会直接落到内网的服务器上而是通过代理做了 一层转发，在这一层就可以实现安全过滤，流控，防 DDOS 等一系列策略。而负载均衡指我们可以水平扩展后端真正提供服务的服务器数量，代理按规则转发请求到各个服务器，使得各个服务器的负载接近均衡。</p>
 <p><em>而 nginx 就是目前流行的这样一个反向代理服务。</em></p>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>nginx可以使用各平台的默认包来安装，本文是介绍使用源码编译安装，包括具体的编译参数信息。</p>

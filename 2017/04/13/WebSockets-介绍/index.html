@@ -459,13 +459,7 @@
 <p>WebSockets协议尝试在现有HTTP基础架构的上下文中解决现有双向HTTP技术的目标; 因此，它被设计为通过HTTP端口80和443进行工作。但是，该设计不会将WebSocket限制为HTTP，并且将来的实现可以在专用端口上使用更简单的握手，而无需重新整理整个协议。</p>
 <p>WebSockets协议是一种功能齐全的独立协议，可以在浏览器之外使用。 话虽如此，它的主要应用还是基于浏览器的应用程序的双向传输。</p>
 <h2 id="二进制框架层"><a href="#二进制框架层" class="headerlink" title="二进制框架层"></a>二进制框架层</h2><p>客户端和服务器WebSocket应用程序通过面向消息的API进行通信：发送方提供任意的UTF-8或二进制有效负载，并且当整个消息可用时，接收方通知其传送。 为了实现这一点，WebSocket使用自定义的二进制成帧格式（如下图），它将每个应用消息分解成一个或多个帧，将它们传输到目的地，重新组合它们，并且一旦接收到整个消息，最后通知接收器 。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://hpbn.co/assets/diagrams/efb151be6600eb5555127c8652488f1f.svg" alt="WebSockets协议" title="">
-                </div>
-                <div class="image-caption">WebSockets协议</div>
-            </figure>
+<p><img src="https://hpbn.co/assets/diagrams/efb151be6600eb5555127c8652488f1f.svg" alt="WebSockets协议"></p>
 <p><em>帧</em></p>
 <p>通信的最小单位，每个包含可变长度的帧头和可以携带全部或部分应用消息的有效载荷。</p>
 <p><em>消息</em></p>

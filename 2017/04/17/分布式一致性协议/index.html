@@ -474,25 +474,13 @@
 </li>
 </ul>
 <p>　　不管最后结果如何，第二阶段都会结束当前事务。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/5/html/Transactions_Development_Guide/images/fig-two-phase-commit-overview.png" alt="2pc" title="">
-                </div>
-                <div class="image-caption">2pc</div>
-            </figure>
+<p><img src="https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/5/html/Transactions_Development_Guide/images/fig-two-phase-commit-overview.png" alt="2pc"></p>
 <h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>　　1、执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</p>
 <p>　　2、参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。（没有多少容错机制）</p>
 <p>　　3、协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。</p>
 <p>　　4、二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</p>
 <h2 id="3PC（Three-phase-commit-protocol）"><a href="#3PC（Three-phase-commit-protocol）" class="headerlink" title="3PC（Three-phase commit protocol）"></a>3PC（Three-phase commit protocol）</h2><p>3PC，是 Three-phase commit的缩写，即三阶段提交，是2PC的改进版，其将二阶段的”提交请求阶段”一分为二，形成了由CanCommit,PreCommit和do Commit三个阶段组成的一致性协议。引入超时机制。同时在协调者和参与者中都引入超时机制(如下图)。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/39/Three-phase_commit_diagram.png" alt="3pc" title="">
-                </div>
-                <div class="image-caption">3pc</div>
-            </figure>
+<p><img src="https://upload.wikimedia.org/wikipedia/en/3/39/Three-phase_commit_diagram.png" alt="3pc"></p>
 <h3 id="协议说明-1"><a href="#协议说明-1" class="headerlink" title="协议说明"></a>协议说明</h3><h4 id="阶段一：CanCommit"><a href="#阶段一：CanCommit" class="headerlink" title="阶段一：CanCommit"></a>阶段一：CanCommit</h4><p>   1．事务询问。</p>
 <p>  协调者向所有的参与者发送一个包含事务内容的canCommit请求，询问是否可以执行事务提交操作，并开始等待各参与者的响应。</p>
 <p>   2．各参与者向协调者反馈事务询问的响应。</p>
@@ -552,13 +540,7 @@
 <p>acceptedValue：在一个Paxos Instance内，已经接收过的提议对应的值。</p>
 <p>minProposal：在一个Paxos Instance内，当前接收的最小提议值，会不断更新。</p>
 <h3 id="Basic-Paxos算法"><a href="#Basic-Paxos算法" class="headerlink" title="Basic-Paxos算法"></a>Basic-Paxos算法</h3><p>基于Paxos协议构建的系统，只需要系统中超过半数的节点在线且相互通信正常即可正常对外提供服务。它的核心实现Paxos Instance主要包括两个阶段:准备阶段(prepare phase)和提议阶段(accept phase)。如下图所示：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155541328-1939247065.png" alt="Basic-Paxos" title="">
-                </div>
-                <div class="image-caption">Basic-Paxos</div>
-            </figure>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155541328-1939247065.png" alt="Basic-Paxos"></p>
 <ol>
 <li>获取一个ProposalId,为了保证ProposalId递增，可以采用时间戳+serverId方式生成；</li>
 <li>提议者向所有节点广播prepare(n)请求；</li>
@@ -568,13 +550,7 @@
 <li>接收者比较n和minProposal，如果n&gt;=minProposal,则acceptedProposal=minProposal=n，acceptedValue=value，本地持久化后，返回；<br>否则，返回minProposal</li>
 <li>提议者接收到过半数请求后，如果发现有返回值&gt;n，表示有更新的提议，跳转1；否则value达成一致。<br>从上述流程可知，并发情况下，可能会出现第4步或者第7步频繁重试的情况，导致性能低下，更严重者可能导致永远都无法达成一致的情况，就是所谓的“活锁”，如下图所示：</li>
 </ol>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155452844-827453906.png" alt="Basic-Paxos" title="">
-                </div>
-                <div class="image-caption">Basic-Paxos</div>
-            </figure>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155452844-827453906.png" alt="Basic-Paxos"></p>
 <ol>
 <li>S1作为提议者，发起prepare(3.1),并在S1,S2和S3达成多数派；</li>
 <li>随后S5作为提议者 ，发起了prepare(3.5)，并在S3,S4和S5达成多数派；</li>
@@ -584,13 +560,7 @@
 <li>S5发起prepare(5.5),并在S3,S4和S5达成多数派，导致后续的S1发起的accept(4.1,value1)失败<br>……</li>
 </ol>
 <h3 id="prepare阶段的作用"><a href="#prepare阶段的作用" class="headerlink" title="prepare阶段的作用"></a>prepare阶段的作用</h3><p>从Basic-Paxos的描述可知，需要通过两阶段来最终确定一个值，由于轮回多，导致性能低下，至少两次网络RTT。那么prepare阶段能否省去？如下图所示：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155558641-1089133612.png" alt="Basic-Paxos" title="">
-                </div>
-                <div class="image-caption">Basic-Paxos</div>
-            </figure>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155558641-1089133612.png" alt="Basic-Paxos"></p>
 <ol>
 <li>S1首先发起accept(1,red)，并在S1,S2和S3达成多数派，red在S1，S2，S3上持久化</li>
 <li>随后S5发起accept(5,blue)，对于S3而言，由于接收到更新的提议，会将acceptedValue值改为blue</li>

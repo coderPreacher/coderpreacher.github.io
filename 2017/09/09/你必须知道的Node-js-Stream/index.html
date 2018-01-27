@@ -95,13 +95,13 @@
 
 
 
-<meta name="description" content="Streami-              介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换">
+<meta name="description" content="介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。 什么是流？流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。然而，流不仅仅是关于使用大数据。 他们也">
 <meta name="keywords" content="Stream,Node.js Stream,Node">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你必须知道的Node.js Stream">
 <meta property="og:url" content="http://coderpreacher.top/2017/09/09/你必须知道的Node-js-Stream/index.html">
 <meta property="og:site_name" content="coderPreacher's Blog">
-<meta property="og:description" content="Streami-              介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换">
+<meta property="og:description" content="介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。 什么是流？流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。然而，流不仅仅是关于使用大数据。 他们也">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png">
@@ -111,7 +111,7 @@
 <meta property="og:updated_time" content="2017-09-10T01:49:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你必须知道的Node.js Stream">
-<meta name="twitter:description" content="Streami-              介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换">
+<meta name="twitter:description" content="介绍Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。 什么是流？流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。然而，流不仅仅是关于使用大数据。 他们也">
 <meta name="twitter:image" content="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg">
 
 
@@ -435,30 +435,12 @@
       
 
       
-        <figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg" alt="Streami-" title="">
-                </div>
-                <div class="image-caption">Streami-</div>
-            </figure>
+        <p><img src="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg" alt="Streami-"></p>
 <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
 <h1 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h1><p>流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。<br>然而，流不仅仅是关于使用大数据。 他们也给我们在我们的代码中组合的力量。 就像我们可以通过管道其他较小的Linux命令组成强大的linux命令一样，我们可以在Node中使用流完全一样。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png" alt="stream" title="">
-                </div>
-                <div class="image-caption">stream</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png" alt="stream"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const grep = ... // A stream for the grep output</div><div class="line">const wc = ... // A stream for the wc input</div><div class="line">grep.pipe(wc)</div></pre></td></tr></table></figure>
-<p>Node中的许多内置模块实现流式接口：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="node stream module" title="">
-                </div>
-                <div class="image-caption">node stream module</div>
-            </figure></p>
+<p>Node中的许多内置模块实现流式接口：<br><img src="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="node stream module"></p>
 <p>上面的列表有一些本机Node.js对象的示例，这些对象也是可读写的流。 这些对象中的一些是可读写的流，如TCP套接字，<code>zlib</code>和<code>crypto</code>流。<br>注意对象也是密切相关的。 虽然HTTP响应是客户端上的可读流，但它是服务器上的可写入流。 这是因为在HTTP情况下，我们基本上从一个对象（<code>http.IncomingMessage</code>）读取并写入另一个对象（<code>http.ServerResponse</code>）。<br>还要注意，当涉及到子进程时，stdio stream（stdin，stdout，stderr）如何具有逆流类型。 这允许一种非常简单的方式来管理来自主进程stdio流的这些流。</p>
 <h1 id="您的第一流应用程序"><a href="#您的第一流应用程序" class="headerlink" title="您的第一流应用程序"></a>您的第一流应用程序</h1><p>我们来仔细看看流。 为此，我们将构建一个简单的文件上传应用程序。 首先，我们需要构建一个使用可读流读取文件并将数据管理到特定目标的客户端。 在管道的另一端，我们将实现一个使用可写入流保存上传数据的服务器。</p>
 <p>我们从客户端开始吧。 我们从导入HTTP和文件系统模块开始。</p>
@@ -493,13 +475,7 @@
 <p>但是，流也可以直接与事件一起使用。以下是管道方法主要用于读取和写入数据的简化事件等效代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"># readable.pipe(writable)</div><div class="line">readable.on(&apos;data&apos;, (chunk) =&gt; &#123;</div><div class="line">  writable.write(chunk);</div><div class="line">&#125;);</div><div class="line">readable.on(&apos;end&apos;, () =&gt; &#123;</div><div class="line">  writable.end();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>以下是可读写可用流的重要事件和功能的列表：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="流事件(Stream events)" title="">
-                </div>
-                <div class="image-caption">流事件(Stream events)</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="流事件(Stream events)"></p>
 <p>事件和功能在某种程度上是相关的，因为它们通常被一起使用。</p>
 <p><code>Readable</code>可读流最重要的事件是：</p>
 <ul>
@@ -522,13 +498,7 @@
 <p>当可读流处于暂停模式时，我们可以使用<code>read</code>方法从流中读取流，但是，对于流模式中的可读流，数据持续流动，我们必须收听事件消耗它</p>
 <p>在流动模式下，如果没有消费者可以处理它，数据实际上可能会丢失。这就是为什么当我们在流模式下有可读流时，我们需要一个数据事件处理程序。事实上，只需添加一个数据事件处理程序即可将暂停的流转换为流模式，并删除数据事件处理程序将流切换回暂停模式。其中一些是为了与旧的<code>Node Stream</code>接口的向后兼容而完成的。 </p>
 <p>要手动切换这两种流模式，可以使用<code>resume</code>和<code>pause</code>方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*HI-mtispQ13qm8ib5yey3g.png" alt="Readable Streams" title="">
-                </div>
-                <div class="image-caption">Readable Streams</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HI-mtispQ13qm8ib5yey3g.png" alt="Readable Streams"></p>
 <p>当使用管道方法消耗可读流时，我们不必担心管道自动管理这些模式。</p>
 <h1 id="流实现"><a href="#流实现" class="headerlink" title="流实现"></a>流实现</h1><p>当谈到Node.js中的流时，主要有两个不同的任务：</p>
 <ul>
@@ -581,13 +551,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line">const commaSplitter = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().trim().split(&apos;,&apos;));</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const arrayToObject = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    const obj = &#123;&#125;;</div><div class="line">    for(let i=0; i &lt; chunk.length; i+=2) &#123;</div><div class="line">      obj[chunk[i]] = chunk[i+1];</div><div class="line">    &#125;</div><div class="line">    this.push(obj);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const objectToString = new Transform(&#123;</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(JSON.stringify(chunk) + &apos;\n&apos;);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">process.stdin</div><div class="line">  .pipe(commaSplitter)</div><div class="line">  .pipe(arrayToObject)</div><div class="line">  .pipe(objectToString)</div><div class="line">  .pipe(process.stdout)</div></pre></td></tr></table></figure>
 <p>我们通过commasplitter传递输入字符串（例如“a，b，c，d”），该数组将数组作为其可读取数据（[“a”，“b”，“c”，“d”]））。在该流上添加可读ObjectMode标志是必要的，因为我们正在将对象推送到其上，而不是字符串。</p>
 <p>然后我们将数组并且将其导入到arrayToObject流中。我们需要一个writableObjectMode标志来使该流接受一个对象。它还将推送一个对象（输入数组映射到一个对象），这就是为什么我们也需要可读ObjectMode标志的原因。最后一个objectToString流接受一个对象，但是推出一个字符串，这就是为什么我们只需要一个writableObjectMode标志的原因。可读部分是普通字符串（字符串对象）。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*u2kQzUD0ruPpt-xx0UOHoA.png" alt="abcd" title="">
-                </div>
-                <div class="image-caption">abcd</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*u2kQzUD0ruPpt-xx0UOHoA.png" alt="abcd"></p>
 <h3 id="Node-js内置的转换流"><a href="#Node-js内置的转换流" class="headerlink" title="Node.js内置的转换流"></a>Node.js内置的转换流</h3><p>Node有一些非常有用的内置变换流。即，<code>zlib</code>和<code>crypto</code> stream。</p>
 <p>这是一个使用<code>zlib.createGzip</code>（）流结合<code>fs</code>  <code>readable/writable</code> 流创建文件压缩脚本的示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.gz&apos;));</div></pre></td></tr></table></figure>

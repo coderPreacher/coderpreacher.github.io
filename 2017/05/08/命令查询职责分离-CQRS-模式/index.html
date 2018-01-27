@@ -438,13 +438,7 @@
       
         <h1 id="背景和问题"><a href="#背景和问题" class="headerlink" title="背景和问题"></a>背景和问题</h1><p>在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。</p>
 <p>通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新DTO的某些字段（可能通过数据绑定），然后DTO将由DAL保存回数据存储。 同样的DTO用于读写操作。 该图说明了传统的CRUD架构。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-tradition-crud.png" alt="crud" title="">
-                </div>
-                <div class="image-caption">crud</div>
-            </figure>
+<p><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-tradition-crud.png" alt="crud"></p>
 <p>当只有有限的业务逻辑应用于数据操作时，传统的CRUD设计才能正常运行。开发工具提供的支架机制可以非常快速地创建数据访问代码，然后可以根据需要进行自定义。<br>然而，传统的CRUD方法有一些缺点：</p>
 <ul>
 <li>这通常意味着数据的读取和写入表示之间存在不匹配的情况，例如即使不需要作为操作的一部分，必须正确更新的附加列或属性。</li>
@@ -457,43 +451,19 @@
 <li>Commands：更改对象或整个系统的状态（有时称为修饰符或变体）。</li>
 <li>Queries：返回结果，不要更改对象的状态。</li>
 </ul>
-<p>命令和查询责任分离（CQRS）是一种模式，它通过使用单独的接口来隔离从更新数据（命令）的操作中读取数据（查询）的操作。 这意味着用于查询和更新的数据模型是不同的。 然后，可以隔离模型，如下图所示，尽管这不是绝对要求。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-basic.png" alt="cqrs2" title="">
-                </div>
-                <div class="image-caption">cqrs2</div>
-            </figure></p>
+<p>命令和查询责任分离（CQRS）是一种模式，它通过使用单独的接口来隔离从更新数据（命令）的操作中读取数据（查询）的操作。 这意味着用于查询和更新的数据模型是不同的。 然后，可以隔离模型，如下图所示，尽管这不是绝对要求。<br><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-basic.png" alt="cqrs2"></p>
 <p>与基于CRUD的系统中使用的单一数据模型相比，在基于CQRS的系统中使用单独的查询和更新模型来简化设计和实现。 然而，一个缺点是与CRUD设计不同，CQRS代码不能使用脚手架机制自动生成。<br>用于读取数据的查询模型和用于写入数据的更新模型可以访问相同的物理存储，也许通过使用SQL视图或通过快速生成投影。 然而，通常将数据分成不同的物理存储，以最大限度地提高性能，可扩展性和安全性，如下图所示。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-separate-stores.png" alt="cqrs3" title="">
-                </div>
-                <div class="image-caption">cqrs3</div>
-            </figure>
+<p><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-separate-stores.png" alt="cqrs3"></p>
 <p>读存储可以是写存储的只读副本，或者读写存储可以具有不同的结构。 使用读取存储器的多个只读副本可以大大提高查询性能和应用程序UI响应性，特别是在只读副本位于靠近应用程序实例的分布式场景中。 某些数据库系统（SQL Server）提供了其他功能，例如故障转移副本，以最大限度地提高可用性。<br>读写存储器的分离还允许每个存储器被适当地缩放以匹配负载。 例如，读取存储器通常会遇到比写入存储器高得多的负载。</p>
 <p>在一个真实的情况下，很简单的告诉哪个是哪个。查询将声明返回类型，命令将返回void。这种模式是广泛适用的，它使得关于对象的推理更容易。另一方面，CQRS仅适用于具体问题。</p>
 <p>使用主流方法的许多应用程序都由读写方面常见的模型组成。拥有相同的读写方式可以导致更为复杂的模型，难以维护和优化。</p>
 <p>这两种模式的真正实力就是你可以分开改变状态的方法。在处理性能和调优的情况下，这种分离可能非常方便。您可以从写入端分开优化系统的读取端。写方面被称为域。域包含所有行为。阅读方面专门针对报告需求。</p>
 <p>这种模式的另一个好处是在大量应用的情况下。您可以将开发人员拆分为在系统不同方面工作的较小团队（读或写），而不了解对方。例如，在阅读方面工作的开发人员不需要了解域模型。</p>
 <h2 id="查询端-Query-side"><a href="#查询端-Query-side" class="headerlink" title="查询端(Query side)"></a>查询端(Query side)</h2><p>这些查询只会包含获取数据的方法。 从架构的角度来看，这些将是返回客户端在屏幕上显示的DTO的所有方法。 DTO通常是域对象的预测。 在某些情况下，这可能是一个非常痛苦的过程，特别是当需要复杂的DTO时。</p>
-<p>使用CQRS可以避免这些预测。 相反，可以引入一种新的投资DTO的方法。 您可以绕过域模型，并使用读取层从数据存储中直接获取DTO。 当应用程序正在请求数据时，可以通过单次调用读取层来完成此操作，该层返回包含所有所需数据的单个DTO。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/architecture/555855/QuerySide.jpg" alt="q1" title="">
-                </div>
-                <div class="image-caption">q1</div>
-            </figure></p>
+<p>使用CQRS可以避免这些预测。 相反，可以引入一种新的投资DTO的方法。 您可以绕过域模型，并使用读取层从数据存储中直接获取DTO。 当应用程序正在请求数据时，可以通过单次调用读取层来完成此操作，该层返回包含所有所需数据的单个DTO。<br><img src="https://www.codeproject.com/KB/architecture/555855/QuerySide.jpg" alt="q1"></p>
 <p>读取层可以直接连接到数据库（数据模型），而使用存储过程来读取数据并不是个好主意。 与数据源的直接连接通过维护和优化使查询变得非常简单。 非正规化数据是有道理的。 这样做的原因是数据通常被查询是执行域行为的多倍。 这种非规范化可能会提高应用程序的性能。</p>
 <h2 id="命令端-Command-side"><a href="#命令端-Command-side" class="headerlink" title="命令端(Command side)"></a>命令端(Command side)</h2><p>由于读取端已被分离，因此域仅专注于处理命令。 现在域对象不再需要暴露内部状态。 存储库除了GetById之外只有几种查询方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/architecture/555855/CommandSide.jpg" alt="CommandSide" title="">
-                </div>
-                <div class="image-caption">CommandSide</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/architecture/555855/CommandSide.jpg" alt="CommandSide"></p>
 <p>命令由客户端应用程序创建，然后发送到域层。 命令是指示特定实体执行某些操作的消息。 命令命名为DoSomething（例如ChangeName，DeleteOrder …）。 他们指示目标实体做某些可能导致不同结果或失败的事情。 命令由命令处理程序处理。</p>
 <h1 id="为什么要使用CQRS？"><a href="#为什么要使用CQRS？" class="headerlink" title="为什么要使用CQRS？"></a>为什么要使用CQRS？</h1><p>从CQRS回退一段时间，将域分为DDD中的有界环境的好处之一是使您能够识别并集中于系统更复杂的部分（有界环境），受到不断变化的业务 规则或提供作为关键业务差异化的功能。<br>只有在提供可识别的业务收益的情况下，才应考虑将CQRS模式应用于特定有限的上下文，而不是因为它是您考虑的默认模式。<br>您可以通过应用CQRS模式获得的最常见的业务优势是增强的可扩展性，简化您的域的复杂方面，提高解决方案的灵活性，以及更好地适应不断变化的业务需求。</p>
 <h3 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h3><p>在许多企业系统中，读取次数大大超过了写入次数，因此您的可扩展性要求在每一方面都会有所不同。通过将读取端和写入端分隔为有界环境中的单独模型，您现在可以独立地对每个模型进行扩展。例如，如果您在Microsoft Azure中托管应用程序，则可以为每一方使用不同的角色，然后通过向每个角色添加不同数量的角色实例来独立扩展它们。<br>可扩展性不应该是您在特定有限上下文中选择实施CQRS模式的唯一原因：<br>“在非协作域中，您可以在其中添加更多的数据库服务器来支持更多用户，请求和数据，同时添加Web服务器，但没有真正的可伸缩性问题（直到您的大小为Amazon，Google或Facebook）。如果您使用MySQL，SQL Server Express或其他数据库服务器，数据库服务器可以便宜。</p>
@@ -522,21 +492,9 @@
 <li>对于简单的，CRUD模式的用户界面以及与之相关的数据访问操作已经足够的话，没必要使用CQRS，这些都是一个简单的对数据进行增删改查。</li>
 <li>不适合在整个系统中到处使用该模式。在整个数据管理场景中的特定模块中CQRS可能比较有用。但是在有些地方使用CQRS会增加系统不必要的复杂性。</li>
 </ol>
-<h1 id="CQRS的简单实现"><a href="#CQRS的简单实现" class="headerlink" title="CQRS的简单实现"></a>CQRS的简单实现</h1><p>CQRS模式在思想上比较简单，但是实现上还是有些复杂。它涉及到DDD，以及Event Sourcing，这里使用codeproject上的 <a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">Introduction to CQRS</a> 这篇文章的例子来说明CQRS模式。这个例子是一个简单的在线记日志(Diary)系统，实现了日志的增删改查功能。整体结构如下：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/architecture/555855/CQRS.jpg" alt="cqrs" title="">
-                </div>
-                <div class="image-caption">cqrs</div>
-            </figure></p>
+<h1 id="CQRS的简单实现"><a href="#CQRS的简单实现" class="headerlink" title="CQRS的简单实现"></a>CQRS的简单实现</h1><p>CQRS模式在思想上比较简单，但是实现上还是有些复杂。它涉及到DDD，以及Event Sourcing，这里使用codeproject上的 <a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">Introduction to CQRS</a> 这篇文章的例子来说明CQRS模式。这个例子是一个简单的在线记日志(Diary)系统，实现了日志的增删改查功能。整体结构如下：<br><img src="https://www.codeproject.com/KB/architecture/555855/CQRS.jpg" alt="cqrs"></p>
 <p>上图很清晰的说明了CQRS在读写方面的分离，在读方面，通过QueryFacade到数据库里去读取数据，这个库有可能是ReportingDB。在写方面，比较复杂，操作通过Command发送到CommandBus上，然后特定的CommandHandler处理请求，产生对应的Event，将Eevnt持久化后，通过EventBus特定的EevntHandler对数据库进行修改等操作。</p>
-<p>例子代码可以到<a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">codeproject</a>上下载，整体结构如下：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images.cnitblog.com/blog/94031/201408/261851449547571.png" alt="PROJECT" title="">
-                </div>
-                <div class="image-caption">PROJECT</div>
-            </figure><br>由三个项目构成，Diary.CQRS包含了所有的Domain和消息对象。Configuration通过使用一个名为StructMap的IOC来初始化一些变量方便Web调用，Web是一个简单的MVC3项目，在Controller中有与CQRS交互的代码。</p>
+<p>例子代码可以到<a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">codeproject</a>上下载，整体结构如下：<br><img src="http://images.cnitblog.com/blog/94031/201408/261851449547571.png" alt="PROJECT"><br>由三个项目构成，Diary.CQRS包含了所有的Domain和消息对象。Configuration通过使用一个名为StructMap的IOC来初始化一些变量方便Web调用，Web是一个简单的MVC3项目，在Controller中有与CQRS交互的代码。</p>
 <p>下面分别看Query和Command方面的实现：</p>
 <h2 id="Query端的实现"><a href="#Query端的实现" class="headerlink" title="Query端的实现"></a>Query端的实现</h2><p>查询方面很简单，日志列表和明细获取就是简单的查询。下面先看列表查询部分的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public ActionResult Index()</div><div class="line">&#123;</div><div class="line">    ViewBag.Model = ServiceLocator.ReportDatabase.GetItems();</div><div class="line">    return View();</div><div class="line">&#125;</div><div class="line"></div><div class="line">public ActionResult Edit(Guid id)</div><div class="line">&#123;</div><div class="line">    var item = ServiceLocator.ReportDatabase.GetById(id);</div><div class="line">    var model = new DiaryItemDto()</div><div class="line">    &#123;</div><div class="line">        Description = item.Description,</div><div class="line">        From = item.From,</div><div class="line">        Id = item.Id,</div><div class="line">        Title = item.Title,</div><div class="line">        To = item.To,</div><div class="line">        Version = item.Version</div><div class="line">    &#125;;</div><div class="line">    return View(model);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>ReportDatabase的GetItems和GetById(id)方法就是简单的查询，从命名可以看出他是ReportDatabase。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public class ReportDatabase : IReportDatabase</div><div class="line">&#123;</div><div class="line">    static List&lt;DiaryItemDto&gt; items = new List&lt;DiaryItemDto&gt;();</div><div class="line"></div><div class="line">    public DiaryItemDto GetById(Guid id)</div><div class="line">    &#123;</div><div class="line">        return items.Where(a =&gt; a.Id == id).FirstOrDefault();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void Add(DiaryItemDto item)</div><div class="line">    &#123;</div><div class="line">        items.Add(item);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void Delete(Guid id)</div><div class="line">    &#123;</div><div class="line">        items.RemoveAll(i =&gt; i.Id == id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public List&lt;DiaryItemDto&gt; GetItems()</div><div class="line">    &#123;</div><div class="line">        return items;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>

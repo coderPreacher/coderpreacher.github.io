@@ -477,35 +477,11 @@
 <li>这不是一个一体化的框架。 相反，它为特定任务使用了众所周知的工具/库（如用于O / RM的NHibernate和EntityFramework，用于日志记录的Log4Net，作为DI容器的Castle Windsor，SPA框架的AngularJS）。</li>
 </ul>
 <h1 id="入门-Getting-started"><a href="#入门-Getting-started" class="headerlink" title="入门(Getting started)"></a>入门(Getting started)</h1><p>在本文中，我将展示如何使用ASP.NET Boilerplate去除单页面和响应性Web应用程序（我现在称之为ABP）。 我将在这里使用DurandalJs作为SPA框架和NHibernate作为ORM框架。 我准备了另一篇用AngularJs和EntityFramework实现相同应用的文章。</p>
-<p>此示例应用程序被命名为“简单任务系统”，它由两个页面组成：一个用于列出任务，另一个是添加新任务。 一个任务可以与一个人相关，可以是活动的或完成的。 应用程序以两种语言进行本地化。 应用程序中任务列表的屏幕截图如下所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png" alt="task" title="">
-                </div>
-                <div class="image-caption">task</div>
-            </figure></p>
+<p>此示例应用程序被命名为“简单任务系统”，它由两个页面组成：一个用于列出任务，另一个是添加新任务。 一个任务可以与一个人相关，可以是活动的或完成的。 应用程序以两种语言进行本地化。 应用程序中任务列表的屏幕截图如下所示：<br><img src="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png" alt="task"></p>
 <h2 id="从模板创建空的web应用程序"><a href="#从模板创建空的web应用程序" class="headerlink" title="从模板创建空的web应用程序"></a>从模板创建空的web应用程序</h2><p>ABP为新项目提供启动模板（即使您可以手动创建项目并从nuget获取ABP包，模板方式更容易）。 请访问<a href="www.aspnetboilerplate.com/Templates">www.aspnetboilerplate.com/Templates</a>以从模板创建应用程序。 您可以选择具有可选AngularJs或DurandalJs的SPA（单页面应用）项目。 或者您可以选择MPA（经典的，多页面应用程序）项目。 那么你可以选择EntityFramework或NHibernate作为ORM框架。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/create_template_v2.png" alt="create_template_v2" title="">
-                </div>
-                <div class="image-caption">create_template_v2</div>
-            </figure>
-<p>我将我的项目命名为SimpleTaskSystem，并与Durandal和NHibernate建立了一个SPA项目。 下载项目为zip文件。 当我打开zip文件时，我看到一个解决方案已经准备好，包含每个域驱动设计层的程序集（项目）：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/project_files2.png" alt="project_files2" title="">
-                </div>
-                <div class="image-caption">project_files2</div>
-            </figure></p>
-<p>就这样，你的项目已经准备好运行了！ 在VS2013中打开它，然后按F5：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/first_run.png" alt="first_run" title="">
-                </div>
-                <div class="image-caption">first_run</div>
-            </figure></p>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/create_template_v2.png" alt="create_template_v2"></p>
+<p>我将我的项目命名为SimpleTaskSystem，并与Durandal和NHibernate建立了一个SPA项目。 下载项目为zip文件。 当我打开zip文件时，我看到一个解决方案已经准备好，包含每个域驱动设计层的程序集（项目）：<br><img src="https://www.codeproject.com/KB/aspnet/768664/project_files2.png" alt="project_files2"></p>
+<p>就这样，你的项目已经准备好运行了！ 在VS2013中打开它，然后按F5：<br><img src="https://www.codeproject.com/KB/aspnet/768664/first_run.png" alt="first_run"></p>
 <h2 id="领域层-Domain-layer"><a href="#领域层-Domain-layer" class="headerlink" title="领域层(Domain layer)"></a>领域层(Domain layer)</h2><p>“<em>负责代表业务概念，有关业务情况的信息和业务规则</em>”（Eric Evans）。 在领域驱动设计（DDD）中，核心层是领域层。 领域层定义您的实体，实现您的业务规则等。</p>
 <h3 id="实体-Entities"><a href="#实体-Entities" class="headerlink" title="实体(Entities)"></a>实体(Entities)</h3><p>实体是DDD的核心概念之一。 埃里克·埃文斯（Eric Evans）将其描述为“一个不是由其属性从根本上定义的对象，而是一个连贯性和身份的线索”。 因此，实体具有Id并存储在数据库中。</p>
 <p>任务(Task)实体类定义如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public class Task : Entity&lt;long&gt;</div><div class="line">&#123;</div><div class="line">    public virtual Person AssignedPerson &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual string Description &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual DateTime CreationTime &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual TaskState State &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public Task()</div><div class="line">    &#123;</div><div class="line">        CreationTime = DateTime.Now;</div><div class="line">        State = TaskState.Active;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -516,13 +492,7 @@
 <h3 id="仓储-Repositories"><a href="#仓储-Repositories" class="headerlink" title="仓储(Repositories)"></a>仓储(Repositories)</h3><p>“使用类收集接口访问领域对象，在领域和数据映射层之间进行中介”（Martin Fowler）。 实际上，仓储用于对域对象（实体或值类型）执行数据库操作。</p>
 <p>通常，每个实体（或聚合根）使用分隔的仓储。 ASP.NET Boilerplate为每个实体提供默认仓储（我们将看到如何使用默认仓储）。 如果我们需要定义其他方法，我们可以扩展IRepository接口。 我将其扩展到了Task库：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface ITaskRepository : IRepository&lt;Task, long&gt;</div><div class="line">&#123;</div><div class="line">    List&lt;Task&gt; GetAllWithPeople(int? assignedPersonId, TaskState? state);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>为每个Repository定义一个接口是很好的。 因此，我们可以将接口与实现分开。 仓储接口定义了仓储的常见方法：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/repository_interface2.png" alt="first_run" title="">
-                </div>
-                <div class="image-caption">first_run</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/repository_interface2.png" alt="first_run"></p>
 <p>它定义了基本的CRUD方法。 所以，所有仓储都会自动实现所有这些方法。 除了标准的基础方法之外，还可以添加特定于该仓储的方法，就像我定义了GetAllWithPeople方法一样。</p>
 <h2 id="基础设施层-Infrastructure-layer"><a href="#基础设施层-Infrastructure-layer" class="headerlink" title="基础设施层(Infrastructure layer)"></a>基础设施层(Infrastructure layer)</h2><p>“提供支持更高层次的通用技术功能”（Eric Evans）。 它用于使用第三方库和框架（如对象关系映射）实现应用程序的抽象。 在这个应用程序中，我将使用基础设施层：</p>
 <ul>
@@ -536,21 +506,9 @@
 <p>如你所见，我为所有表写了一个前缀Sts（简单任务系统）。 这对于模块化应用程序很重要，所以所有模块都可以使用其特定的前缀来标识模块特定的表。</p>
 <p>要在数据库中创建表，我使用这种“命令行”命令使用FluentMigrator的Migrate.exe工具：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Migrate.exe /connection &quot;Server=localhost; Database=SimpleTaskSystemDb; Trusted_Connection=True;&quot; /db sqlserver /target &quot;SimpleTaskSystem.Infrastructure.NHibernate.dll&quot;</div></pre></td></tr></table></figure></p>
 <p>对于快捷方式，ABP模板包含RunMigrations.bat文件。 在Debug模式下编译项目后，我运行“RunMigrations.bat”：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/migration.png" alt="migration" title="">
-                </div>
-                <div class="image-caption">migration</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/migration.png" alt="migration"></p>
 <p>正如你看到的，两种迁移文件执行，表创建：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/db_after_migration.png" alt="migration" title="">
-                </div>
-                <div class="image-caption">migration</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/db_after_migration.png" alt="migration"></p>
 <p>有关FluentMigrator的更多信息，请参阅它的网站。</p>
 <h3 id="实体映射-Entity-mappings"><a href="#实体映射-Entity-mappings" class="headerlink" title="实体映射(Entity mappings)"></a>实体映射(Entity mappings)</h3><p>为了获取/存储实体到数据库中，我们应该使用数据库表映射实体。 NHibernate有几个选择可以实现。 在这里，我将使用Fluent Mapping手册（您可以使用传统的自动映射，请参阅FluentNHibernate的网站）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public class PersonMap : EntityMap&lt;Person&gt;</div><div class="line">&#123;</div><div class="line">    public PersonMap()</div><div class="line">        : base(&quot;StsPeople&quot;)</div><div class="line">    &#123;</div><div class="line">        Map(x =&gt; x.Name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class TaskMap : EntityMap&lt;Task, long&gt;</div><div class="line">&#123;</div><div class="line">    public TaskMap()</div><div class="line">        : base(&quot;StsTasks&quot;)</div><div class="line">    &#123;</div><div class="line">        Map(x =&gt; x.Description);</div><div class="line">        Map(x =&gt; x.CreationTime);</div><div class="line">        Map(x =&gt; x.State).CustomType&lt;TaskState&gt;();</div><div class="line">        References(x =&gt; x.AssignedPerson).Column(&quot;AssignedPersonId&quot;).LazyLoad();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>EntityMap是一类ABP的自动映射Id属性，并在构造函数中获取表名。所以，我从它派生和映射等性能。</p>
@@ -576,13 +534,7 @@
 <p>我建议为每个应用程序服务方法创建分离的输入和输出类，即使它只有一个输入参数。 当通过向该方法添加其他参数来扩展应用程序时，这是很好的。 它提供了一种在不破坏现有客户端的情况下向应用程序服务方法添加参数的方法。</p>
 <h2 id="动态Web-API控制器-Dynamic-Web-API-Controllers"><a href="#动态Web-API控制器-Dynamic-Web-API-Controllers" class="headerlink" title="动态Web API控制器(Dynamic Web API Controllers)"></a>动态Web API控制器(Dynamic Web API Controllers)</h2><p>应用程序服务由表示层消耗。 在单页面应用程序中，所有的数据都是使用AJAX在javascript和服务器之间发送/接收的。 ABP极大地简化了从javascript调用应用程序服务方法。 这是怎么做到的 让我来解释一下</p>
 <p>一个应用程序服务不能直接通过javascript调用。 我们可以使用ASP.NET Web API来向客户端公开服务（还有许多其他框架，如Web服务，WCF，SignalR等）。 所以，可能会有这样的一个流程：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/calling_webapi_ajax.png" alt="calling_webapi_ajax" title="">
-                </div>
-                <div class="image-caption">calling_webapi_ajax</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/calling_webapi_ajax.png" alt="calling_webapi_ajax"></p>
 <p>Javascript通过AJAX调用Web API控件的操作，Web API控制器的操作然后调用相应的应用程序服务的方法，获取结果并返回给客户端。 这很漂亮的机器人。 ABP自动执行此操作，并可为应用程序服务动态创建Web API控制器。 这里是为我的应用服务创建Web API控制器的所有代码：任务服务和个人服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DynamicApiControllerBuilder</div><div class="line">    .ForAll&lt;IApplicationService&gt;(Assembly.GetAssembly(typeof (SimpleTaskSystemApplicationModule)), &quot;tasksystem&quot;)</div><div class="line">    .Build();</div></pre></td></tr></table></figure></p>
 <p>因此，使用ASP.NET Web API（ABP流畅的动态控制器创建API支持从Web API隐藏方法或选择特定应用程序服务，自己尝试），任务和个人应用程序服务的所有方法都暴露给客户端。 在演示层部分，我们将看到如何使用ABP的动态JavaScript代理调用这些Web API控制器。</p>
 <h2 id="显示层-Presentation-layer"><a href="#显示层-Presentation-layer" class="headerlink" title="显示层(Presentation layer)"></a>显示层(Presentation layer)</h2><p>“负责向用户显示信息并解释用户的命令”（Eric Evans）。 DDD中最明显的一层是Presentation Layer，因为我们可以看到它，我们可以点击它:)。</p>
@@ -596,13 +548,7 @@
 <p>有许多框架和库提供了构建SPA的基础设施。 ASP.NET Boilerplate可以与任何SPA框架一起使用，但可以提供简单的基础设施，以便与DurandalJs和AngularJs配合使用（请参阅AngularJs开发的相同应用程序）。</p>
 <p>Durandal [7]是这些框架之一，我认为这是一个非常成功的开源项目。 它基于成功和大多数使用的项目：jQuery（用于DOM操作和AJAX），knockout.js（用于MVVM，使用HTML绑定JavaScript模型）和require.js（用于管理javascript依赖关系并从服务器动态加载javascript）。 有关更多信息和丰富的文档，请访问Durandal的网站。</p>
 <h3 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h3><p>ABP提供了一个强大而灵活的本地化系统。你可以存储在资源文件，XML文件，甚至在自定义源您的本地化的文本。在本节中，我将展示使用XML文件。简单的任务系统项目包括本地化文件夹中的XML文件：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/localization_files2.png" alt="localization_files2" title="">
-                </div>
-                <div class="image-caption">localization_files2</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/localization_files2.png" alt="localization_files2"></p>
 <p>在这里，SimpleTaskSystem.xml的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</div><div class="line">&lt;localizationDictionary culture=&quot;en&quot;&gt;</div><div class="line">  &lt;texts&gt;</div><div class="line">    &lt;text name=&quot;TaskSystem&quot; value=&quot;Task System&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskList&quot; value=&quot;Task List&quot; /&gt;</div><div class="line">    &lt;text name=&quot;NewTask&quot; value=&quot;New Task&quot; /&gt;</div><div class="line">    &lt;text name=&quot;Xtasks&quot; value=&quot;&#123;0&#125; tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;AllTasks&quot; value=&quot;All tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;ActiveTasks&quot; value=&quot;Active tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;CompletedTasks&quot; value=&quot;Completed tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskDescription&quot; value=&quot;Task description&quot; /&gt;</div><div class="line">    &lt;text name=&quot;EnterDescriptionHere&quot; value=&quot;Task description&quot; /&gt;</div><div class="line">    &lt;text name=&quot;AssignTo&quot; value=&quot;Assign to&quot; /&gt;</div><div class="line">    &lt;text name=&quot;SelectPerson&quot; value=&quot;Select person&quot; /&gt;</div><div class="line">    &lt;text name=&quot;CreateTheTask&quot; value=&quot;Create the task&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskUpdatedMessage&quot; value=&quot;Task has been successfully updated.&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskCreatedMessage&quot; value=&quot;Task &#123;0&#125; has been created successfully.&quot; /&gt;</div><div class="line">  &lt;/texts&gt;</div><div class="line">&lt;/localizationDictionary&gt;</div></pre></td></tr></table></figure></p>
 <p>这是一个简单的XML文件，包括所有可本地化文本的名称 - 值对。 文化属性定义文件的文化。 在解决方案中还有一个土耳其语（tr）本地化的XML文件。 本地化文件应该注册到ABP，以便可以在C＃和javascript中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Configuration.Localization.Sources.Add(</div><div class="line">    new XmlLocalizationSource(</div><div class="line">        &quot;SimpleTaskSystem&quot;,</div><div class="line">        HttpContext.Current.Server.MapPath(&quot;~/Localization/SimpleTaskSystem&quot;)</div><div class="line">        )</div><div class="line">    );</div></pre></td></tr></table></figure></p>
 <p>本地化源必须是唯一的名称（SimpleTaskSystem这里）。 因此，可以在应用程序中使用不同的源（以不同的格式和数据源存储）。 XmlLocalizationSource还需要一个文件夹（/ Localization / SimpleTaskSystem here）来读取本地化文件。</p>

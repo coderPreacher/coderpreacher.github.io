@@ -443,13 +443,7 @@
 <p>Node尽可能利用操作系统的内核可用的内容。 因此，将制作写请求，保持连接等更多的责任由系统委托并处理。 例如，传入连接由系统排队，直到它们可以被Node处理。</p>
 <p>您可能已经听说Node有一个线程池，可能会想知道“如果Node将所有这些责任推下来，为什么需要一个线程池？ 这是因为内核不支持异步处理。 在这些情况下，Node必须在操作期间锁定线程，以便可以继续执行事件循环而不阻止。</p>
 <p>这是一个简化的图表，用于解释何时运行的机制概览：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/understanding-the-nodejs-event-loop-diagram.png" alt="event loop" title="">
-                </div>
-                <div class="image-caption">event loop</div>
-            </figure>
+<p><img src="/images/understanding-the-nodejs-event-loop-diagram.png" alt="event loop"></p>
 <p>关于事件循环的内部工作的几个重要注意事项，将难以包含在图中：</p>
 <ul>
 <li>通过process.nextTick（）调度的所有回调都在转换到下一阶段之前在事件循环阶段（例如定时器）结束时运行。 这会产生潜在的无意中使用循环调用process.nextTick（）的事件循环。</li>

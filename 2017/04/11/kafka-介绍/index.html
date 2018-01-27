@@ -526,21 +526,9 @@
 </ul>
 <p><img src="http://kafka.apache.org/0102/images/kafka-apis.png" alt="kafka apis"></p>
 <p>在kafka的客户端和服务器之间的通信是一个简单的，高性能的，与语言无关的TCP协议来完成。此协议版本，并保持向后兼容旧版本的兼容性。我们对kafka提供了一个Java客户端，但是客户端有<a href="https://cwiki.apache.org/confluence/display/KAFKA/Clients" target="_blank" rel="external">多种语言</a>可供选择。</p>
-<h3 id="Kafka的架构："><a href="#Kafka的架构：" class="headerlink" title="Kafka的架构："></a>Kafka的架构：</h3><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/kafka2.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<h3 id="Kafka的架构："><a href="#Kafka的架构：" class="headerlink" title="Kafka的架构："></a>Kafka的架构：</h3><p><img src="/images/kafka2.png" alt="kafka apis"></p>
 <p>Kafka的整体架构非常简单，是显式分布式架构，producer、broker（kafka）和consumer都可以有多个。Producer，consumer实现Kafka注册的接口，数据从producer发送到broker，broker承担一个中间缓存和分发的作用。<br>broker分发注册到系统中的consumer。broker的作用类似于缓存，即活跃的数据和离线处理系统之间的缓存。客户端和服务器端的通信，是基于简单，高性能，且与编程语言无关的TCP协议。</p>
-<h4 id="消息发送的流程："><a href="#消息发送的流程：" class="headerlink" title="消息发送的流程："></a>消息发送的流程：</h4><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/kafka1.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<h4 id="消息发送的流程："><a href="#消息发送的流程：" class="headerlink" title="消息发送的流程："></a>消息发送的流程：</h4><p><img src="/images/kafka1.png" alt="kafka apis"></p>
 <ol>
 <li><p>Producer根据指定的partition方法（round-robin、hash等），将消息发布到指定topic的partition里面。</p>
 </li>
@@ -582,36 +570,18 @@
 </code></pre><h3 id="Topics-and-Logs-主题和日志"><a href="#Topics-and-Logs-主题和日志" class="headerlink" title="Topics and Logs(主题和日志)"></a>Topics and Logs(主题和日志)</h3><p>让我们先潜入核心抽象kafka提供了记录，该主题的流。 </p>
 <p>Topic是作为一类消息名称记录被公布。在kafka的Topic始终是多用户;也就是说，一个Topic可以有零个，一个或多个消费者订阅写入的数据。 </p>
 <p>对于每一个主题，Topic集群保持分区日志，看起来像这样：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://kafka.apache.org/0102/images/log_anatomy.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<p><img src="http://kafka.apache.org/0102/images/log_anatomy.png" alt="kafka apis"></p>
 <p>每个分区是记录一个有序的，一成不变的序列不断追加到一个结构化的提交日志。</p>
 <p>在分区中的记录是调用的每个分配的序列ID号的偏移量唯一地标识该分区中的每个记录。</p>
 <p>kafka集群保留所有发布的记录，不论其是否具有可配置的保留期限被使用或消费。例如，如果将保留策略设置为两天，然后记录公布后两天，它可用于消费，之后它将被丢弃以腾出空间。kafka的性能相对于数据的大小实际上不变，以便将数据存储很长一段时间是没有问题的。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://kafka.apache.org/0102/images/log_consumer.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<p><img src="http://kafka.apache.org/0102/images/log_consumer.png" alt="kafka apis"></p>
 <p>事实上，保留在每个消费者基础的唯一的元数据是在日志中，消费者的偏移或位置。这种偏移是由消费者控制：通常消费者会促进其线性偏移，因为它读取记录，但事实上，因为其位置是由消费者可以在任何它喜欢的顺序消耗记录进行控制。例如，消费者可以恢复到旧的偏移量从过去的数据再加工或者直接跳到最新的记录，并开始从“现在”消费。</p>
 <p>这些功能的结合意味着，kafka的消费者都是很便宜的，他们可以来去无集群上或其他消费者产生太大影响。例如，你可以使用我们的命令行工具“tail”的任何话题，而无需改变什么是任何现有的消费者消费的内容。</p>
 <p>日志中的分区，一举数得。首先，它们允许日志扩展到超过一个的大小，将适合在单个服务器上。每个单独的分区必须适合承载它的服务器上，但一个话题可能有很多分区，以便它能够处理任意的数据量。其次，他们作为并行性更上一个位的单位。</p>
 <h3 id="Distribution-分布式"><a href="#Distribution-分布式" class="headerlink" title="Distribution(分布式)"></a>Distribution(分布式)</h3><p>日志的分区分布在每台服务器处理数据和请求对分区的份额kafka集群中的服务器。每个分区跨容错服务器配置数量的复制。<br>每个分区有它充当“leader”和零个或多个服务器充当“followers”一台服务器。领导者处理所有的读取和写入分区的要求而被动的追随者复制的领导者。如果领导者失败了，追随者之一将自动成为新的领导者。每个服务器充当一些分区，而对其他跟随的领导者这样的负载是在集群内均衡。</p>
 <h3 id="Producers-生产者"><a href="#Producers-生产者" class="headerlink" title="Producers(生产者)"></a>Producers(生产者)</h3><p>生产者数据发布到他们所选择的主题。制片人负责选择分配哪些记录在主题中哪个分区。这可以在一个循环的方式进行简单地平衡负载，也可以根据一些语义分区功能（比如基于记录一些关键）来完成。更多关于在第二使用分区！</p>
 <h3 id="Consumers-消费者"><a href="#Consumers-消费者" class="headerlink" title="Consumers(消费者)"></a>Consumers(消费者)</h3><p>消费者标榜自己与消费者的组名，并发布到一个话题每个记录每个订阅用户组内交付给消费者的一个实例。消费实例可以在单独的进程或单独的机器上。<br>如果所有的消费者实例具有相同的消费群，那么记录将有效地加载在消费者实例平衡。<br>如果所有的消费者实例有不同的消费群体，那么每个记录将被广播到所有的消费过程。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://kafka.apache.org/0102/images/consumer-groups.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<p><img src="http://kafka.apache.org/0102/images/consumer-groups.png" alt="kafka apis"></p>
 <p>两个服务器集群kafka举办两个消费群体的四个分区（P0-P3）。一个消费群体有两个消费情况与B组有四个。<br>更常见的，但是，我们已经发现，主题有一个小的消费群体，每一个“逻辑用户”的。每组都是由可扩展性和容错许多消费者实例。这只不过是发布 - 订阅语义在那里用户是消费者，而不是一个单一的过程中群集的更多。<br>消费kafka的实现方式是通过将建立分区日志在Consumer实例，使每个实例是分区的“公平份额”的在任何时间点的独家消费者。维持组中的成员的这个过程是通过动态kafka协议处理。如果新的实例加入该组，他们将接管从该组的其他成员一些分区;如果一个实例死亡，其分区将被分配到剩余的实例。<br>kafka只提供了记录的总订单分区中，而不是一个主题的不同分区之间。每个分区的顺序与键对数据进行分区的能力相结合足以满足大多数应用。但是，如果在记录总共需要为了这个可以与只有一个分区的主题实现的，虽然这将意味着只有一个每个消费群体的消费过程。</p>
 <h3 id="kafka-作为一个消息系统"><a href="#kafka-作为一个消息系统" class="headerlink" title="kafka 作为一个消息系统"></a>kafka 作为一个消息系统</h3><p>如何流的kafka的观念比较传统的企业信息系统？<br>消息历来有两种模型：队列和发布 - 订阅。在队列中，消费者的池可以从服务器读取和记录每一个进入其中的一个;在发布 - 订阅记录被广播到所有的消费者。每个这两种模式具有一定的实力和弱点。排队的优点是它可以让你瓜分了数据在多个消费情况的处理，它可以让您扩展您的处理。不幸的是，队列不是多用户，一旦一个进程读取它不见了数据。发布 - 订阅模式可以让你广播数据到多个进程，但没有，因为每一个消息发送到每个用户的缩放处理的方式。<br>在kafka的消费群的概念推广这两个概念。与队列的消费群让你过的进程的集合（消费群的成员）瓜分处理。与发布 - 订阅，kafka让您发送广播消息到多个消费群体。<br>kafka的模型的优点是，每个主题都有两个属性，它可以扩展的处理，也是多用户，有没有必要选择一个或另一个。<br>kafka具有较强的排序保证比传统的消息系统了。<br>传统的队列保留在服务器上，订单记录，如果多个消费者从队列中消耗那么服务器双手出存储它们的订单记录。然而，尽管服务器为了捧出来的记录，这些记录被异步传递给消费者，让他们可以在不同的消费者到达的顺序。这实际上意味着记录的排序在并行消费的存在都将丢失。消息系统通常解决这个具有“排他性消费”，只允许一个过程从队列中消耗的概念，当然，这意味着有正在处理的并行性。<br>kafka做的更好。通过具有一个概念并行性的分区中的主题，kafka是能够通过消费者的进程池同时提供排序保证和负载平衡。这是通过使每个分区由该组中只有一个消费者所消耗的话题，消费者的消费群在指定的分区来实现的。通过这样做，我们确保消费者的是，分区唯一的读者，为了消耗数据。因为有许多的分区，这还是平衡了许多消费者的情况下的负载。但是请注意，不能在一个消费群体比分区的详细消费情况。</p>
 <h3 id="kafka-作为一个存储系统"><a href="#kafka-作为一个存储系统" class="headerlink" title="kafka 作为一个存储系统"></a>kafka 作为一个存储系统</h3><p>任何消息队列，它允许从消费他们解耦出版消息被有效地充当用于在飞行中消息的存储系统。这就是kafka与其他消息队列系统不同的地方，因为它是一个很好的存储系统。<br>写到kafka数据写入到磁盘和复制的容错。kafka允许生产者在确认等待，以便不被认为是写操作完成，直到它被完全复制，并保证持续下去，即使写入服务器失败。<br>磁盘结构kafka使用很好地扩展，kafka将执行相同的你是否有50 KB或服务器上的持久性数据的50 TB。<br>由于把存储的重视，并允许客户控制自己的读取位置的结果，你能想到kafka作为一种特殊用途的分布式文件系统，致力于高性能，低延迟提交日志存储，复制和传播。</p>

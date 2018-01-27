@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。                                                                                              EventEmitter              事件驱动性质的最简单形式是一些流行的No">
+<meta name="description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。  事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如fs.readFile。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。 我们先来探讨这个基本形式。 当你准备好的时候给我打电话，Node！Node处理异步事件的原始">
 <meta name="keywords" content="Nodejs,Node.js Event-Driven,Event-Driven Architecture,Node.js Architecture">
 <meta property="og:type" content="article">
 <meta property="og:title" content="了解Node.js事件驱动架构">
 <meta property="og:url" content="http://coderpreacher.top/2017/09/10/了解Node-js事件驱动架构/index.html">
 <meta property="og:site_name" content="coderPreacher's Blog">
-<meta property="og:description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。                                                                                              EventEmitter              事件驱动性质的最简单形式是一些流行的No">
+<meta property="og:description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。  事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如fs.readFile。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。 我们先来探讨这个基本形式。 当你准备好的时候给我打电话，Node！Node处理异步事件的原始">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png">
 <meta property="og:updated_time" content="2017-09-10T15:18:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="了解Node.js事件驱动架构">
-<meta name="twitter:description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。                                                                                              EventEmitter              事件驱动性质的最简单形式是一些流行的No">
+<meta name="twitter:description" content="Node的大部分对象（如HTTP请求，响应和流）都实现了EventEmitter模块，从而可以提供发送和监听事件的方法。  事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如fs.readFile。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。 我们先来探讨这个基本形式。 当你准备好的时候给我打电话，Node！Node处理异步事件的原始">
 <meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png">
 
 
@@ -431,13 +431,7 @@
 
       
         <p>Node的大部分对象（如HTTP请求，响应和流）都实现了<code>EventEmitter</code>模块，从而可以提供发送和监听事件的方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png" alt="EventEmitter" title="">
-                </div>
-                <div class="image-caption">EventEmitter</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png" alt="EventEmitter"></p>
 <p>事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如<code>fs.readFile</code>。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。</p>
 <p>我们先来探讨这个基本形式。</p>
 <h1 id="当你准备好的时候给我打电话，Node！"><a href="#当你准备好的时候给我打电话，Node！" class="headerlink" title="当你准备好的时候给我打电话，Node！"></a>当你准备好的时候给我打电话，Node！</h1><p>Node处理异步事件的原始方式是回调。这是很久以前，在JavaScript有本机(<code>Promise</code>)承诺支持和<code>async</code>/<code>await</code>功能之前。</p>

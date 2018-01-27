@@ -439,26 +439,12 @@
 <ul>
 <li>传输层协议：提供服务器身份验证，数据保密性和数据完整性，具有前瞻性的保密性（即，如果密钥在一个会话中受到威胁，则知识不会影响早期会话的安全性）; 传输层可以可选地提供压缩。</li>
 <li>用户认证协议：将用户验证到服务器。</li>
-<li>连接协议：通过单个底层SSH连接复用多个逻辑通信通道。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg" alt="ssh1" title="">
-                </div>
-                <div class="image-caption">ssh1</div>
-            </figure>
-图1 SSH 协议分层</li>
+<li>连接协议：通过单个底层SSH连接复用多个逻辑通信通道。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg" alt="ssh1"><br>图1 SSH 协议分层</li>
 </ul>
 <h2 id="传输层协议"><a href="#传输层协议" class="headerlink" title="传输层协议"></a>传输层协议</h2><p>服务器认证发生在传输层，基于具有公私属密钥对的服务器。 服务器可以具有使用多个不同的非对称加密算法的多个主机密钥。 多个主机可以共享相同的主机密钥。 无论如何，在密钥交换期间使用服务器主机密钥来验证主机的身份。 为了使认证成为可能，客户端必须具有服务器公共主机密钥的推定知识。 RFC 4251规定了可以使用的两种可选的信任模型：</p>
 <ol>
 <li>客户端具有将每个主机名（由用户键入）与相应的公共主机密钥相关联的本地数据库。 该方法不需要集中管理的基础设施，也不需要第三方协调。 缺点是名称到密钥关联的数据库可能会变得难以维护。</li>
-<li>主机名称到密钥关联由受信任的证书颁发机构（CA）进行认证。 客户端只知道CA根密钥，并且可以验证由接受的CA认证的所有主机密钥的有效性。 这种选择可以减轻维护问题，因为理想情况下只需要安全地将一个CA密钥存储在客户机上。 另一方面，每个主机密钥必须经过中央机构的认证才可以进行认证。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig02_sm.jpg" alt="ssh2" title="">
-                </div>
-                <div class="image-caption">ssh2</div>
-            </figure>
-图2：SSH传输层协议数据包交换</li>
+<li>主机名称到密钥关联由受信任的证书颁发机构（CA）进行认证。 客户端只知道CA根密钥，并且可以验证由接受的CA认证的所有主机密钥的有效性。 这种选择可以减轻维护问题，因为理想情况下只需要安全地将一个CA密钥存储在客户机上。 另一方面，每个主机密钥必须经过中央机构的认证才可以进行认证。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig02_sm.jpg" alt="ssh2"><br>图2：SSH传输层协议数据包交换</li>
 </ol>
 <p>图2说明了SSH传输层协议中事件的顺序。 首先，客户端使用TCP协议与服务器建立TCP连接，而不是传输层协议的一部分。 当建立连接时，客户端和服务器在TCP段的数据字段中交换称为数据包的数据。 每个数据包采用以下格式（图3）：</p>
 <ul>
@@ -466,14 +452,7 @@
 <li>填充长度：填充长度是随机填充字段的长度。</li>
 <li>有效载荷：有效载荷构成数据包的有用内容。 在算法协商之前，此字段未压缩。 如果协商压缩，则在随后的数据包中，此字段被压缩。</li>
 <li>随机填充：协商加密算法后，添加该字段。 它包含填充的随机字节，使得分组的总长度（不包括MAC字段）是密码块大小的倍数，或者是流密码的8字节。</li>
-<li>消息认证码（MAC）：如果已经协商消息认证，则该字段包含MAC值。 MAC数据在整个数据包上加上序列号，不包括MAC字段。 序列号是一个隐含的32位数据包序列，它为第一个数据包初始化为零，并为每个数据包递增。 序列号不包括在通过TCP连接发送的数据包中。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig03_sm.jpg" alt="ssh2" title="">
-                </div>
-                <div class="image-caption">ssh2</div>
-            </figure>
-图3 SSH传输层协议数据包形成</li>
+<li>消息认证码（MAC）：如果已经协商消息认证，则该字段包含MAC值。 MAC数据在整个数据包上加上序列号，不包括MAC字段。 序列号是一个隐含的32位数据包序列，它为第一个数据包初始化为零，并为每个数据包递增。 序列号不包括在通过TCP连接发送的数据包中。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig03_sm.jpg" alt="ssh2"><br>图3 SSH传输层协议数据包形成</li>
 </ul>
 <p>在协商加密算法之后，在计算MAC值之后，将整个数据包（不包括MAC字段）加密。</p>
 <p>SSH传输层分组交换包括一系列步骤（图2）。第一步，识别字符串交换，以客户端发送带有以下形式的标识字符串的数据包开始：</p>
@@ -628,13 +607,7 @@
 <p>其中uint32表示无符号32位整数。通道类型标识该通道的应用程序，如下所述。发送方信道是本地信道号。初始窗口大小指定在不调整窗口的情况下可以向该消息的发送者发送多少字节的信道数据。最大数据包大小指定可以发送给发送方的单个数据包的最大大小。例如，可能需要使用较小的数据包进行交互式连接，以便在慢速链接上获得更好的交互式响应。</p>
 <p>如果远程端能够打开通道，它将返回一个SSH_MSG_CHANNEL_OPEN_CONFIRMATION消息，其中包含发送方通道号，收件人通道号以及入站流量的窗口和数据包大小值。否则，远程端返回一条SSH_MSG_CHANNEL_OPEN_FAILURE消息，其中包含原因代码，指示失败原因。</p>
 <p>在通道打开后，使用SSH_MSG_CHANNEL_DATA消息执行数据传输，该消息包括接收方频道号码和数据块。只要通道打开，这两个方向的这些消息可以继续。</p>
-<p>当任一方希望关闭频道时，会发送一个SSH_MSG_CHANNEL_CLOSE消息，其中包含收件人频道号码。图4提供了一个连接协议交换的例子。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig04_sm.jpg" alt="ssh4" title="">
-                </div>
-                <div class="image-caption">ssh4</div>
-            </figure><br>图4：SSH连接协议示例消息交换</p>
+<p>当任一方希望关闭频道时，会发送一个SSH_MSG_CHANNEL_CLOSE消息，其中包含收件人频道号码。图4提供了一个连接协议交换的例子。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig04_sm.jpg" alt="ssh4"><br>图4：SSH连接协议示例消息交换</p>
 <p>SSH连接协议规范中识别了四种通道类型：</p>
 <ol>
 <li>会话：会话是指程序的远程执行。该程序可能是一个shell，一个应用程序，如文件传输或电子邮件，一个系统命令或一些内置的子系统。当会话通道打开时，后续请求用于启动远程程序。</li>
@@ -643,14 +616,7 @@
 <li>direct-tcpip：该通道类型是本地端口转发，如下所述。</li>
 </ol>
 <p>SSH最有用的功能之一就是端口转发。端口转发功能可以将任何不安全的TCP连接转换为安全的SSH连接。它也被称为SSH隧道。我们需要知道一个端口在这个上下文中。端口是TCP用户的标识符。因此，任何在TCP上运行的应用程序都有一个端口号。基于端口号将传入的TCP流量传送到适当的应用程序。应用程序可以使用多个端口号。例如，对于简单邮件传输协议（SMTP），服务器端通常在端口25上侦听，以便传入的SMTP请求使用TCP并将数据解析到目标端口25. TCP识别该地址是SMTP服务器地址，将数据路由到SMTP服务器应用程序。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig05_sm.jpg" alt="ssh5" title="">
-                </div>
-                <div class="image-caption">ssh5</div>
-            </figure>
-<p>图5：SSH传输层数据包交换</p>
+<p><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig05_sm.jpg" alt="ssh5"><br>图5：SSH传输层数据包交换</p>
 <p>图5说明了端口转发的基本概念。我们有一个由端口号x标识的客户端应用程序和由端口号y标识的服务器应用程序。在某些时候，客户端应用程序调用本地TCP实体，并请求在端口y上连接到远程服务器。本地TCP实体与远程TCP实体协商TCP连接，使得连接将本地端口x链接到远程端口y。</p>
 <p>要确保此连接，SSH配置为使SSH传输层协议分别在TCP客户端和服务器实体之间建立TCP连接，TCP端口号为a和b。通过此TCP连接建立安全的SSH隧道。从端口x的客户端的流量被重定向到本地SSH实体，并通过远程SSH实体将数据传送到端口y上的服务器应用的隧道。另一方面的交通也被重新定向。</p>
 <p>SSH支持两种端口转发：本地转发和远程转发。本地转发允许客户端设置“劫持者”进程。此过程将拦截选定的应用程序级别的流量，并将其从不安全的TCP连接重定向到安全的SSH隧道。 SSH配置为侦听所选端口。 SSH使用所选端口抓取所有流量，并通过SSH隧道发送。另一方面，SSH服务器将传入流量发送到由客户端应用程序指定的目标端口。</p>

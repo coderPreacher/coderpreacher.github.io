@@ -445,13 +445,7 @@
 </ol>
 <h2 id="如果不使用DDD？"><a href="#如果不使用DDD？" class="headerlink" title="如果不使用DDD？"></a>如果不使用DDD？</h2><p>面对复杂的业务场景和需求，如果没有建立和实现领域模型，会导致应用架构出现胖服务层和贫血的领域模型，在这样的架构中，Service层开始积聚越来越多的业务逻辑，领域对象则成为只有getter和setter方法的数据载体。这种做法还会导致领域特定业务逻辑和规则散布于多个的Service类中，有些情况下还会出现重复的逻辑。我们曾经见过5000多行的Service类，上百个方法，代码基本上是不可读的。</p>
 <p>　　在大多数情况下，贫血的领域模型没有成本效益。它们不会给公司带来超越其它公司的竞争优势，因为在这种架构里要实现业务需求变更，开发并部署到生产环境中去要花费太长的时间。</p>
-<h2 id="领域驱动设计的分层架构和构成要素"><a href="#领域驱动设计的分层架构和构成要素" class="headerlink" title="领域驱动设计的分层架构和构成要素"></a>领域驱动设计的分层架构和构成要素</h2><p>下面我们简单介绍一下领域驱动设计的分层架构和构成要素，这部分内容在Eric Evans的书中有非常详尽的描述，想要详细了解的，最好去读原版书籍。<br>　　下面这张图是该书中著名的分层架构图，如下：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://pic001.cnblogs.com/images/2011/145819/2011081818481474.jpg" alt="ddd" title="">
-                </div>
-                <div class="image-caption">ddd</div>
-            </figure></p>
+<h2 id="领域驱动设计的分层架构和构成要素"><a href="#领域驱动设计的分层架构和构成要素" class="headerlink" title="领域驱动设计的分层架构和构成要素"></a>领域驱动设计的分层架构和构成要素</h2><p>下面我们简单介绍一下领域驱动设计的分层架构和构成要素，这部分内容在Eric Evans的书中有非常详尽的描述，想要详细了解的，最好去读原版书籍。<br>　　下面这张图是该书中著名的分层架构图，如下：<br><img src="http://pic001.cnblogs.com/images/2011/145819/2011081818481474.jpg" alt="ddd"></p>
 <p>　　整个架构分为四层，其核心就是领域层（Domain），所有的业务逻辑应该在领域层实现，具体描述如下：</p>
 <table>
 <thead>
@@ -489,14 +483,7 @@
 </ol>
 <h2 id="事务脚本和领域模型"><a href="#事务脚本和领域模型" class="headerlink" title="事务脚本和领域模型"></a>事务脚本和领域模型</h2><p>Martin Fowler 2004年所著的企业应用架构模式（Patterns of Enterprise Application Architecture）中的第九章领域逻辑模式（Domain Logic Patterns）专门介绍了事务脚本（Transaction Script）和领域模型（Domain Model），理解这两种模式对设计和构建企业应用软件非常有帮助，所以有必要介绍一下。</p>
 <ul>
-<li>事务脚本：<br>　　事务脚本的核心是过程，通过过程的调用来组织业务逻辑，每个过程处理来自表现层的单个请求。大部分业务应用都可以被看成一系列事务，从某种程度上来说，通过事务脚本处理业务，就像执行一条条SQL语句来实现数据库信息的处理。事务脚本把业务逻辑组织成单个过程，在过程中直接调用数据库，业务逻辑在服务（Service）层处理。<br>　　事务脚本模式可以简单的通过UML图表示成这样：<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://pic001.cnblogs.com/images/2011/145819/2011081818484374.jpg" alt="ddd" title="">
-                </div>
-                <div class="image-caption">ddd</div>
-            </figure>
-</li>
+<li>事务脚本：<br>　　事务脚本的核心是过程，通过过程的调用来组织业务逻辑，每个过程处理来自表现层的单个请求。大部分业务应用都可以被看成一系列事务，从某种程度上来说，通过事务脚本处理业务，就像执行一条条SQL语句来实现数据库信息的处理。事务脚本把业务逻辑组织成单个过程，在过程中直接调用数据库，业务逻辑在服务（Service）层处理。<br>　　事务脚本模式可以简单的通过UML图表示成这样：<br><img src="http://pic001.cnblogs.com/images/2011/145819/2011081818484374.jpg" alt="ddd"></li>
 </ul>
 <p>　由Action层处理UI层的动作请求，将Request中的数据组装后传递给BusinessService，BS层做简单的逻辑处理后，调用数据访问对象进行数据持久化，其中VO充当了数据传输对象的作用，一般是贫血的POJO，只具备getter和setter方法，没有状态和行为。<br>　　事务脚本模式的特点是简单容易理解，面向过程设计。对于少量逻辑的业务应用来说，事务脚本模式简单自然，性能良好，容易理解，而且一个事务的处理不会影响其他事务。不过缺点也很明显，对于复杂的业务逻辑处理力不从心，难以保持良好的设计，事务之间的冗余代码不断增多，通过复制粘贴方式进行复用。可维护性和扩展性变差。</p>
 <ul>

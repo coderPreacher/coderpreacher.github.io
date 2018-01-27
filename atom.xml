@@ -23,13 +23,7 @@
     <updated>2017-09-10T15:18:16.000Z</updated>
     
     <content type="html"><![CDATA[<p>Node的大部分对象（如HTTP请求，响应和流）都实现了<code>EventEmitter</code>模块，从而可以提供发送和监听事件的方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png" alt="EventEmitter" title="">
-                </div>
-                <div class="image-caption">EventEmitter</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*74K5OhiYt7WTR0WuVGeNLQ.png" alt="EventEmitter"></p>
 <p>事件驱动性质的最简单形式是一些流行的Node.js函数的回调方式，例如<code>fs.readFile</code>。在这个类比中，事件将被触发一次（当Node准备好调用回调函数时），回调作为事件处理程序。</p>
 <p>我们先来探讨这个基本形式。</p>
 <h1 id="当你准备好的时候给我打电话，Node！"><a href="#当你准备好的时候给我打电话，Node！" class="headerlink" title="当你准备好的时候给我打电话，Node！"></a>当你准备好的时候给我打电话，Node！</h1><p>Node处理异步事件的原始方式是回调。这是很久以前，在JavaScript有本机(<code>Promise</code>)承诺支持和<code>async</code>/<code>await</code>功能之前。</p>
@@ -90,8 +84,7 @@
     <summary type="html">
     
       &lt;p&gt;Node的大部分对象（如HTTP请求，响应和流）都实现了&lt;code&gt;EventEmitter&lt;/code&gt;模块，从而可以提供发送和监听事件的方法。&lt;/p&gt;
-&lt;figure class=&quot;image-bubble&quot;&gt;
-                &lt;div class=&quot;i
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*74K5
     
     </summary>
     
@@ -175,30 +168,12 @@
     <published>2017-09-09T14:11:50.000Z</published>
     <updated>2017-09-10T01:49:48.000Z</updated>
     
-    <content type="html"><![CDATA[<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg" alt="Streami-" title="">
-                </div>
-                <div class="image-caption">Streami-</div>
-            </figure>
+    <content type="html"><![CDATA[<p><img src="https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg" alt="Streami-"></p>
 <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Node.js Streams具有很强大的优势：您可以使用异步的方式处理输入和输出，您可以独立的步骤转换数据。在本教程中，我将引导您完成理论，并教您如何使用对象流变换，就像Gulp一样。</p>
 <h1 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h1><p>流是数据集合，就像数组或字符串一样。 不同之处在于流可能并非全部可用，并且它们不必适应内存。 这使得当处理大量数据时，流非常强大，或者一次来自外部源的数据。<br>然而，流不仅仅是关于使用大数据。 他们也给我们在我们的代码中组合的力量。 就像我们可以通过管道其他较小的Linux命令组成强大的linux命令一样，我们可以在Node中使用流完全一样。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png" alt="stream" title="">
-                </div>
-                <div class="image-caption">stream</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Fp3dyVZckIUjPFOp58x-zQ.png" alt="stream"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const grep = ... // A stream for the grep output</div><div class="line">const wc = ... // A stream for the wc input</div><div class="line">grep.pipe(wc)</div></pre></td></tr></table></figure>
-<p>Node中的许多内置模块实现流式接口：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="node stream module" title="">
-                </div>
-                <div class="image-caption">node stream module</div>
-            </figure></p>
+<p>Node中的许多内置模块实现流式接口：<br><img src="https://cdn-images-1.medium.com/max/800/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="node stream module"></p>
 <p>上面的列表有一些本机Node.js对象的示例，这些对象也是可读写的流。 这些对象中的一些是可读写的流，如TCP套接字，<code>zlib</code>和<code>crypto</code>流。<br>注意对象也是密切相关的。 虽然HTTP响应是客户端上的可读流，但它是服务器上的可写入流。 这是因为在HTTP情况下，我们基本上从一个对象（<code>http.IncomingMessage</code>）读取并写入另一个对象（<code>http.ServerResponse</code>）。<br>还要注意，当涉及到子进程时，stdio stream（stdin，stdout，stderr）如何具有逆流类型。 这允许一种非常简单的方式来管理来自主进程stdio流的这些流。</p>
 <h1 id="您的第一流应用程序"><a href="#您的第一流应用程序" class="headerlink" title="您的第一流应用程序"></a>您的第一流应用程序</h1><p>我们来仔细看看流。 为此，我们将构建一个简单的文件上传应用程序。 首先，我们需要构建一个使用可读流读取文件并将数据管理到特定目标的客户端。 在管道的另一端，我们将实现一个使用可写入流保存上传数据的服务器。</p>
 <p>我们从客户端开始吧。 我们从导入HTTP和文件系统模块开始。</p>
@@ -233,13 +208,7 @@
 <p>但是，流也可以直接与事件一起使用。以下是管道方法主要用于读取和写入数据的简化事件等效代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"># readable.pipe(writable)</div><div class="line">readable.on(&apos;data&apos;, (chunk) =&gt; &#123;</div><div class="line">  writable.write(chunk);</div><div class="line">&#125;);</div><div class="line">readable.on(&apos;end&apos;, () =&gt; &#123;</div><div class="line">  writable.end();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>以下是可读写可用流的重要事件和功能的列表：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="流事件(Stream events)" title="">
-                </div>
-                <div class="image-caption">流事件(Stream events)</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="流事件(Stream events)"></p>
 <p>事件和功能在某种程度上是相关的，因为它们通常被一起使用。</p>
 <p><code>Readable</code>可读流最重要的事件是：</p>
 <ul>
@@ -262,13 +231,7 @@
 <p>当可读流处于暂停模式时，我们可以使用<code>read</code>方法从流中读取流，但是，对于流模式中的可读流，数据持续流动，我们必须收听事件消耗它</p>
 <p>在流动模式下，如果没有消费者可以处理它，数据实际上可能会丢失。这就是为什么当我们在流模式下有可读流时，我们需要一个数据事件处理程序。事实上，只需添加一个数据事件处理程序即可将暂停的流转换为流模式，并删除数据事件处理程序将流切换回暂停模式。其中一些是为了与旧的<code>Node Stream</code>接口的向后兼容而完成的。 </p>
 <p>要手动切换这两种流模式，可以使用<code>resume</code>和<code>pause</code>方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*HI-mtispQ13qm8ib5yey3g.png" alt="Readable Streams" title="">
-                </div>
-                <div class="image-caption">Readable Streams</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HI-mtispQ13qm8ib5yey3g.png" alt="Readable Streams"></p>
 <p>当使用管道方法消耗可读流时，我们不必担心管道自动管理这些模式。</p>
 <h1 id="流实现"><a href="#流实现" class="headerlink" title="流实现"></a>流实现</h1><p>当谈到Node.js中的流时，主要有两个不同的任务：</p>
 <ul>
@@ -321,13 +284,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">const &#123; Transform &#125; = require(&apos;stream&apos;);</div><div class="line">const commaSplitter = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(chunk.toString().trim().split(&apos;,&apos;));</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const arrayToObject = new Transform(&#123;</div><div class="line">  readableObjectMode: true,</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    const obj = &#123;&#125;;</div><div class="line">    for(let i=0; i &lt; chunk.length; i+=2) &#123;</div><div class="line">      obj[chunk[i]] = chunk[i+1];</div><div class="line">    &#125;</div><div class="line">    this.push(obj);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">const objectToString = new Transform(&#123;</div><div class="line">  writableObjectMode: true,</div><div class="line">  transform(chunk, encoding, callback) &#123;</div><div class="line">    this.push(JSON.stringify(chunk) + &apos;\n&apos;);</div><div class="line">    callback();</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">process.stdin</div><div class="line">  .pipe(commaSplitter)</div><div class="line">  .pipe(arrayToObject)</div><div class="line">  .pipe(objectToString)</div><div class="line">  .pipe(process.stdout)</div></pre></td></tr></table></figure>
 <p>我们通过commasplitter传递输入字符串（例如“a，b，c，d”），该数组将数组作为其可读取数据（[“a”，“b”，“c”，“d”]））。在该流上添加可读ObjectMode标志是必要的，因为我们正在将对象推送到其上，而不是字符串。</p>
 <p>然后我们将数组并且将其导入到arrayToObject流中。我们需要一个writableObjectMode标志来使该流接受一个对象。它还将推送一个对象（输入数组映射到一个对象），这就是为什么我们也需要可读ObjectMode标志的原因。最后一个objectToString流接受一个对象，但是推出一个字符串，这就是为什么我们只需要一个writableObjectMode标志的原因。可读部分是普通字符串（字符串对象）。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn-images-1.medium.com/max/800/1*u2kQzUD0ruPpt-xx0UOHoA.png" alt="abcd" title="">
-                </div>
-                <div class="image-caption">abcd</div>
-            </figure>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*u2kQzUD0ruPpt-xx0UOHoA.png" alt="abcd"></p>
 <h3 id="Node-js内置的转换流"><a href="#Node-js内置的转换流" class="headerlink" title="Node.js内置的转换流"></a>Node.js内置的转换流</h3><p>Node有一些非常有用的内置变换流。即，<code>zlib</code>和<code>crypto</code> stream。</p>
 <p>这是一个使用<code>zlib.createGzip</code>（）流结合<code>fs</code>  <code>readable/writable</code> 流创建文件压缩脚本的示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line">const file = process.argv[2];</div><div class="line"></div><div class="line">fs.createReadStream(file)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(fs.createWriteStream(file + &apos;.gz&apos;));</div></pre></td></tr></table></figure>
@@ -349,10 +306,8 @@
     
     <summary type="html">
     
-      &lt;figure class=&quot;image-bubble&quot;&gt;
-                &lt;div class=&quot;img-lightbox&quot;&gt;
-                    &lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
-                   
+      &lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/1*xGNVMFqXXTeK7ZyK2eN21Q.jpeg&quot; alt=&quot;Streami-&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;he
     
     </summary>
     
@@ -387,13 +342,7 @@
 <p>Node尽可能利用操作系统的内核可用的内容。 因此，将制作写请求，保持连接等更多的责任由系统委托并处理。 例如，传入连接由系统排队，直到它们可以被Node处理。</p>
 <p>您可能已经听说Node有一个线程池，可能会想知道“如果Node将所有这些责任推下来，为什么需要一个线程池？ 这是因为内核不支持异步处理。 在这些情况下，Node必须在操作期间锁定线程，以便可以继续执行事件循环而不阻止。</p>
 <p>这是一个简化的图表，用于解释何时运行的机制概览：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/understanding-the-nodejs-event-loop-diagram.png" alt="event loop" title="">
-                </div>
-                <div class="image-caption">event loop</div>
-            </figure>
+<p><img src="/images/understanding-the-nodejs-event-loop-diagram.png" alt="event loop"></p>
 <p>关于事件循环的内部工作的几个重要注意事项，将难以包含在图中：</p>
 <ul>
 <li>通过process.nextTick（）调度的所有回调都在转换到下一阶段之前在事件循环阶段（例如定时器）结束时运行。 这会产生潜在的无意中使用循环调用process.nextTick（）的事件循环。</li>
@@ -440,13 +389,7 @@
     
     <content type="html"><![CDATA[<h1 id="IdentityServer是什么？"><a href="#IdentityServer是什么？" class="headerlink" title="IdentityServer是什么？"></a>IdentityServer是什么？</h1><p>IdentityServer是一个基于.NET / Katana的框架和可托管组件，允许使用OpenID Connect和OAuth2等协议实现对现代Web应用程序和API的单点登录和访问控制。 它支持广泛的客户端，如移动，Web，SPA和桌面应用程序，并且是可扩展的，可以集成到新的和现有的体系结构中。</p>
 <h1 id="入门-Getting-started"><a href="#入门-Getting-started" class="headerlink" title="入门(Getting started)"></a>入门(Getting started)</h1><p>大多数现代应用看起来或多或少是这样的：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://docs.identityserver.io/en/release/_images/appArch.png" alt="appArch" title="">
-                </div>
-                <div class="image-caption">appArch</div>
-            </figure>
+<p><img src="http://docs.identityserver.io/en/release/_images/appArch.png" alt="appArch"></p>
 <p>最常见的互动是：</p>
 <ul>
 <li>浏览器与Web应用程序通信</li>
@@ -459,13 +402,7 @@
 <p>通常，每个层（前端，中间层和后端）都必须保护资源并实施身份验证和/或授权（通常针对同一用户存储）。</p>
 <p>将这些基本安全功能外包给安全令牌服务可以防止在这些应用程序和端点之间复制该功能。</p>
 <p>重组应用程序以支持安全令牌服务导致以下体系结构和协议：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://docs.identityserver.io/en/release/_images/protocols.png" alt="protocols" title="">
-                </div>
-                <div class="image-caption">protocols</div>
-            </figure>
+<p><img src="http://docs.identityserver.io/en/release/_images/protocols.png" alt="protocols"></p>
 <p>这样的设计将安全问题分为两部分：</p>
 <h2 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h2><p>当应用程序需要知道当前用户的身份时，需要进行身份验证。 通常，这些应用程序代表该用户管理数据，并且需要确保该用户只能访问他被允许的数据。 最常见的例子是（经典）Web应用程序 - 但是基于本机和基于JS的应用程序也需要进行身份验证。</p>
 <p>最常见的认证协议是SAML2p，WS-Federation和OpenID Connect - SAML2p是最流行和最广泛部署的。</p>
@@ -475,13 +412,7 @@
 <h2 id="OpenID-Connect和OAuth-2-0-一起更好"><a href="#OpenID-Connect和OAuth-2-0-一起更好" class="headerlink" title="OpenID Connect和OAuth 2.0 - 一起更好"></a>OpenID Connect和OAuth 2.0 - 一起更好</h2><p>OpenID Connect和OAuth 2.0非常相似 - 实际上OpenID Connect是OAuth 2.0之上的扩展。 两个基本的安全考虑，身份验证和API访问，被组合成一个单一的协议 - 通常与安全令牌服务的单一往返。</p>
 <p>我们认为OpenID Connect和OAuth 2.0的组合是在可预见的未来保护现代应用程序的最佳方法。 IdentityServer是这两个协议的实现，并且经过高度优化，可以解决当今移动，本机和Web应用程序的典型安全问题。</p>
 <h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>规范，文档和对象模型使用您应该注意的某些术语。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://identityserver4.readthedocs.io/en/release/_images/terminology.png" alt="terminology" title="">
-                </div>
-                <div class="image-caption">terminology</div>
-            </figure>
+<p><img src="https://identityserver4.readthedocs.io/en/release/_images/terminology.png" alt="terminology"></p>
 <h3 id="IdentityServer"><a href="#IdentityServer" class="headerlink" title="IdentityServer"></a>IdentityServer</h3><p>IdentityServer是一个OpenID Connect提供程序 - 它实现了OpenID Connect和OAuth 2.0协议。</p>
 <p>不同的文献对于相同的角色使用不同的术语 - 您可能还会发现安全令牌服务，身份提供者，授权服务器，IP-STS等等。</p>
 <p>但总而言之，它们都是一样的：一种向客户发出安全令牌的软件。</p>
@@ -580,35 +511,11 @@
 <li>这不是一个一体化的框架。 相反，它为特定任务使用了众所周知的工具/库（如用于O / RM的NHibernate和EntityFramework，用于日志记录的Log4Net，作为DI容器的Castle Windsor，SPA框架的AngularJS）。</li>
 </ul>
 <h1 id="入门-Getting-started"><a href="#入门-Getting-started" class="headerlink" title="入门(Getting started)"></a>入门(Getting started)</h1><p>在本文中，我将展示如何使用ASP.NET Boilerplate去除单页面和响应性Web应用程序（我现在称之为ABP）。 我将在这里使用DurandalJs作为SPA框架和NHibernate作为ORM框架。 我准备了另一篇用AngularJs和EntityFramework实现相同应用的文章。</p>
-<p>此示例应用程序被命名为“简单任务系统”，它由两个页面组成：一个用于列出任务，另一个是添加新任务。 一个任务可以与一个人相关，可以是活动的或完成的。 应用程序以两种语言进行本地化。 应用程序中任务列表的屏幕截图如下所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png" alt="task" title="">
-                </div>
-                <div class="image-caption">task</div>
-            </figure></p>
+<p>此示例应用程序被命名为“简单任务系统”，它由两个页面组成：一个用于列出任务，另一个是添加新任务。 一个任务可以与一个人相关，可以是活动的或完成的。 应用程序以两种语言进行本地化。 应用程序中任务列表的屏幕截图如下所示：<br><img src="https://www.codeproject.com/KB/aspnet/768664/tasksystem.png" alt="task"></p>
 <h2 id="从模板创建空的web应用程序"><a href="#从模板创建空的web应用程序" class="headerlink" title="从模板创建空的web应用程序"></a>从模板创建空的web应用程序</h2><p>ABP为新项目提供启动模板（即使您可以手动创建项目并从nuget获取ABP包，模板方式更容易）。 请访问<a href="www.aspnetboilerplate.com/Templates">www.aspnetboilerplate.com/Templates</a>以从模板创建应用程序。 您可以选择具有可选AngularJs或DurandalJs的SPA（单页面应用）项目。 或者您可以选择MPA（经典的，多页面应用程序）项目。 那么你可以选择EntityFramework或NHibernate作为ORM框架。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/create_template_v2.png" alt="create_template_v2" title="">
-                </div>
-                <div class="image-caption">create_template_v2</div>
-            </figure>
-<p>我将我的项目命名为SimpleTaskSystem，并与Durandal和NHibernate建立了一个SPA项目。 下载项目为zip文件。 当我打开zip文件时，我看到一个解决方案已经准备好，包含每个域驱动设计层的程序集（项目）：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/project_files2.png" alt="project_files2" title="">
-                </div>
-                <div class="image-caption">project_files2</div>
-            </figure></p>
-<p>就这样，你的项目已经准备好运行了！ 在VS2013中打开它，然后按F5：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/first_run.png" alt="first_run" title="">
-                </div>
-                <div class="image-caption">first_run</div>
-            </figure></p>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/create_template_v2.png" alt="create_template_v2"></p>
+<p>我将我的项目命名为SimpleTaskSystem，并与Durandal和NHibernate建立了一个SPA项目。 下载项目为zip文件。 当我打开zip文件时，我看到一个解决方案已经准备好，包含每个域驱动设计层的程序集（项目）：<br><img src="https://www.codeproject.com/KB/aspnet/768664/project_files2.png" alt="project_files2"></p>
+<p>就这样，你的项目已经准备好运行了！ 在VS2013中打开它，然后按F5：<br><img src="https://www.codeproject.com/KB/aspnet/768664/first_run.png" alt="first_run"></p>
 <h2 id="领域层-Domain-layer"><a href="#领域层-Domain-layer" class="headerlink" title="领域层(Domain layer)"></a>领域层(Domain layer)</h2><p>“<em>负责代表业务概念，有关业务情况的信息和业务规则</em>”（Eric Evans）。 在领域驱动设计（DDD）中，核心层是领域层。 领域层定义您的实体，实现您的业务规则等。</p>
 <h3 id="实体-Entities"><a href="#实体-Entities" class="headerlink" title="实体(Entities)"></a>实体(Entities)</h3><p>实体是DDD的核心概念之一。 埃里克·埃文斯（Eric Evans）将其描述为“一个不是由其属性从根本上定义的对象，而是一个连贯性和身份的线索”。 因此，实体具有Id并存储在数据库中。</p>
 <p>任务(Task)实体类定义如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public class Task : Entity&lt;long&gt;</div><div class="line">&#123;</div><div class="line">    public virtual Person AssignedPerson &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual string Description &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual DateTime CreationTime &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public virtual TaskState State &#123; get; set; &#125;</div><div class="line"></div><div class="line">    public Task()</div><div class="line">    &#123;</div><div class="line">        CreationTime = DateTime.Now;</div><div class="line">        State = TaskState.Active;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -619,13 +526,7 @@
 <h3 id="仓储-Repositories"><a href="#仓储-Repositories" class="headerlink" title="仓储(Repositories)"></a>仓储(Repositories)</h3><p>“使用类收集接口访问领域对象，在领域和数据映射层之间进行中介”（Martin Fowler）。 实际上，仓储用于对域对象（实体或值类型）执行数据库操作。</p>
 <p>通常，每个实体（或聚合根）使用分隔的仓储。 ASP.NET Boilerplate为每个实体提供默认仓储（我们将看到如何使用默认仓储）。 如果我们需要定义其他方法，我们可以扩展IRepository接口。 我将其扩展到了Task库：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface ITaskRepository : IRepository&lt;Task, long&gt;</div><div class="line">&#123;</div><div class="line">    List&lt;Task&gt; GetAllWithPeople(int? assignedPersonId, TaskState? state);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>为每个Repository定义一个接口是很好的。 因此，我们可以将接口与实现分开。 仓储接口定义了仓储的常见方法：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/repository_interface2.png" alt="first_run" title="">
-                </div>
-                <div class="image-caption">first_run</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/repository_interface2.png" alt="first_run"></p>
 <p>它定义了基本的CRUD方法。 所以，所有仓储都会自动实现所有这些方法。 除了标准的基础方法之外，还可以添加特定于该仓储的方法，就像我定义了GetAllWithPeople方法一样。</p>
 <h2 id="基础设施层-Infrastructure-layer"><a href="#基础设施层-Infrastructure-layer" class="headerlink" title="基础设施层(Infrastructure layer)"></a>基础设施层(Infrastructure layer)</h2><p>“提供支持更高层次的通用技术功能”（Eric Evans）。 它用于使用第三方库和框架（如对象关系映射）实现应用程序的抽象。 在这个应用程序中，我将使用基础设施层：</p>
 <ul>
@@ -639,21 +540,9 @@
 <p>如你所见，我为所有表写了一个前缀Sts（简单任务系统）。 这对于模块化应用程序很重要，所以所有模块都可以使用其特定的前缀来标识模块特定的表。</p>
 <p>要在数据库中创建表，我使用这种“命令行”命令使用FluentMigrator的Migrate.exe工具：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Migrate.exe /connection &quot;Server=localhost; Database=SimpleTaskSystemDb; Trusted_Connection=True;&quot; /db sqlserver /target &quot;SimpleTaskSystem.Infrastructure.NHibernate.dll&quot;</div></pre></td></tr></table></figure></p>
 <p>对于快捷方式，ABP模板包含RunMigrations.bat文件。 在Debug模式下编译项目后，我运行“RunMigrations.bat”：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/migration.png" alt="migration" title="">
-                </div>
-                <div class="image-caption">migration</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/migration.png" alt="migration"></p>
 <p>正如你看到的，两种迁移文件执行，表创建：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/db_after_migration.png" alt="migration" title="">
-                </div>
-                <div class="image-caption">migration</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/db_after_migration.png" alt="migration"></p>
 <p>有关FluentMigrator的更多信息，请参阅它的网站。</p>
 <h3 id="实体映射-Entity-mappings"><a href="#实体映射-Entity-mappings" class="headerlink" title="实体映射(Entity mappings)"></a>实体映射(Entity mappings)</h3><p>为了获取/存储实体到数据库中，我们应该使用数据库表映射实体。 NHibernate有几个选择可以实现。 在这里，我将使用Fluent Mapping手册（您可以使用传统的自动映射，请参阅FluentNHibernate的网站）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public class PersonMap : EntityMap&lt;Person&gt;</div><div class="line">&#123;</div><div class="line">    public PersonMap()</div><div class="line">        : base(&quot;StsPeople&quot;)</div><div class="line">    &#123;</div><div class="line">        Map(x =&gt; x.Name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class TaskMap : EntityMap&lt;Task, long&gt;</div><div class="line">&#123;</div><div class="line">    public TaskMap()</div><div class="line">        : base(&quot;StsTasks&quot;)</div><div class="line">    &#123;</div><div class="line">        Map(x =&gt; x.Description);</div><div class="line">        Map(x =&gt; x.CreationTime);</div><div class="line">        Map(x =&gt; x.State).CustomType&lt;TaskState&gt;();</div><div class="line">        References(x =&gt; x.AssignedPerson).Column(&quot;AssignedPersonId&quot;).LazyLoad();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>EntityMap是一类ABP的自动映射Id属性，并在构造函数中获取表名。所以，我从它派生和映射等性能。</p>
@@ -679,13 +568,7 @@
 <p>我建议为每个应用程序服务方法创建分离的输入和输出类，即使它只有一个输入参数。 当通过向该方法添加其他参数来扩展应用程序时，这是很好的。 它提供了一种在不破坏现有客户端的情况下向应用程序服务方法添加参数的方法。</p>
 <h2 id="动态Web-API控制器-Dynamic-Web-API-Controllers"><a href="#动态Web-API控制器-Dynamic-Web-API-Controllers" class="headerlink" title="动态Web API控制器(Dynamic Web API Controllers)"></a>动态Web API控制器(Dynamic Web API Controllers)</h2><p>应用程序服务由表示层消耗。 在单页面应用程序中，所有的数据都是使用AJAX在javascript和服务器之间发送/接收的。 ABP极大地简化了从javascript调用应用程序服务方法。 这是怎么做到的 让我来解释一下</p>
 <p>一个应用程序服务不能直接通过javascript调用。 我们可以使用ASP.NET Web API来向客户端公开服务（还有许多其他框架，如Web服务，WCF，SignalR等）。 所以，可能会有这样的一个流程：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/calling_webapi_ajax.png" alt="calling_webapi_ajax" title="">
-                </div>
-                <div class="image-caption">calling_webapi_ajax</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/calling_webapi_ajax.png" alt="calling_webapi_ajax"></p>
 <p>Javascript通过AJAX调用Web API控件的操作，Web API控制器的操作然后调用相应的应用程序服务的方法，获取结果并返回给客户端。 这很漂亮的机器人。 ABP自动执行此操作，并可为应用程序服务动态创建Web API控制器。 这里是为我的应用服务创建Web API控制器的所有代码：任务服务和个人服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DynamicApiControllerBuilder</div><div class="line">    .ForAll&lt;IApplicationService&gt;(Assembly.GetAssembly(typeof (SimpleTaskSystemApplicationModule)), &quot;tasksystem&quot;)</div><div class="line">    .Build();</div></pre></td></tr></table></figure></p>
 <p>因此，使用ASP.NET Web API（ABP流畅的动态控制器创建API支持从Web API隐藏方法或选择特定应用程序服务，自己尝试），任务和个人应用程序服务的所有方法都暴露给客户端。 在演示层部分，我们将看到如何使用ABP的动态JavaScript代理调用这些Web API控制器。</p>
 <h2 id="显示层-Presentation-layer"><a href="#显示层-Presentation-layer" class="headerlink" title="显示层(Presentation layer)"></a>显示层(Presentation layer)</h2><p>“负责向用户显示信息并解释用户的命令”（Eric Evans）。 DDD中最明显的一层是Presentation Layer，因为我们可以看到它，我们可以点击它:)。</p>
@@ -699,13 +582,7 @@
 <p>有许多框架和库提供了构建SPA的基础设施。 ASP.NET Boilerplate可以与任何SPA框架一起使用，但可以提供简单的基础设施，以便与DurandalJs和AngularJs配合使用（请参阅AngularJs开发的相同应用程序）。</p>
 <p>Durandal [7]是这些框架之一，我认为这是一个非常成功的开源项目。 它基于成功和大多数使用的项目：jQuery（用于DOM操作和AJAX），knockout.js（用于MVVM，使用HTML绑定JavaScript模型）和require.js（用于管理javascript依赖关系并从服务器动态加载javascript）。 有关更多信息和丰富的文档，请访问Durandal的网站。</p>
 <h3 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h3><p>ABP提供了一个强大而灵活的本地化系统。你可以存储在资源文件，XML文件，甚至在自定义源您的本地化的文本。在本节中，我将展示使用XML文件。简单的任务系统项目包括本地化文件夹中的XML文件：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/aspnet/768664/localization_files2.png" alt="localization_files2" title="">
-                </div>
-                <div class="image-caption">localization_files2</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/aspnet/768664/localization_files2.png" alt="localization_files2"></p>
 <p>在这里，SimpleTaskSystem.xml的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</div><div class="line">&lt;localizationDictionary culture=&quot;en&quot;&gt;</div><div class="line">  &lt;texts&gt;</div><div class="line">    &lt;text name=&quot;TaskSystem&quot; value=&quot;Task System&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskList&quot; value=&quot;Task List&quot; /&gt;</div><div class="line">    &lt;text name=&quot;NewTask&quot; value=&quot;New Task&quot; /&gt;</div><div class="line">    &lt;text name=&quot;Xtasks&quot; value=&quot;&#123;0&#125; tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;AllTasks&quot; value=&quot;All tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;ActiveTasks&quot; value=&quot;Active tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;CompletedTasks&quot; value=&quot;Completed tasks&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskDescription&quot; value=&quot;Task description&quot; /&gt;</div><div class="line">    &lt;text name=&quot;EnterDescriptionHere&quot; value=&quot;Task description&quot; /&gt;</div><div class="line">    &lt;text name=&quot;AssignTo&quot; value=&quot;Assign to&quot; /&gt;</div><div class="line">    &lt;text name=&quot;SelectPerson&quot; value=&quot;Select person&quot; /&gt;</div><div class="line">    &lt;text name=&quot;CreateTheTask&quot; value=&quot;Create the task&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskUpdatedMessage&quot; value=&quot;Task has been successfully updated.&quot; /&gt;</div><div class="line">    &lt;text name=&quot;TaskCreatedMessage&quot; value=&quot;Task &#123;0&#125; has been created successfully.&quot; /&gt;</div><div class="line">  &lt;/texts&gt;</div><div class="line">&lt;/localizationDictionary&gt;</div></pre></td></tr></table></figure></p>
 <p>这是一个简单的XML文件，包括所有可本地化文本的名称 - 值对。 文化属性定义文件的文化。 在解决方案中还有一个土耳其语（tr）本地化的XML文件。 本地化文件应该注册到ABP，以便可以在C＃和javascript中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Configuration.Localization.Sources.Add(</div><div class="line">    new XmlLocalizationSource(</div><div class="line">        &quot;SimpleTaskSystem&quot;,</div><div class="line">        HttpContext.Current.Server.MapPath(&quot;~/Localization/SimpleTaskSystem&quot;)</div><div class="line">        )</div><div class="line">    );</div></pre></td></tr></table></figure></p>
 <p>本地化源必须是唯一的名称（SimpleTaskSystem这里）。 因此，可以在应用程序中使用不同的源（以不同的格式和数据源存储）。 XmlLocalizationSource还需要一个文件夹（/ Localization / SimpleTaskSystem here）来读取本地化文件。</p>
@@ -772,13 +649,7 @@
 </ol>
 <h2 id="如果不使用DDD？"><a href="#如果不使用DDD？" class="headerlink" title="如果不使用DDD？"></a>如果不使用DDD？</h2><p>面对复杂的业务场景和需求，如果没有建立和实现领域模型，会导致应用架构出现胖服务层和贫血的领域模型，在这样的架构中，Service层开始积聚越来越多的业务逻辑，领域对象则成为只有getter和setter方法的数据载体。这种做法还会导致领域特定业务逻辑和规则散布于多个的Service类中，有些情况下还会出现重复的逻辑。我们曾经见过5000多行的Service类，上百个方法，代码基本上是不可读的。</p>
 <p>　　在大多数情况下，贫血的领域模型没有成本效益。它们不会给公司带来超越其它公司的竞争优势，因为在这种架构里要实现业务需求变更，开发并部署到生产环境中去要花费太长的时间。</p>
-<h2 id="领域驱动设计的分层架构和构成要素"><a href="#领域驱动设计的分层架构和构成要素" class="headerlink" title="领域驱动设计的分层架构和构成要素"></a>领域驱动设计的分层架构和构成要素</h2><p>下面我们简单介绍一下领域驱动设计的分层架构和构成要素，这部分内容在Eric Evans的书中有非常详尽的描述，想要详细了解的，最好去读原版书籍。<br>　　下面这张图是该书中著名的分层架构图，如下：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://pic001.cnblogs.com/images/2011/145819/2011081818481474.jpg" alt="ddd" title="">
-                </div>
-                <div class="image-caption">ddd</div>
-            </figure></p>
+<h2 id="领域驱动设计的分层架构和构成要素"><a href="#领域驱动设计的分层架构和构成要素" class="headerlink" title="领域驱动设计的分层架构和构成要素"></a>领域驱动设计的分层架构和构成要素</h2><p>下面我们简单介绍一下领域驱动设计的分层架构和构成要素，这部分内容在Eric Evans的书中有非常详尽的描述，想要详细了解的，最好去读原版书籍。<br>　　下面这张图是该书中著名的分层架构图，如下：<br><img src="http://pic001.cnblogs.com/images/2011/145819/2011081818481474.jpg" alt="ddd"></p>
 <p>　　整个架构分为四层，其核心就是领域层（Domain），所有的业务逻辑应该在领域层实现，具体描述如下：</p>
 <table>
 <thead>
@@ -816,14 +687,7 @@
 </ol>
 <h2 id="事务脚本和领域模型"><a href="#事务脚本和领域模型" class="headerlink" title="事务脚本和领域模型"></a>事务脚本和领域模型</h2><p>Martin Fowler 2004年所著的企业应用架构模式（Patterns of Enterprise Application Architecture）中的第九章领域逻辑模式（Domain Logic Patterns）专门介绍了事务脚本（Transaction Script）和领域模型（Domain Model），理解这两种模式对设计和构建企业应用软件非常有帮助，所以有必要介绍一下。</p>
 <ul>
-<li>事务脚本：<br>　　事务脚本的核心是过程，通过过程的调用来组织业务逻辑，每个过程处理来自表现层的单个请求。大部分业务应用都可以被看成一系列事务，从某种程度上来说，通过事务脚本处理业务，就像执行一条条SQL语句来实现数据库信息的处理。事务脚本把业务逻辑组织成单个过程，在过程中直接调用数据库，业务逻辑在服务（Service）层处理。<br>　　事务脚本模式可以简单的通过UML图表示成这样：<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://pic001.cnblogs.com/images/2011/145819/2011081818484374.jpg" alt="ddd" title="">
-                </div>
-                <div class="image-caption">ddd</div>
-            </figure>
-</li>
+<li>事务脚本：<br>　　事务脚本的核心是过程，通过过程的调用来组织业务逻辑，每个过程处理来自表现层的单个请求。大部分业务应用都可以被看成一系列事务，从某种程度上来说，通过事务脚本处理业务，就像执行一条条SQL语句来实现数据库信息的处理。事务脚本把业务逻辑组织成单个过程，在过程中直接调用数据库，业务逻辑在服务（Service）层处理。<br>　　事务脚本模式可以简单的通过UML图表示成这样：<br><img src="http://pic001.cnblogs.com/images/2011/145819/2011081818484374.jpg" alt="ddd"></li>
 </ul>
 <p>　由Action层处理UI层的动作请求，将Request中的数据组装后传递给BusinessService，BS层做简单的逻辑处理后，调用数据访问对象进行数据持久化，其中VO充当了数据传输对象的作用，一般是贫血的POJO，只具备getter和setter方法，没有状态和行为。<br>　　事务脚本模式的特点是简单容易理解，面向过程设计。对于少量逻辑的业务应用来说，事务脚本模式简单自然，性能良好，容易理解，而且一个事务的处理不会影响其他事务。不过缺点也很明显，对于复杂的业务逻辑处理力不从心，难以保持良好的设计，事务之间的冗余代码不断增多，通过复制粘贴方式进行复用。可维护性和扩展性变差。</p>
 <ul>
@@ -889,13 +753,7 @@
     
     <content type="html"><![CDATA[<h1 id="背景和问题"><a href="#背景和问题" class="headerlink" title="背景和问题"></a>背景和问题</h1><p>在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。</p>
 <p>通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新DTO的某些字段（可能通过数据绑定），然后DTO将由DAL保存回数据存储。 同样的DTO用于读写操作。 该图说明了传统的CRUD架构。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-tradition-crud.png" alt="crud" title="">
-                </div>
-                <div class="image-caption">crud</div>
-            </figure>
+<p><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-tradition-crud.png" alt="crud"></p>
 <p>当只有有限的业务逻辑应用于数据操作时，传统的CRUD设计才能正常运行。开发工具提供的支架机制可以非常快速地创建数据访问代码，然后可以根据需要进行自定义。<br>然而，传统的CRUD方法有一些缺点：</p>
 <ul>
 <li>这通常意味着数据的读取和写入表示之间存在不匹配的情况，例如即使不需要作为操作的一部分，必须正确更新的附加列或属性。</li>
@@ -908,43 +766,19 @@
 <li>Commands：更改对象或整个系统的状态（有时称为修饰符或变体）。</li>
 <li>Queries：返回结果，不要更改对象的状态。</li>
 </ul>
-<p>命令和查询责任分离（CQRS）是一种模式，它通过使用单独的接口来隔离从更新数据（命令）的操作中读取数据（查询）的操作。 这意味着用于查询和更新的数据模型是不同的。 然后，可以隔离模型，如下图所示，尽管这不是绝对要求。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-basic.png" alt="cqrs2" title="">
-                </div>
-                <div class="image-caption">cqrs2</div>
-            </figure></p>
+<p>命令和查询责任分离（CQRS）是一种模式，它通过使用单独的接口来隔离从更新数据（命令）的操作中读取数据（查询）的操作。 这意味着用于查询和更新的数据模型是不同的。 然后，可以隔离模型，如下图所示，尽管这不是绝对要求。<br><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-basic.png" alt="cqrs2"></p>
 <p>与基于CRUD的系统中使用的单一数据模型相比，在基于CQRS的系统中使用单独的查询和更新模型来简化设计和实现。 然而，一个缺点是与CRUD设计不同，CQRS代码不能使用脚手架机制自动生成。<br>用于读取数据的查询模型和用于写入数据的更新模型可以访问相同的物理存储，也许通过使用SQL视图或通过快速生成投影。 然而，通常将数据分成不同的物理存储，以最大限度地提高性能，可扩展性和安全性，如下图所示。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-separate-stores.png" alt="cqrs3" title="">
-                </div>
-                <div class="image-caption">cqrs3</div>
-            </figure>
+<p><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-separate-stores.png" alt="cqrs3"></p>
 <p>读存储可以是写存储的只读副本，或者读写存储可以具有不同的结构。 使用读取存储器的多个只读副本可以大大提高查询性能和应用程序UI响应性，特别是在只读副本位于靠近应用程序实例的分布式场景中。 某些数据库系统（SQL Server）提供了其他功能，例如故障转移副本，以最大限度地提高可用性。<br>读写存储器的分离还允许每个存储器被适当地缩放以匹配负载。 例如，读取存储器通常会遇到比写入存储器高得多的负载。</p>
 <p>在一个真实的情况下，很简单的告诉哪个是哪个。查询将声明返回类型，命令将返回void。这种模式是广泛适用的，它使得关于对象的推理更容易。另一方面，CQRS仅适用于具体问题。</p>
 <p>使用主流方法的许多应用程序都由读写方面常见的模型组成。拥有相同的读写方式可以导致更为复杂的模型，难以维护和优化。</p>
 <p>这两种模式的真正实力就是你可以分开改变状态的方法。在处理性能和调优的情况下，这种分离可能非常方便。您可以从写入端分开优化系统的读取端。写方面被称为域。域包含所有行为。阅读方面专门针对报告需求。</p>
 <p>这种模式的另一个好处是在大量应用的情况下。您可以将开发人员拆分为在系统不同方面工作的较小团队（读或写），而不了解对方。例如，在阅读方面工作的开发人员不需要了解域模型。</p>
 <h2 id="查询端-Query-side"><a href="#查询端-Query-side" class="headerlink" title="查询端(Query side)"></a>查询端(Query side)</h2><p>这些查询只会包含获取数据的方法。 从架构的角度来看，这些将是返回客户端在屏幕上显示的DTO的所有方法。 DTO通常是域对象的预测。 在某些情况下，这可能是一个非常痛苦的过程，特别是当需要复杂的DTO时。</p>
-<p>使用CQRS可以避免这些预测。 相反，可以引入一种新的投资DTO的方法。 您可以绕过域模型，并使用读取层从数据存储中直接获取DTO。 当应用程序正在请求数据时，可以通过单次调用读取层来完成此操作，该层返回包含所有所需数据的单个DTO。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/architecture/555855/QuerySide.jpg" alt="q1" title="">
-                </div>
-                <div class="image-caption">q1</div>
-            </figure></p>
+<p>使用CQRS可以避免这些预测。 相反，可以引入一种新的投资DTO的方法。 您可以绕过域模型，并使用读取层从数据存储中直接获取DTO。 当应用程序正在请求数据时，可以通过单次调用读取层来完成此操作，该层返回包含所有所需数据的单个DTO。<br><img src="https://www.codeproject.com/KB/architecture/555855/QuerySide.jpg" alt="q1"></p>
 <p>读取层可以直接连接到数据库（数据模型），而使用存储过程来读取数据并不是个好主意。 与数据源的直接连接通过维护和优化使查询变得非常简单。 非正规化数据是有道理的。 这样做的原因是数据通常被查询是执行域行为的多倍。 这种非规范化可能会提高应用程序的性能。</p>
 <h2 id="命令端-Command-side"><a href="#命令端-Command-side" class="headerlink" title="命令端(Command side)"></a>命令端(Command side)</h2><p>由于读取端已被分离，因此域仅专注于处理命令。 现在域对象不再需要暴露内部状态。 存储库除了GetById之外只有几种查询方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/architecture/555855/CommandSide.jpg" alt="CommandSide" title="">
-                </div>
-                <div class="image-caption">CommandSide</div>
-            </figure>
+<p><img src="https://www.codeproject.com/KB/architecture/555855/CommandSide.jpg" alt="CommandSide"></p>
 <p>命令由客户端应用程序创建，然后发送到域层。 命令是指示特定实体执行某些操作的消息。 命令命名为DoSomething（例如ChangeName，DeleteOrder …）。 他们指示目标实体做某些可能导致不同结果或失败的事情。 命令由命令处理程序处理。</p>
 <h1 id="为什么要使用CQRS？"><a href="#为什么要使用CQRS？" class="headerlink" title="为什么要使用CQRS？"></a>为什么要使用CQRS？</h1><p>从CQRS回退一段时间，将域分为DDD中的有界环境的好处之一是使您能够识别并集中于系统更复杂的部分（有界环境），受到不断变化的业务 规则或提供作为关键业务差异化的功能。<br>只有在提供可识别的业务收益的情况下，才应考虑将CQRS模式应用于特定有限的上下文，而不是因为它是您考虑的默认模式。<br>您可以通过应用CQRS模式获得的最常见的业务优势是增强的可扩展性，简化您的域的复杂方面，提高解决方案的灵活性，以及更好地适应不断变化的业务需求。</p>
 <h3 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h3><p>在许多企业系统中，读取次数大大超过了写入次数，因此您的可扩展性要求在每一方面都会有所不同。通过将读取端和写入端分隔为有界环境中的单独模型，您现在可以独立地对每个模型进行扩展。例如，如果您在Microsoft Azure中托管应用程序，则可以为每一方使用不同的角色，然后通过向每个角色添加不同数量的角色实例来独立扩展它们。<br>可扩展性不应该是您在特定有限上下文中选择实施CQRS模式的唯一原因：<br>“在非协作域中，您可以在其中添加更多的数据库服务器来支持更多用户，请求和数据，同时添加Web服务器，但没有真正的可伸缩性问题（直到您的大小为Amazon，Google或Facebook）。如果您使用MySQL，SQL Server Express或其他数据库服务器，数据库服务器可以便宜。</p>
@@ -973,21 +807,9 @@
 <li>对于简单的，CRUD模式的用户界面以及与之相关的数据访问操作已经足够的话，没必要使用CQRS，这些都是一个简单的对数据进行增删改查。</li>
 <li>不适合在整个系统中到处使用该模式。在整个数据管理场景中的特定模块中CQRS可能比较有用。但是在有些地方使用CQRS会增加系统不必要的复杂性。</li>
 </ol>
-<h1 id="CQRS的简单实现"><a href="#CQRS的简单实现" class="headerlink" title="CQRS的简单实现"></a>CQRS的简单实现</h1><p>CQRS模式在思想上比较简单，但是实现上还是有些复杂。它涉及到DDD，以及Event Sourcing，这里使用codeproject上的 <a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">Introduction to CQRS</a> 这篇文章的例子来说明CQRS模式。这个例子是一个简单的在线记日志(Diary)系统，实现了日志的增删改查功能。整体结构如下：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.codeproject.com/KB/architecture/555855/CQRS.jpg" alt="cqrs" title="">
-                </div>
-                <div class="image-caption">cqrs</div>
-            </figure></p>
+<h1 id="CQRS的简单实现"><a href="#CQRS的简单实现" class="headerlink" title="CQRS的简单实现"></a>CQRS的简单实现</h1><p>CQRS模式在思想上比较简单，但是实现上还是有些复杂。它涉及到DDD，以及Event Sourcing，这里使用codeproject上的 <a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">Introduction to CQRS</a> 这篇文章的例子来说明CQRS模式。这个例子是一个简单的在线记日志(Diary)系统，实现了日志的增删改查功能。整体结构如下：<br><img src="https://www.codeproject.com/KB/architecture/555855/CQRS.jpg" alt="cqrs"></p>
 <p>上图很清晰的说明了CQRS在读写方面的分离，在读方面，通过QueryFacade到数据库里去读取数据，这个库有可能是ReportingDB。在写方面，比较复杂，操作通过Command发送到CommandBus上，然后特定的CommandHandler处理请求，产生对应的Event，将Eevnt持久化后，通过EventBus特定的EevntHandler对数据库进行修改等操作。</p>
-<p>例子代码可以到<a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">codeproject</a>上下载，整体结构如下：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images.cnitblog.com/blog/94031/201408/261851449547571.png" alt="PROJECT" title="">
-                </div>
-                <div class="image-caption">PROJECT</div>
-            </figure><br>由三个项目构成，Diary.CQRS包含了所有的Domain和消息对象。Configuration通过使用一个名为StructMap的IOC来初始化一些变量方便Web调用，Web是一个简单的MVC3项目，在Controller中有与CQRS交互的代码。</p>
+<p>例子代码可以到<a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">codeproject</a>上下载，整体结构如下：<br><img src="http://images.cnitblog.com/blog/94031/201408/261851449547571.png" alt="PROJECT"><br>由三个项目构成，Diary.CQRS包含了所有的Domain和消息对象。Configuration通过使用一个名为StructMap的IOC来初始化一些变量方便Web调用，Web是一个简单的MVC3项目，在Controller中有与CQRS交互的代码。</p>
 <p>下面分别看Query和Command方面的实现：</p>
 <h2 id="Query端的实现"><a href="#Query端的实现" class="headerlink" title="Query端的实现"></a>Query端的实现</h2><p>查询方面很简单，日志列表和明细获取就是简单的查询。下面先看列表查询部分的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public ActionResult Index()</div><div class="line">&#123;</div><div class="line">    ViewBag.Model = ServiceLocator.ReportDatabase.GetItems();</div><div class="line">    return View();</div><div class="line">&#125;</div><div class="line"></div><div class="line">public ActionResult Edit(Guid id)</div><div class="line">&#123;</div><div class="line">    var item = ServiceLocator.ReportDatabase.GetById(id);</div><div class="line">    var model = new DiaryItemDto()</div><div class="line">    &#123;</div><div class="line">        Description = item.Description,</div><div class="line">        From = item.From,</div><div class="line">        Id = item.Id,</div><div class="line">        Title = item.Title,</div><div class="line">        To = item.To,</div><div class="line">        Version = item.Version</div><div class="line">    &#125;;</div><div class="line">    return View(model);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>ReportDatabase的GetItems和GetById(id)方法就是简单的查询，从命名可以看出他是ReportDatabase。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public class ReportDatabase : IReportDatabase</div><div class="line">&#123;</div><div class="line">    static List&lt;DiaryItemDto&gt; items = new List&lt;DiaryItemDto&gt;();</div><div class="line"></div><div class="line">    public DiaryItemDto GetById(Guid id)</div><div class="line">    &#123;</div><div class="line">        return items.Where(a =&gt; a.Id == id).FirstOrDefault();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void Add(DiaryItemDto item)</div><div class="line">    &#123;</div><div class="line">        items.Add(item);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void Delete(Guid id)</div><div class="line">    &#123;</div><div class="line">        items.RemoveAll(i =&gt; i.Id == id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public List&lt;DiaryItemDto&gt; GetItems()</div><div class="line">    &#123;</div><div class="line">        return items;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -1052,19 +874,7 @@
 </ul>
 <p><strong>Nginx 安装非常的简单，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。</strong></p>
 <h1 id="认识Nginx"><a href="#认识Nginx" class="headerlink" title="认识Nginx"></a>认识Nginx</h1><p>Nginx是由俄罗斯软件工程师Igor Sysoev开发的一个高性能的HTTP和反向代理服务器，具备IMAP/POP3和SMTP服务器功能。Nginx最大的特点是对高并发的支持和高效的负载均衡，在高并发的需求场景下，是Apache服务器不错的替代品。目前，包括新浪、腾讯等知名网站已经开始使用Nginx作为Web应用服务器。</p>
-<h2 id="正向代理与反向代理"><a href="#正向代理与反向代理" class="headerlink" title="正向代理与反向代理"></a>正向代理与反向代理</h2><p>Nginx 最常的用途是提供反向代理服务，那么什么反向代理呢？正向代理相信很多大陆同胞都在这片神奇的土地上用过了，原理大致如下图：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_915.png" alt="proxy1" title="">
-                </div>
-                <div class="image-caption">proxy1</div>
-            </figure><br>代理服务器作为客户端这边的中介接受请求，隐藏掉真实的客户，向服务器获取资源。如果代理服务器在长城外的话还能顺便帮助我们实现翻越长城的目的。而反向代理顾名思义就是反过来代理服务器作为服务器的中介，隐藏掉真实提供服务的服务器，原理大致如下图：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_673.png" alt="proxy2" title="">
-                </div>
-                <div class="image-caption">proxy2</div>
-            </figure></p>
+<h2 id="正向代理与反向代理"><a href="#正向代理与反向代理" class="headerlink" title="正向代理与反向代理"></a>正向代理与反向代理</h2><p>Nginx 最常的用途是提供反向代理服务，那么什么反向代理呢？正向代理相信很多大陆同胞都在这片神奇的土地上用过了，原理大致如下图：<br><img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_915.png" alt="proxy1"><br>代理服务器作为客户端这边的中介接受请求，隐藏掉真实的客户，向服务器获取资源。如果代理服务器在长城外的话还能顺便帮助我们实现翻越长城的目的。而反向代理顾名思义就是反过来代理服务器作为服务器的中介，隐藏掉真实提供服务的服务器，原理大致如下图：<br><img src="http://static.open-open.com/lib/uploadImg/20141229/20141229121210_673.png" alt="proxy2"></p>
 <p>这么做当然不是为了实现翻越长城，而是为了实现安全和负载均衡等一系列的功能。所谓安全指客户端的请求不会直接落到内网的服务器上而是通过代理做了 一层转发，在这一层就可以实现安全过滤，流控，防 DDOS 等一系列策略。而负载均衡指我们可以水平扩展后端真正提供服务的服务器数量，代理按规则转发请求到各个服务器，使得各个服务器的负载接近均衡。</p>
 <p><em>而 nginx 就是目前流行的这样一个反向代理服务。</em></p>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>nginx可以使用各平台的默认包来安装，本文是介绍使用源码编译安装，包括具体的编译参数信息。</p>
@@ -1171,26 +981,12 @@
 <ul>
 <li>传输层协议：提供服务器身份验证，数据保密性和数据完整性，具有前瞻性的保密性（即，如果密钥在一个会话中受到威胁，则知识不会影响早期会话的安全性）; 传输层可以可选地提供压缩。</li>
 <li>用户认证协议：将用户验证到服务器。</li>
-<li>连接协议：通过单个底层SSH连接复用多个逻辑通信通道。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg" alt="ssh1" title="">
-                </div>
-                <div class="image-caption">ssh1</div>
-            </figure>
-图1 SSH 协议分层</li>
+<li>连接协议：通过单个底层SSH连接复用多个逻辑通信通道。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig01_sm.jpg" alt="ssh1"><br>图1 SSH 协议分层</li>
 </ul>
 <h2 id="传输层协议"><a href="#传输层协议" class="headerlink" title="传输层协议"></a>传输层协议</h2><p>服务器认证发生在传输层，基于具有公私属密钥对的服务器。 服务器可以具有使用多个不同的非对称加密算法的多个主机密钥。 多个主机可以共享相同的主机密钥。 无论如何，在密钥交换期间使用服务器主机密钥来验证主机的身份。 为了使认证成为可能，客户端必须具有服务器公共主机密钥的推定知识。 RFC 4251规定了可以使用的两种可选的信任模型：</p>
 <ol>
 <li>客户端具有将每个主机名（由用户键入）与相应的公共主机密钥相关联的本地数据库。 该方法不需要集中管理的基础设施，也不需要第三方协调。 缺点是名称到密钥关联的数据库可能会变得难以维护。</li>
-<li>主机名称到密钥关联由受信任的证书颁发机构（CA）进行认证。 客户端只知道CA根密钥，并且可以验证由接受的CA认证的所有主机密钥的有效性。 这种选择可以减轻维护问题，因为理想情况下只需要安全地将一个CA密钥存储在客户机上。 另一方面，每个主机密钥必须经过中央机构的认证才可以进行认证。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig02_sm.jpg" alt="ssh2" title="">
-                </div>
-                <div class="image-caption">ssh2</div>
-            </figure>
-图2：SSH传输层协议数据包交换</li>
+<li>主机名称到密钥关联由受信任的证书颁发机构（CA）进行认证。 客户端只知道CA根密钥，并且可以验证由接受的CA认证的所有主机密钥的有效性。 这种选择可以减轻维护问题，因为理想情况下只需要安全地将一个CA密钥存储在客户机上。 另一方面，每个主机密钥必须经过中央机构的认证才可以进行认证。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig02_sm.jpg" alt="ssh2"><br>图2：SSH传输层协议数据包交换</li>
 </ol>
 <p>图2说明了SSH传输层协议中事件的顺序。 首先，客户端使用TCP协议与服务器建立TCP连接，而不是传输层协议的一部分。 当建立连接时，客户端和服务器在TCP段的数据字段中交换称为数据包的数据。 每个数据包采用以下格式（图3）：</p>
 <ul>
@@ -1198,14 +994,7 @@
 <li>填充长度：填充长度是随机填充字段的长度。</li>
 <li>有效载荷：有效载荷构成数据包的有用内容。 在算法协商之前，此字段未压缩。 如果协商压缩，则在随后的数据包中，此字段被压缩。</li>
 <li>随机填充：协商加密算法后，添加该字段。 它包含填充的随机字节，使得分组的总长度（不包括MAC字段）是密码块大小的倍数，或者是流密码的8字节。</li>
-<li>消息认证码（MAC）：如果已经协商消息认证，则该字段包含MAC值。 MAC数据在整个数据包上加上序列号，不包括MAC字段。 序列号是一个隐含的32位数据包序列，它为第一个数据包初始化为零，并为每个数据包递增。 序列号不包括在通过TCP连接发送的数据包中。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig03_sm.jpg" alt="ssh2" title="">
-                </div>
-                <div class="image-caption">ssh2</div>
-            </figure>
-图3 SSH传输层协议数据包形成</li>
+<li>消息认证码（MAC）：如果已经协商消息认证，则该字段包含MAC值。 MAC数据在整个数据包上加上序列号，不包括MAC字段。 序列号是一个隐含的32位数据包序列，它为第一个数据包初始化为零，并为每个数据包递增。 序列号不包括在通过TCP连接发送的数据包中。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig03_sm.jpg" alt="ssh2"><br>图3 SSH传输层协议数据包形成</li>
 </ul>
 <p>在协商加密算法之后，在计算MAC值之后，将整个数据包（不包括MAC字段）加密。</p>
 <p>SSH传输层分组交换包括一系列步骤（图2）。第一步，识别字符串交换，以客户端发送带有以下形式的标识字符串的数据包开始：</p>
@@ -1360,13 +1149,7 @@
 <p>其中uint32表示无符号32位整数。通道类型标识该通道的应用程序，如下所述。发送方信道是本地信道号。初始窗口大小指定在不调整窗口的情况下可以向该消息的发送者发送多少字节的信道数据。最大数据包大小指定可以发送给发送方的单个数据包的最大大小。例如，可能需要使用较小的数据包进行交互式连接，以便在慢速链接上获得更好的交互式响应。</p>
 <p>如果远程端能够打开通道，它将返回一个SSH_MSG_CHANNEL_OPEN_CONFIRMATION消息，其中包含发送方通道号，收件人通道号以及入站流量的窗口和数据包大小值。否则，远程端返回一条SSH_MSG_CHANNEL_OPEN_FAILURE消息，其中包含原因代码，指示失败原因。</p>
 <p>在通道打开后，使用SSH_MSG_CHANNEL_DATA消息执行数据传输，该消息包括接收方频道号码和数据块。只要通道打开，这两个方向的这些消息可以继续。</p>
-<p>当任一方希望关闭频道时，会发送一个SSH_MSG_CHANNEL_CLOSE消息，其中包含收件人频道号码。图4提供了一个连接协议交换的例子。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig04_sm.jpg" alt="ssh4" title="">
-                </div>
-                <div class="image-caption">ssh4</div>
-            </figure><br>图4：SSH连接协议示例消息交换</p>
+<p>当任一方希望关闭频道时，会发送一个SSH_MSG_CHANNEL_CLOSE消息，其中包含收件人频道号码。图4提供了一个连接协议交换的例子。<br><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig04_sm.jpg" alt="ssh4"><br>图4：SSH连接协议示例消息交换</p>
 <p>SSH连接协议规范中识别了四种通道类型：</p>
 <ol>
 <li>会话：会话是指程序的远程执行。该程序可能是一个shell，一个应用程序，如文件传输或电子邮件，一个系统命令或一些内置的子系统。当会话通道打开时，后续请求用于启动远程程序。</li>
@@ -1375,14 +1158,7 @@
 <li>direct-tcpip：该通道类型是本地端口转发，如下所述。</li>
 </ol>
 <p>SSH最有用的功能之一就是端口转发。端口转发功能可以将任何不安全的TCP连接转换为安全的SSH连接。它也被称为SSH隧道。我们需要知道一个端口在这个上下文中。端口是TCP用户的标识符。因此，任何在TCP上运行的应用程序都有一个端口号。基于端口号将传入的TCP流量传送到适当的应用程序。应用程序可以使用多个端口号。例如，对于简单邮件传输协议（SMTP），服务器端通常在端口25上侦听，以便传入的SMTP请求使用TCP并将数据解析到目标端口25. TCP识别该地址是SMTP服务器地址，将数据路由到SMTP服务器应用程序。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig05_sm.jpg" alt="ssh5" title="">
-                </div>
-                <div class="image-caption">ssh5</div>
-            </figure>
-<p>图5：SSH传输层数据包交换</p>
+<p><img src="http://www.cisco.com/c/dam/en_us/about/ac123/ac147/images/ipj/ipj_12-4/124_ssh_fig05_sm.jpg" alt="ssh5"><br>图5：SSH传输层数据包交换</p>
 <p>图5说明了端口转发的基本概念。我们有一个由端口号x标识的客户端应用程序和由端口号y标识的服务器应用程序。在某些时候，客户端应用程序调用本地TCP实体，并请求在端口y上连接到远程服务器。本地TCP实体与远程TCP实体协商TCP连接，使得连接将本地端口x链接到远程端口y。</p>
 <p>要确保此连接，SSH配置为使SSH传输层协议分别在TCP客户端和服务器实体之间建立TCP连接，TCP端口号为a和b。通过此TCP连接建立安全的SSH隧道。从端口x的客户端的流量被重定向到本地SSH实体，并通过远程SSH实体将数据传送到端口y上的服务器应用的隧道。另一方面的交通也被重新定向。</p>
 <p>SSH支持两种端口转发：本地转发和远程转发。本地转发允许客户端设置“劫持者”进程。此过程将拦截选定的应用程序级别的流量，并将其从不安全的TCP连接重定向到安全的SSH隧道。 SSH配置为侦听所选端口。 SSH使用所选端口抓取所有流量，并通过SSH隧道发送。另一方面，SSH服务器将传入流量发送到由客户端应用程序指定的目标端口。</p>
@@ -1815,24 +1591,12 @@
 <p>历史就是这么偶然，如果不是当年BitMover公司威胁Linux社区，可能现在我们就没有免费而超级好用的Git了。</p>
 <h1 id="集中式vs分布式"><a href="#集中式vs分布式" class="headerlink" title="集中式vs分布式"></a>集中式vs分布式</h1><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
 <p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。中央服务器就好比是一个图书馆，你要改一本书，必须先从图书馆借出来，然后回到家自己改，改完了，再放回图书馆。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/vcs1.jpg" alt="集中式" title="">
-                </div>
-                <div class="image-caption">集中式</div>
-            </figure>
+<p><img src="/images/vcs1.jpg" alt="集中式"></p>
 <p>集中式版本控制系统最大的毛病就是必须联网才能工作，如果在局域网内还好，带宽够大，速度够快，可如果在互联网上，遇到网速慢的话，可能提交一个10M的文件就需要5分钟，这还不得把人给憋死啊。</p>
 <p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
 <p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
 <p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/vcs2.jpg" alt="分布式" title="">
-                </div>
-                <div class="image-caption">分布式</div>
-            </figure>
+<p><img src="/images/vcs2.jpg" alt="分布式"></p>
 <p>当然，Git的优势不单是不必联网这么简单，后面我们还会看到Git极其强大的分支管理，把SVN等远远抛在了后面。</p>
 <p>CVS作为最早的开源而且免费的集中式版本控制系统，直到现在还有不少人在用。由于CVS自身设计的问题，会造成提交文件不完整，版本库莫名其妙损坏的情况。同样是开源而且免费的SVN修正了CVS的一些稳定性问题，是目前用得最多的集中式版本库控制系统。</p>
 <p>除了免费的外，还有收费的集中式版本控制系统，比如IBM的ClearCase（以前是Rational公司的，被IBM收购了），特点是安装比Windows还大，运行比蜗牛还慢，能用ClearCase的一般是世界500强，他们有个共同的特点是财大气粗，或者人傻钱多。</p>
@@ -1912,25 +1676,13 @@
 </li>
 </ul>
 <p>　　不管最后结果如何，第二阶段都会结束当前事务。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/5/html/Transactions_Development_Guide/images/fig-two-phase-commit-overview.png" alt="2pc" title="">
-                </div>
-                <div class="image-caption">2pc</div>
-            </figure>
+<p><img src="https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/5/html/Transactions_Development_Guide/images/fig-two-phase-commit-overview.png" alt="2pc"></p>
 <h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>　　1、执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，其他第三方节点访问公共资源不得不处于阻塞状态。</p>
 <p>　　2、参与者发生故障。协调者需要给每个参与者额外指定超时机制，超时后整个事务失败。（没有多少容错机制）</p>
 <p>　　3、协调者发生故障。参与者会一直阻塞下去。需要额外的备机进行容错。</p>
 <p>　　4、二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</p>
 <h2 id="3PC（Three-phase-commit-protocol）"><a href="#3PC（Three-phase-commit-protocol）" class="headerlink" title="3PC（Three-phase commit protocol）"></a>3PC（Three-phase commit protocol）</h2><p>3PC，是 Three-phase commit的缩写，即三阶段提交，是2PC的改进版，其将二阶段的”提交请求阶段”一分为二，形成了由CanCommit,PreCommit和do Commit三个阶段组成的一致性协议。引入超时机制。同时在协调者和参与者中都引入超时机制(如下图)。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/39/Three-phase_commit_diagram.png" alt="3pc" title="">
-                </div>
-                <div class="image-caption">3pc</div>
-            </figure>
+<p><img src="https://upload.wikimedia.org/wikipedia/en/3/39/Three-phase_commit_diagram.png" alt="3pc"></p>
 <h3 id="协议说明-1"><a href="#协议说明-1" class="headerlink" title="协议说明"></a>协议说明</h3><h4 id="阶段一：CanCommit"><a href="#阶段一：CanCommit" class="headerlink" title="阶段一：CanCommit"></a>阶段一：CanCommit</h4><p>   1．事务询问。</p>
 <p>  协调者向所有的参与者发送一个包含事务内容的canCommit请求，询问是否可以执行事务提交操作，并开始等待各参与者的响应。</p>
 <p>   2．各参与者向协调者反馈事务询问的响应。</p>
@@ -1990,13 +1742,7 @@
 <p>acceptedValue：在一个Paxos Instance内，已经接收过的提议对应的值。</p>
 <p>minProposal：在一个Paxos Instance内，当前接收的最小提议值，会不断更新。</p>
 <h3 id="Basic-Paxos算法"><a href="#Basic-Paxos算法" class="headerlink" title="Basic-Paxos算法"></a>Basic-Paxos算法</h3><p>基于Paxos协议构建的系统，只需要系统中超过半数的节点在线且相互通信正常即可正常对外提供服务。它的核心实现Paxos Instance主要包括两个阶段:准备阶段(prepare phase)和提议阶段(accept phase)。如下图所示：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155541328-1939247065.png" alt="Basic-Paxos" title="">
-                </div>
-                <div class="image-caption">Basic-Paxos</div>
-            </figure>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155541328-1939247065.png" alt="Basic-Paxos"></p>
 <ol>
 <li>获取一个ProposalId,为了保证ProposalId递增，可以采用时间戳+serverId方式生成；</li>
 <li>提议者向所有节点广播prepare(n)请求；</li>
@@ -2006,13 +1752,7 @@
 <li>接收者比较n和minProposal，如果n&gt;=minProposal,则acceptedProposal=minProposal=n，acceptedValue=value，本地持久化后，返回；<br>否则，返回minProposal</li>
 <li>提议者接收到过半数请求后，如果发现有返回值&gt;n，表示有更新的提议，跳转1；否则value达成一致。<br>从上述流程可知，并发情况下，可能会出现第4步或者第7步频繁重试的情况，导致性能低下，更严重者可能导致永远都无法达成一致的情况，就是所谓的“活锁”，如下图所示：</li>
 </ol>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155452844-827453906.png" alt="Basic-Paxos" title="">
-                </div>
-                <div class="image-caption">Basic-Paxos</div>
-            </figure>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155452844-827453906.png" alt="Basic-Paxos"></p>
 <ol>
 <li>S1作为提议者，发起prepare(3.1),并在S1,S2和S3达成多数派；</li>
 <li>随后S5作为提议者 ，发起了prepare(3.5)，并在S3,S4和S5达成多数派；</li>
@@ -2022,13 +1762,7 @@
 <li>S5发起prepare(5.5),并在S3,S4和S5达成多数派，导致后续的S1发起的accept(4.1,value1)失败<br>……</li>
 </ol>
 <h3 id="prepare阶段的作用"><a href="#prepare阶段的作用" class="headerlink" title="prepare阶段的作用"></a>prepare阶段的作用</h3><p>从Basic-Paxos的描述可知，需要通过两阶段来最终确定一个值，由于轮回多，导致性能低下，至少两次网络RTT。那么prepare阶段能否省去？如下图所示：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155558641-1089133612.png" alt="Basic-Paxos" title="">
-                </div>
-                <div class="image-caption">Basic-Paxos</div>
-            </figure>
+<p><img src="http://images2015.cnblogs.com/blog/176539/201606/176539-20160626155558641-1089133612.png" alt="Basic-Paxos"></p>
 <ol>
 <li>S1首先发起accept(1,red)，并在S1,S2和S3达成多数派，red在S1，S2，S3上持久化</li>
 <li>随后S5发起accept(5,blue)，对于S3而言，由于接收到更新的提议，会将acceptedValue值改为blue</li>
@@ -2094,23 +1828,11 @@
 <h1 id="什么是“容器”和“虚拟机”？"><a href="#什么是“容器”和“虚拟机”？" class="headerlink" title="什么是“容器”和“虚拟机”？"></a>什么是“容器”和“虚拟机”？</h1><p>容器和虚拟机的目标是相似的：将应用程序及其依赖项隔离成可以在任何地方运行的独立单元。<br>此外，容器和虚拟机不再需要物理硬件，从而在能源消耗和成本效益方面更有效地利用计算资源。<br>容器和虚拟机之间的主要区别在于它们的架构方法。 我们来看看吧。</p>
 <h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><p>虚拟机本质上是一个真正的计算机的仿真，它执行像真正的计算机那样的程序。虚拟机使用“虚拟机监控程序”运行在物理机的顶部。管理程序又可以在主机或“裸机”上运行。<br>我们来解释这个行话：<br>虚拟机管理程序是虚拟机在其上运行的一个软件，固件或硬件。虚拟机管理程序本身运行在物理计算机上，被称为“主机”。主机为VM提供资源，包括RAM和CPU。这些资源在虚拟机之间划分，可以根据您的需要进行分发。因此，如果一个虚拟机正在运行资源较多的应用程序，则可能会为在同一主机上运行的其他虚拟机分配更多的资源。<br>在主机上运行的虚拟机（再次使用虚拟机管理程序）通常也称为“客户机”。此客机包含应用程序以及运行该应用程序所需的任何应用程序（例如系统二进制程序和库）。它还具有自己的整个虚拟化硬件堆栈，包括虚拟化网络适配器，存储和CPU - 这意味着它也有自己的成熟的客户操作系统。从内部，客机作为自己的单位，拥有自己的专属资源。从外面，我们知道这是一个VM - 共享主机提供的资源。</p>
 <p>如上所述，客机可以在托管管理程序或裸机管理程序上运行。他们之间有一些重要的区别。<br>首先，托管虚拟化管理程序在主机的操作系统上运行。例如，运行OSX的计算机可以在该OS之上安装VM（例如VirtualBox或VMware Workstation 8）。 VM不能直接访问硬件，所以它必须经过主机操作系统（在我们的例子中是Mac的OSX）。<br>托管管理程序的好处是底层硬件不那么重要。主机的操作系统负责硬件驱动程序而不是管理程序本身，因此被认为具有更多的“硬件兼容性”。另一方面，硬件和管理程序之间的这个附加层会产生更多的资源开销，从而降低虚拟机的性能。<br>裸机管理程序环境通过在主机硬件上安装和运行来解决性能问题。因为它直接与底层硬件接口，所以不需要主机操作系统来运行。在这种情况下，作为操作系统安装在主机服务器上的第一件事就是管理程序。与托管虚拟机管理程序不同，裸机管理程序具有自己的设备驱动程序，并直接与每个组件进行交互，用于任何I / O，处理或特定于操作系统的任务。这导致更好的性能，可扩展性和稳定性。这里的折衷是硬件兼容性受到限制，因为管理程序只能在其中内置许多设备驱动程序。<br>所有这些谈论虚拟机管理程序之后，您可能会想知道为什么我们需要在VM和主机之间的这个额外的“虚拟机管理程序”层。<br>那么，由于虚拟机具有自己的虚拟操作系统，虚拟机管理程序在为虚拟机提供一个管理和执行客户机操作系统的平台方面发挥重要作用。它允许主机计算机在作为其上的客户端运行的虚拟机之间共享其资源。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/vm.png" alt="VM" title="">
-                </div>
-                <div class="image-caption">VM</div>
-            </figure>
+<p><img src="/images/vm.png" alt="VM"></p>
 <p>如图所示，虚拟机将虚拟硬件，内核（即OS）和每个新虚拟机的用户空间进行打包。</p>
 <h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>与提供硬件虚拟化的虚拟机不同，容器通过抽象“用户空间”来提供操作系统级的虚拟化。 当我们解开容器术语时，你会看到我的意思。<br>出于所有目的和目的，容器看起来像一个虚拟机。 例如，它们具有用于处理的私有空间，可以以root身份执行命令，具有专用网络接口和IP地址，允许自定义路由和iptable规则，可以挂载文件系统等。</p>
 <p><strong><em>容器和虚拟机之间的一个很大的区别是容器与其他容器共享主机系统的内核。</em></strong></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/container.png" alt="container" title="">
-                </div>
-                <div class="image-caption">container</div>
-            </figure>
+<p><img src="/images/container.png" alt="container"></p>
 <p>该图显示了容器仅包含用户空间，而不是像VM那样的内核或虚拟硬件。 每个容器都拥有自己的隔离用户空间，允许多个容器在单个主机上运行。 我们可以看到，所有的操作系统级架构正在容器间共享。 从头创建的唯一部分是bin和libs。 这就是容器如此轻便。</p>
 <h1 id="Docker从哪里入手"><a href="#Docker从哪里入手" class="headerlink" title="Docker从哪里入手?"></a>Docker从哪里入手?</h1><p>Docker是一个基于Linux容器的开源项目。 它使用Linux内核功能（如命名空间和控制组）来在操作系统之上创建容器。<br>集装箱距离不远; Google多年来一直在使用自己的集装箱技术。 其他Linux容器技术包括已经存在多年的Solaris Zones，BSD监狱和LXC。</p>
 <p>是什么原因让Docker变得如此受欢迎呢？</p>
@@ -2121,13 +1843,7 @@
 <li>模块化和可扩展性：Docker可以轻松地将应用程序的功能分解成单个容器。例如，您的Postgres数据库可能会在一个容器中运行，并且您的Redis服务器在另一个容器中运行，而Node.js应用程序位于另一容器中。使用Docker，将这些容器链接到一起创建应用程序变得更加容易，以便将来可以轻松地自动扩展或更新组件。</li>
 </ol>
 <h1 id="基本的Docker概念"><a href="#基本的Docker概念" class="headerlink" title="基本的Docker概念"></a>基本的Docker概念</h1><p>现在我们已经有了很大的发展空间，我们先看一下Docker的基本部分：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/docker.png" alt="docker" title="">
-                </div>
-                <div class="image-caption">docker</div>
-            </figure>
+<p><img src="/images/docker.png" alt="docker"></p>
 <h2 id="Docker引擎"><a href="#Docker引擎" class="headerlink" title="Docker引擎"></a>Docker引擎</h2><p>Docker引擎是Docker运行的层。 它是一个轻量级的运行时和工具，用于管理容器，镜像，构建等。 它在Linux系统上本机运行，由以下组成：</p>
 <ol>
 <li>在主机中运行的Docker守护进程。</li>
@@ -2156,13 +1872,7 @@
 </ol>
 <h2 id="卷-Volumes"><a href="#卷-Volumes" class="headerlink" title="卷(Volumes)"></a>卷(Volumes)</h2><p>卷是容器的“数据”部分，在容器创建时初始化。 卷允许您持久存储并共享容器的数据。 数据卷与默认的Union File System分开，并且作为主机文件系统上的普通目录和文件存在。 因此，即使您销毁，更新或重建容器，数据卷将保持不变。 当您要更新卷时，您可以直接对其进行更改。 （另外，数据量可以在多个容器之间共享和重复使用，这是非常整齐的。）</p>
 <h2 id="Docker容器"><a href="#Docker容器" class="headerlink" title="Docker容器"></a>Docker容器</h2><p>如上所述，Docker容器将应用程序的软件包装到与应用程序需要运行的所有内容的不可见框中。 这包括操作系统，应用程序代码，运行时，系统工具，系统库等。Docker容器是由Docker镜像构建的。 由于镜像是只读的，Docker在镜像的只读文件系统上添加了一个读写文件系统来创建一个容器。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/docker2.png" alt="docker" title="">
-                </div>
-                <div class="image-caption">docker</div>
-            </figure>
+<p><img src="/images/docker2.png" alt="docker"></p>
 <p>此外，然后创建容器，Docker创建一个网络接口，以便容器可以与本地主机通信，将可用的IP地址附加到容器，并在定义镜像时执行您指定运行应用程序的进程。<br>成功创建容器后，可以在任何环境中运行它，而无需进行更改。</p>
 <h2 id="Docker支柱"><a href="#Docker支柱" class="headerlink" title="Docker支柱"></a>Docker支柱</h2><p>总是让我好奇的一件事是容器如何实际实现，特别是因为容器周围没有任何抽象的基础设施边界。 经过很多阅读，这一切都很有意义，所以这里是我尝试向你解释的！ :</p>
 <p>术语“<strong>容器</strong>”实际上只是一个抽象的概念来描述几个不同的特征如何协同工作来可视化“容器”。 让我们快速过一过这些知识点：</p>
@@ -2241,13 +1951,7 @@
 <p>WebSockets协议尝试在现有HTTP基础架构的上下文中解决现有双向HTTP技术的目标; 因此，它被设计为通过HTTP端口80和443进行工作。但是，该设计不会将WebSocket限制为HTTP，并且将来的实现可以在专用端口上使用更简单的握手，而无需重新整理整个协议。</p>
 <p>WebSockets协议是一种功能齐全的独立协议，可以在浏览器之外使用。 话虽如此，它的主要应用还是基于浏览器的应用程序的双向传输。</p>
 <h2 id="二进制框架层"><a href="#二进制框架层" class="headerlink" title="二进制框架层"></a>二进制框架层</h2><p>客户端和服务器WebSocket应用程序通过面向消息的API进行通信：发送方提供任意的UTF-8或二进制有效负载，并且当整个消息可用时，接收方通知其传送。 为了实现这一点，WebSocket使用自定义的二进制成帧格式（如下图），它将每个应用消息分解成一个或多个帧，将它们传输到目的地，重新组合它们，并且一旦接收到整个消息，最后通知接收器 。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://hpbn.co/assets/diagrams/efb151be6600eb5555127c8652488f1f.svg" alt="WebSockets协议" title="">
-                </div>
-                <div class="image-caption">WebSockets协议</div>
-            </figure>
+<p><img src="https://hpbn.co/assets/diagrams/efb151be6600eb5555127c8652488f1f.svg" alt="WebSockets协议"></p>
 <p><em>帧</em></p>
 <p>通信的最小单位，每个包含可变长度的帧头和可以携带全部或部分应用消息的有效载荷。</p>
 <p><em>消息</em></p>
@@ -2482,21 +2186,9 @@
 </ul>
 <p><img src="http://kafka.apache.org/0102/images/kafka-apis.png" alt="kafka apis"></p>
 <p>在kafka的客户端和服务器之间的通信是一个简单的，高性能的，与语言无关的TCP协议来完成。此协议版本，并保持向后兼容旧版本的兼容性。我们对kafka提供了一个Java客户端，但是客户端有<a href="https://cwiki.apache.org/confluence/display/KAFKA/Clients" target="_blank" rel="external">多种语言</a>可供选择。</p>
-<h3 id="Kafka的架构："><a href="#Kafka的架构：" class="headerlink" title="Kafka的架构："></a>Kafka的架构：</h3><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/kafka2.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<h3 id="Kafka的架构："><a href="#Kafka的架构：" class="headerlink" title="Kafka的架构："></a>Kafka的架构：</h3><p><img src="/images/kafka2.png" alt="kafka apis"></p>
 <p>Kafka的整体架构非常简单，是显式分布式架构，producer、broker（kafka）和consumer都可以有多个。Producer，consumer实现Kafka注册的接口，数据从producer发送到broker，broker承担一个中间缓存和分发的作用。<br>broker分发注册到系统中的consumer。broker的作用类似于缓存，即活跃的数据和离线处理系统之间的缓存。客户端和服务器端的通信，是基于简单，高性能，且与编程语言无关的TCP协议。</p>
-<h4 id="消息发送的流程："><a href="#消息发送的流程：" class="headerlink" title="消息发送的流程："></a>消息发送的流程：</h4><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/images/kafka1.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<h4 id="消息发送的流程："><a href="#消息发送的流程：" class="headerlink" title="消息发送的流程："></a>消息发送的流程：</h4><p><img src="/images/kafka1.png" alt="kafka apis"></p>
 <ol>
 <li><p>Producer根据指定的partition方法（round-robin、hash等），将消息发布到指定topic的partition里面。</p>
 </li>
@@ -2538,36 +2230,18 @@
 </code></pre><h3 id="Topics-and-Logs-主题和日志"><a href="#Topics-and-Logs-主题和日志" class="headerlink" title="Topics and Logs(主题和日志)"></a>Topics and Logs(主题和日志)</h3><p>让我们先潜入核心抽象kafka提供了记录，该主题的流。 </p>
 <p>Topic是作为一类消息名称记录被公布。在kafka的Topic始终是多用户;也就是说，一个Topic可以有零个，一个或多个消费者订阅写入的数据。 </p>
 <p>对于每一个主题，Topic集群保持分区日志，看起来像这样：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://kafka.apache.org/0102/images/log_anatomy.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<p><img src="http://kafka.apache.org/0102/images/log_anatomy.png" alt="kafka apis"></p>
 <p>每个分区是记录一个有序的，一成不变的序列不断追加到一个结构化的提交日志。</p>
 <p>在分区中的记录是调用的每个分配的序列ID号的偏移量唯一地标识该分区中的每个记录。</p>
 <p>kafka集群保留所有发布的记录，不论其是否具有可配置的保留期限被使用或消费。例如，如果将保留策略设置为两天，然后记录公布后两天，它可用于消费，之后它将被丢弃以腾出空间。kafka的性能相对于数据的大小实际上不变，以便将数据存储很长一段时间是没有问题的。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://kafka.apache.org/0102/images/log_consumer.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<p><img src="http://kafka.apache.org/0102/images/log_consumer.png" alt="kafka apis"></p>
 <p>事实上，保留在每个消费者基础的唯一的元数据是在日志中，消费者的偏移或位置。这种偏移是由消费者控制：通常消费者会促进其线性偏移，因为它读取记录，但事实上，因为其位置是由消费者可以在任何它喜欢的顺序消耗记录进行控制。例如，消费者可以恢复到旧的偏移量从过去的数据再加工或者直接跳到最新的记录，并开始从“现在”消费。</p>
 <p>这些功能的结合意味着，kafka的消费者都是很便宜的，他们可以来去无集群上或其他消费者产生太大影响。例如，你可以使用我们的命令行工具“tail”的任何话题，而无需改变什么是任何现有的消费者消费的内容。</p>
 <p>日志中的分区，一举数得。首先，它们允许日志扩展到超过一个的大小，将适合在单个服务器上。每个单独的分区必须适合承载它的服务器上，但一个话题可能有很多分区，以便它能够处理任意的数据量。其次，他们作为并行性更上一个位的单位。</p>
 <h3 id="Distribution-分布式"><a href="#Distribution-分布式" class="headerlink" title="Distribution(分布式)"></a>Distribution(分布式)</h3><p>日志的分区分布在每台服务器处理数据和请求对分区的份额kafka集群中的服务器。每个分区跨容错服务器配置数量的复制。<br>每个分区有它充当“leader”和零个或多个服务器充当“followers”一台服务器。领导者处理所有的读取和写入分区的要求而被动的追随者复制的领导者。如果领导者失败了，追随者之一将自动成为新的领导者。每个服务器充当一些分区，而对其他跟随的领导者这样的负载是在集群内均衡。</p>
 <h3 id="Producers-生产者"><a href="#Producers-生产者" class="headerlink" title="Producers(生产者)"></a>Producers(生产者)</h3><p>生产者数据发布到他们所选择的主题。制片人负责选择分配哪些记录在主题中哪个分区。这可以在一个循环的方式进行简单地平衡负载，也可以根据一些语义分区功能（比如基于记录一些关键）来完成。更多关于在第二使用分区！</p>
 <h3 id="Consumers-消费者"><a href="#Consumers-消费者" class="headerlink" title="Consumers(消费者)"></a>Consumers(消费者)</h3><p>消费者标榜自己与消费者的组名，并发布到一个话题每个记录每个订阅用户组内交付给消费者的一个实例。消费实例可以在单独的进程或单独的机器上。<br>如果所有的消费者实例具有相同的消费群，那么记录将有效地加载在消费者实例平衡。<br>如果所有的消费者实例有不同的消费群体，那么每个记录将被广播到所有的消费过程。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="http://kafka.apache.org/0102/images/consumer-groups.png" alt="kafka apis" title="">
-                </div>
-                <div class="image-caption">kafka apis</div>
-            </figure>
+<p><img src="http://kafka.apache.org/0102/images/consumer-groups.png" alt="kafka apis"></p>
 <p>两个服务器集群kafka举办两个消费群体的四个分区（P0-P3）。一个消费群体有两个消费情况与B组有四个。<br>更常见的，但是，我们已经发现，主题有一个小的消费群体，每一个“逻辑用户”的。每组都是由可扩展性和容错许多消费者实例。这只不过是发布 - 订阅语义在那里用户是消费者，而不是一个单一的过程中群集的更多。<br>消费kafka的实现方式是通过将建立分区日志在Consumer实例，使每个实例是分区的“公平份额”的在任何时间点的独家消费者。维持组中的成员的这个过程是通过动态kafka协议处理。如果新的实例加入该组，他们将接管从该组的其他成员一些分区;如果一个实例死亡，其分区将被分配到剩余的实例。<br>kafka只提供了记录的总订单分区中，而不是一个主题的不同分区之间。每个分区的顺序与键对数据进行分区的能力相结合足以满足大多数应用。但是，如果在记录总共需要为了这个可以与只有一个分区的主题实现的，虽然这将意味着只有一个每个消费群体的消费过程。</p>
 <h3 id="kafka-作为一个消息系统"><a href="#kafka-作为一个消息系统" class="headerlink" title="kafka 作为一个消息系统"></a>kafka 作为一个消息系统</h3><p>如何流的kafka的观念比较传统的企业信息系统？<br>消息历来有两种模型：队列和发布 - 订阅。在队列中，消费者的池可以从服务器读取和记录每一个进入其中的一个;在发布 - 订阅记录被广播到所有的消费者。每个这两种模式具有一定的实力和弱点。排队的优点是它可以让你瓜分了数据在多个消费情况的处理，它可以让您扩展您的处理。不幸的是，队列不是多用户，一旦一个进程读取它不见了数据。发布 - 订阅模式可以让你广播数据到多个进程，但没有，因为每一个消息发送到每个用户的缩放处理的方式。<br>在kafka的消费群的概念推广这两个概念。与队列的消费群让你过的进程的集合（消费群的成员）瓜分处理。与发布 - 订阅，kafka让您发送广播消息到多个消费群体。<br>kafka的模型的优点是，每个主题都有两个属性，它可以扩展的处理，也是多用户，有没有必要选择一个或另一个。<br>kafka具有较强的排序保证比传统的消息系统了。<br>传统的队列保留在服务器上，订单记录，如果多个消费者从队列中消耗那么服务器双手出存储它们的订单记录。然而，尽管服务器为了捧出来的记录，这些记录被异步传递给消费者，让他们可以在不同的消费者到达的顺序。这实际上意味着记录的排序在并行消费的存在都将丢失。消息系统通常解决这个具有“排他性消费”，只允许一个过程从队列中消耗的概念，当然，这意味着有正在处理的并行性。<br>kafka做的更好。通过具有一个概念并行性的分区中的主题，kafka是能够通过消费者的进程池同时提供排序保证和负载平衡。这是通过使每个分区由该组中只有一个消费者所消耗的话题，消费者的消费群在指定的分区来实现的。通过这样做，我们确保消费者的是，分区唯一的读者，为了消耗数据。因为有许多的分区，这还是平衡了许多消费者的情况下的负载。但是请注意，不能在一个消费群体比分区的详细消费情况。</p>
 <h3 id="kafka-作为一个存储系统"><a href="#kafka-作为一个存储系统" class="headerlink" title="kafka 作为一个存储系统"></a>kafka 作为一个存储系统</h3><p>任何消息队列，它允许从消费他们解耦出版消息被有效地充当用于在飞行中消息的存储系统。这就是kafka与其他消息队列系统不同的地方，因为它是一个很好的存储系统。<br>写到kafka数据写入到磁盘和复制的容错。kafka允许生产者在确认等待，以便不被认为是写操作完成，直到它被完全复制，并保证持续下去，即使写入服务器失败。<br>磁盘结构kafka使用很好地扩展，kafka将执行相同的你是否有50 KB或服务器上的持久性数据的50 TB。<br>由于把存储的重视，并允许客户控制自己的读取位置的结果，你能想到kafka作为一种特殊用途的分布式文件系统，致力于高性能，低延迟提交日志存储，复制和传播。</p>
@@ -2642,26 +2316,14 @@
 </ul>
 <p>JWT格式的输出是以 . 分隔的三段Base64编码，与SAML等基于XML的标准相比，JWT在HTTP和HTML环境中更容易传递。</p>
 <p>下列的JWT展示了一个完整的JWT格式，它拼接了之前的Header， Payload以及秘钥签名：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.auth0.com/content/jwt/encoded-jwt3.png" alt="jwt" title="">
-                </div>
-                <div class="image-caption">jwt</div>
-            </figure>
+<p><img src="https://cdn.auth0.com/content/jwt/encoded-jwt3.png" alt="jwt"></p>
 <h1 id="如何使用JWT？"><a href="#如何使用JWT？" class="headerlink" title="如何使用JWT？"></a>如何使用JWT？</h1><p>在身份鉴定的实现中，传统方法是在服务端存储一个session，给客户端返回一个cookie，而使用JWT之后，当用户使用它的认证信息登陆系统之后，会返回给用户一个JWT，用户只需要本地保存该token（通常使用local storage，也可以使用cookie）即可。</p>
 <p>当用户希望访问一个受保护的路由或者资源的时候，通常应该在 Authorization 头部使用 Bearer 模式添加JWT，其内容看起来是下面这样：</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Authorization: Bearer &lt;token&gt;</div></pre></td></tr></table></figure>
 <p>因为用户的状态在服务端的内存中是不存储的，所以这是一种 无状态 的认证机制。服务端的保护路由将会检查请求头 Authorization 中的JWT信息，如果合法，则允许用户的行为。由于JWT是自包含的，因此减少了需要查询数据库的需要。</p>
 <p>JWT的这些特性使得我们可以完全依赖其无状态的特性提供数据API服务，甚至是创建一个下载流服务。因为JWT并不使用Cookie的，所以你可以使用任何域名提供你的API服务而不需要担心跨域资源共享问题（CORS）。</p>
 <p>下面的序列图展示了该过程：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.auth0.com/content/jwt/jwt-diagram.png" alt="jwt" title="">
-                </div>
-                <div class="image-caption">jwt</div>
-            </figure>
+<p><img src="https://cdn.auth0.com/content/jwt/jwt-diagram.png" alt="jwt"></p>
 <h1 id="为什么要使用JWT？"><a href="#为什么要使用JWT？" class="headerlink" title="为什么要使用JWT？"></a>为什么要使用JWT？</h1><p>相比XML格式，JSON更加简洁，编码之后更小，这使得JWT比SAML更加简洁，更加适合在HTML和HTTP环境中传递。</p>
 <p>在安全性方面，SWT只能够使用HMAC算法和共享的对称秘钥进行签名，而JWT和SAML token则可以使用X.509认证的公私秘钥对进行签名。与简单的JSON相比，XML和XML数字签名会引入复杂的安全漏洞。</p>
 <p>因为JSON可以直接映射为对象，在大多数编程语言中都提供了JSON解析器，而XML则没有这么自然的文档-对象映射关系，这就使得使用JWT比SAML更方便。</p>
