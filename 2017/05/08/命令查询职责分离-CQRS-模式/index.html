@@ -1,87 +1,26 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="en">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
+    
+
+    
+
+    
 
 
 
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="CQRS," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="coderPreacher's Blog" type="application/atom+xml" />
-
-
-
-
-
-
-<meta name="description" content="背景和问题在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。 通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>命令查询职责分离(CQRS)模式 | coderPreacher&#39;s Blog | Love life, love technology, positive, optimistic, beyond the self</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="CQRS">
+    <meta name="description" content="背景和问题在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。 通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新">
 <meta name="keywords" content="CQRS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命令查询职责分离(CQRS)模式">
@@ -100,238 +39,148 @@
 <meta name="twitter:title" content="命令查询职责分离(CQRS)模式">
 <meta name="twitter:description" content="背景和问题在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。 通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新">
 <meta name="twitter:image" content="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-tradition-crud.png">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/"/>
-
-
-
-
-
-  <title>命令查询职责分离(CQRS)模式 | coderPreacher's Blog</title>
-  
-
-
-
-
-
-
-
-
+    
+        <link rel="alternate" type="application/atom+xml" title="coderPreacher&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body>
+    <div id="loading" class="active"></div>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">coderPreacher's Blog</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/images/me.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">谢晖</h5>
+          <a href="mailto:coderpreacher@gmail.com" title="coderpreacher@gmail.com" class="mail">coderpreacher@gmail.com</a>
+        </hgroup>
+      </div>
     </div>
-      
-        <p class="site-subtitle">Love life, love technology, positive, optimistic, beyond the self</p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            Home
-          </a>
-        </li>
-      
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">命令查询职责分离(CQRS)模式</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">命令查询职责分离(CQRS)模式</h1>
+        <h5 class="subtitle">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+                <time datetime="2017-05-08T13:08:30.000Z" itemprop="datePublished" class="page-time">
+  2017-05-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Design-Patterns/">Design Patterns</a></li></ul>
+
             
-            Archives
-          </a>
-        </li>
-      
+        </h5>
+    </div>
 
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
     
 
-  
 
-  
-  
-  
+</header>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="谢晖">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderPreacher's Blog">
-    </span>
-
+<div class="container body-wrap">
     
-      <header class="post-header">
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#背景和问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景和问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#解决方案CQRS"><span class="post-toc-number">2.</span> <span class="post-toc-text">解决方案CQRS</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CQRS介绍"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">CQRS介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查询端-Query-side"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">查询端(Query side)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#命令端-Command-side"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">命令端(Command side)</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#为什么要使用CQRS？"><span class="post-toc-number">3.</span> <span class="post-toc-text">为什么要使用CQRS？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可扩展性"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">可扩展性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#降低复杂性"><span class="post-toc-number">3.0.2.</span> <span class="post-toc-text">降低复杂性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#灵活性"><span class="post-toc-number">3.0.3.</span> <span class="post-toc-text">灵活性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#专注于业务"><span class="post-toc-number">3.0.4.</span> <span class="post-toc-text">专注于业务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#有利于构建基于任务的用户界面"><span class="post-toc-number">3.0.5.</span> <span class="post-toc-text">有利于构建基于任务的用户界面</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#什么时候可以考虑CQRS"><span class="post-toc-number">4.</span> <span class="post-toc-text">什么时候可以考虑CQRS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#CQRS的简单实现"><span class="post-toc-number">5.</span> <span class="post-toc-text">CQRS的简单实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Query端的实现"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">Query端的实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Command端实现"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">Command端实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-命令查询职责分离-CQRS-模式"
+  class="post-article article-type-post fade" itemprop="blogPost">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">命令查询职责分离(CQRS)模式</h1>
-        
-
+    <div class="post-card">
+        <h1 class="post-card-title">命令查询职责分离(CQRS)模式</h1>
         <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-08T21:08:30+08:00">
-                2017-05-08
-              </time>
-            
+            <time class="post-time" title="2017-05-08 21:08:30" datetime="2017-05-08T13:08:30.000Z"  itemprop="datePublished">2017-05-08</time>
 
             
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Design-Patterns/">Design Patterns</a></li></ul>
+
+
 
             
-          </span>
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Patterns/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Patterns</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
 
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h1 id="背景和问题"><a href="#背景和问题" class="headerlink" title="背景和问题"></a>背景和问题</h1><p>在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。</p>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="背景和问题"><a href="#背景和问题" class="headerlink" title="背景和问题"></a>背景和问题</h1><p>在传统的数据管理系统中，两个命令（对数据的更新）和查询（对数据的请求）都是针对单个数据存储库中的同一组实体执行的。 这些实体可以是关系数据库（如SQL Server）中一个或多个表中的行的子集。</p>
 <p>通常在这些系统中，所有创建，读取，更新和删除（CRUD）操作都应用于实体的相同表示形式。 例如，通过数据访问层（DAL）从数据存储器检索表示客户的数据传输对象（DTO）并显示在屏幕上。 用户更新DTO的某些字段（可能通过数据绑定），然后DTO将由DAL保存回数据存储。 同样的DTO用于读写操作。 该图说明了传统的CRUD架构。</p>
 <p><img src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/command-and-query-responsibility-segregation-cqrs-tradition-crud.png" alt="crud"></p>
 <p>当只有有限的业务逻辑应用于数据操作时，传统的CRUD设计才能正常运行。开发工具提供的支架机制可以非常快速地创建数据访问代码，然后可以根据需要进行自定义。<br>然而，传统的CRUD方法有一些缺点：</p>
@@ -422,390 +271,307 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>CQRS是一种思想很简单清晰的设计模式，他通过在业务上分离操作和查询来使得系统具有更好的可扩展性及性能，使得能够对系统的不同部分进行扩展和优化。在CQRS中，所有的涉及到对DB的操作都是通过发送Command，然后特定的Command触发对应事件来完成操作，这个过程是异步的，并且所有涉及到对系统的变更行为都包含在具体的事件中，结合Eventing Source模式，可以记录下所有的事件，而不是以往的某一点的数据信息，这些信息可以作为系统的操作日志，可以来对系统进行回退或者重放。</p>
 <p>参考文章：<br>    <a href="https://www.codeproject.com/Articles/555855/Introduction-to-CQRS" target="_blank" rel="external">Introduction to CQRS</a>。<br>    <a href="http://www.cnblogs.com/yangecnu/p/Introduction-CQRS.html" target="_blank" rel="external">浅谈命令查询职责分离(CQRS)模式</a>。 </p>
 
-      
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2017-05-09T01:05:45.000Z" itemprop="dateUpdated">2017-05-09 09:05:45</time>
+</span><br>
+
+
+        
+        原始链接：<a href="/2017/05/08/命令查询职责分离-CQRS-模式/" target="_blank" rel="external">http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/</a>
+        
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CQRS/" rel="tag"># CQRS</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/05/09/领域驱动设计-DDD-Domain-Driven-Design/" rel="next" title="领域驱动设计(DDD:Domain-Driven Design)">
-                <i class="fa fa-chevron-left"></i> 领域驱动设计(DDD:Domain-Driven Design)
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/07/Nginx-基本配置与参数说明/" rel="prev" title="Nginx 基本配置与参数说明">
-                Nginx 基本配置与参数说明 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
+    <footer>
+        <a href="http://coderpreacher.top">
+            <img src="/images/me.jpg" alt="谢晖">
+            谢晖
+        </a>
     </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">谢晖</p>
-              <p class="site-description motion-element" itemprop="description">Love life, love technology, positive, optimistic, beyond the self</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">19</span>
-                  <span class="site-state-item-name">posts</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                
-                  <span class="site-state-item-count">16</span>
-                  <span class="site-state-item-name">categories</span>
-                
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">65</span>
-                  <span class="site-state-item-name">tags</span>
-                
-              </div>
-            
-
-          </nav>
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景和问题"><span class="nav-number">1.</span> <span class="nav-text">背景和问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方案CQRS"><span class="nav-number">2.</span> <span class="nav-text">解决方案CQRS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CQRS介绍"><span class="nav-number">2.1.</span> <span class="nav-text">CQRS介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询端-Query-side"><span class="nav-number">2.2.</span> <span class="nav-text">查询端(Query side)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令端-Command-side"><span class="nav-number">2.3.</span> <span class="nav-text">命令端(Command side)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要使用CQRS？"><span class="nav-number">3.</span> <span class="nav-text">为什么要使用CQRS？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可扩展性"><span class="nav-number">3.0.1.</span> <span class="nav-text">可扩展性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#降低复杂性"><span class="nav-number">3.0.2.</span> <span class="nav-text">降低复杂性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#灵活性"><span class="nav-number">3.0.3.</span> <span class="nav-text">灵活性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#专注于业务"><span class="nav-number">3.0.4.</span> <span class="nav-text">专注于业务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有利于构建基于任务的用户界面"><span class="nav-number">3.0.5.</span> <span class="nav-text">有利于构建基于任务的用户界面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候可以考虑CQRS"><span class="nav-number">4.</span> <span class="nav-text">什么时候可以考虑CQRS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CQRS的简单实现"><span class="nav-number">5.</span> <span class="nav-text">CQRS的简单实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Query端的实现"><span class="nav-number">5.1.</span> <span class="nav-text">Query端的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Command端实现"><span class="nav-number">5.2.</span> <span class="nav-text">Command端实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
+</blockquote>
 
         
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">谢晖</span>
-
-  
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CQRS/">CQRS</a></li></ul>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
+            
+<div class="page-share-wrap">
     
 
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/&title=《命令查询职责分离(CQRS)模式》 — coderPreacher's Blog&pic=http://coderpreacher.top/images/me.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/&title=《命令查询职责分离(CQRS)模式》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《命令查询职责分离(CQRS)模式》 — coderPreacher's Blog&url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/&via=http://coderpreacher.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
     
-
-  </div>
-
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/07/Nginx-基本配置与参数说明/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Nginx 基本配置与参数说明</h4>
+      </a>
+    </div>
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/09/领域驱动设计-DDD-Domain-Driven-Design/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">领域驱动设计(DDD:Domain-Driven Design)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechatpay.JPG" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/images/wechatpay.JPG" data-alipay="/images/alipay.JPG">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>谢晖 &copy; 2015 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/&title=《命令查询职责分离(CQRS)模式》 — coderPreacher's Blog&pic=http://coderpreacher.top/images/me.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/&title=《命令查询职责分离(CQRS)模式》 — coderPreacher's Blog&source=Love life, love technology, positive, optimistic, beyond the self" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《命令查询职责分离(CQRS)模式》 — coderPreacher's Blog&url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/&via=http://coderpreacher.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://coderpreacher.top/2017/05/08/命令查询职责分离-CQRS-模式/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACwElEQVR42u3aQW7jMBAEwPz/0w6w1wWt7iEZJ0DpJNgOxVIADdXDr6/4eP073n++Ol/9VfL7fMytAw8PD2809dWxGvr/b2//B1ZXXM0ZDw8P7zavnVby7ew2zcZZfo6Hh4f3Ud6pRfB7ZHJFPDw8vL/Cay88Kwmz0fDw8PB+npeEEasX/p1fthnsxawFDw8PL+bNItTPnl/s7+Hh4eFtdNXbx26yBH//iJ+NsxwfDw8P7wIvafy3jfxTReX9aEXBwMPDwzvK2ykMSZu/baG1UcjDDcXDw8O7xksu0JaE5PNkyb4VMePh4eFd5rUP4rOP/vam1Hsi8PDw8A7x2ofvbIptgUm2HRQRBh4eHt41Xr7hqS0D+aarPMAtigceHh7eUV77CM7jgLYLNwsmHtpjeHh4eBd4beO/XV63jf98SZ3cLDw8PLzbvFlDaxbg7ky3DZfx8PDwzvLa1/5ZkWjPkwZbFAHj4eHhXePtM/LbVCyFy9vx8K6Ah4eHd4jXhrb7C9/ZmHlcgoeHh/cbeO1weQqSn7cB8cPOCDw8PLwNXv16X04639S1v/2r+Ifi4eHhHeLtXKBtpM22F9RRBR4eHt4F3s62gLyotO2xfEtBVIrw8PDwjvLapfB+ZDAbvw2d69QEDw8PL+btb59K2lr5gjhvxdUBNB4eHt4FXruMzhtjs+1W7XK/KEt4eHh427xXfLSP4Lyo5MUg/w0eHh7ebV4eBwz3dsVbFnauvkyp8fDw8A7xXuXRRgA7oUZ7Ux52RuDh4eEd4s0qyWwqeQFIfjlsg+Hh4eEd4rXFoG1uJQHxDuDhduPh4eFd491oaOWh8OF8BQ8PD+9X8mbhbL5Mbxtgy2vh4eHhfZQ322SQJyKzaONhBDw8PLxrvCSMaCeUt8dmmGJJjYeHh3eUt/Oqny9826V5u9Qedvbw8PDwOt431Z/aT2xq4+MAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
 </script>
 
 
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
